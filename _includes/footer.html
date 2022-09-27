@@ -1,0 +1,73 @@
+  {% comment %}
+  <div class="newsletter_section">
+
+    <div class="container">
+      <!-- newsletter
+        <div class="col-md-8">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="email" class="form-control input" placeholder="email address">
+                    <button type="submit" class="button outline-btn newsletter">Submit</button>
+                </div>
+            </form>
+        </div>-->
+    </div>
+
+  </div>
+  {% endcomment %}
+    <div class="container">
+        <div class="top_footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <ul class="footer_links">
+                        <li><b><a href="https://kodcloud.com/" target="_blank" rel="noopener">产品与服务</a></b></li>
+                        <li><a href="https://u.zone" target="_blank" rel="noopener">Uzone个人云盘</a></li>
+                        <li><a href="https://kodcloud.com/" target="_blank" rel="noopener">KODBOX企业网盘</a></li>
+                        <li><a href="https://kodcloud.com/team" target="_blank" rel="noopener">TeamOS企业共享存储</a></li>
+                        <li><a href="https://kodcloud.com/kodexplorer" target="_blank" rel="noopener">KODExplorer</a></li>
+                        <li><a href="https://kodcloud.com" target="_blank" rel="noopener">定制服务</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <ul class="footer_links">
+                        <li><b><a href="https://doc.kodcloud.com" target="_blank" rel="noopener">关注与开发</a></b></li>
+                        <li><a href="https://doc.kodcloud.com" target="_blank" rel="noopener">OpenAPI</a></li>
+                        <li><a href="https://gitee.com/kalcaddle/KODExplorer" target="_blank" rel="noopener">Gitee</a></li>
+                        <li><a href="https://github.com/kalcaddle/KodExplorer" target="_blank" rel="noopener">Github</a></li>
+                        <li><a href="https://BBS.KODCLOUD.COM" target="_blank" rel="noopener">社区</a></li>
+                        <li><a href="mailto:support@kodcloud.COM" target="_blank" rel="noopener">问题反馈</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                   <ul class="footer_links">
+                        <li><b><a href="https://kodcloud.com/" target="_blank" rel="noopener">服务与支持</a></b></li>
+                        <li><a href="/start/faq/1/" target="_blank" rel="noopener">FAQs</a></li>
+                        <li><a href="https://kodcloud.com/partner/" target="_blank" rel="noopener">合作伙伴</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <ul class="footer_links">
+                        <li><b><a href="https://kodcloud.com/" target="_blank" rel="noopener">About US</a></b></li>
+                        <li><a href="http://blog.kodcloud.com/about" target="_blank" rel="noopener">可道云</a></li>
+                        <li><a href="mailto:support@kodcloud.COM" target="_blank" rel="noopener">加入我们</a></li>
+                        <li><a href="https://kodcloud.com/about/" target="_blank" rel="noopener">联系我们</a></li>
+                        <li><a href="http://blog.kodcloud.com/about" target="_blank" rel="noopener">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+        <div class="bottom_footer">
+            <div class="footer-copyright col-xs-12 col-md-8">
+                <p class="copyright">
+                    Copyright &copy; 2017-{{ site.time | date: '%Y' }} Kodcloud. All rights reserved.
+                </p>
+                {%- if jekyll.environment == 'production' and site.onetrust_id != '' -%}
+                <!-- OneTrust Cookies Settings button start -->
+                <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+                <!-- OneTrust Cookies Settings button end -->
+                {%- endif -%}
+            </div>
+            
+        </div>
+    </div>

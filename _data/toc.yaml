@@ -1,0 +1,280 @@
+
+horizontalnav:
+- title: 首页
+  path: /
+  node: home
+- title: 入门
+  path: /start/
+  node: start
+- title: 安装
+  path: /setup/
+  node: setup  
+- title: 用户手册
+  path: /user/
+  node: user
+- title: 管理员手册
+  path: /admin/
+  node: admin
+  # TODO unify navbbar links: homepage currently has a custom "articles" link
+  hide_home: true
+
+home: {}
+  
+start:
+- title: 前言
+  path: /start/
+- sectiontitle: 常见问题
+  section:
+    - title: 开始
+      path: /start/faq/1/
+    - title: 上传下载
+      path: /start/faq/2/
+    - title: 分享协作
+      path: /start/faq/3/
+    - title: PC客户端
+      path: /start/faq/4/
+    - title: 存储挂载
+      path: /start/faq/5/
+    - title: 功能升级
+      path: /start/faq/7/
+- sectiontitle: 功能特性
+  section:
+  - path: /start/features/1/
+    title: 在线文件操作
+  - path: /start/features/2/
+    title: 文件传输
+  - path: /start/features/3/
+    title: 个性关怀
+  - path: /start/features/4/
+    title: 分享与协作
+  - path: /start/features/5/
+    title: 客户端与APP
+  - path: /start/features/6/
+    title: 系统设置与运维
+  - path: /start/features/7/
+    title: 组织架构与权限管理
+  - path: /start/features/8/
+    title: 安全、日志与审计
+  - path: /start/features/9/
+    title: 私有化与开发拓展
+- path: /start/2/
+  title: 在线预览格式支持
+- path: /start/3/
+  title: 快捷操作
+- path: /start/1/
+  title: 插件列表
+- sectiontitle: 推荐技巧
+  section:
+  - path: /start/articles/1/
+    title: 文件标签
+  - path: /start/articles/2/
+    title: 智能文件附件
+  - path: /start/articles/3/
+    title: 文件编辑锁的使用
+
+
+setup:
+- title: 导览
+  path: /setup/
+- title: 1 硬件环境及需求
+  path: /setup/1/
+- sectiontitle: 2 Linux系统安装(推荐)
+  section:
+    - title: 依赖环境说明
+      path: /setup/environment/
+    - title: 安装向导
+      path: /setup/start/
+    - title: 配置优化
+      path: /setup/configuration/ 
+    - sectiontitle: 在指定发行版上的安装示例
+      section:
+        - title: Loongnix-Server Linux release 8.4
+          path: /setup/loongnix/
+        - title: Kylin Linux Advanced Server release V10
+          path: /setup/kylin/
+        - title: OpenEuler 22.03 LTS
+          path: /setup/openeuler/
+        - title: Ubuntu 22.04 LTS
+          path: /setup/ubuntu/
+        - title: CentOS 7.9
+          path: /setup/centos/
+    - title: 使用Docker安装示例
+      path: /setup/docker/
+    - title: 使用宝塔面板安装示例
+      path: /setup/bt/
+    - title: OnlyOffice组件安装
+      path: /setup/office/
+        
+- sectiontitle: 3 Windows系统安装
+  section:
+    - title: 使用宝塔面板安装示例
+      path: /setup/bt_win/
+    - title: 使用Docker安装示例
+      path: /setup/docker_win/
+    - title: 使用XAMPP安装示例
+      path: /setup/xampp/
+    - sectiontitle: 支持组件安装部署
+      section:
+        - title: OnlyOffice组件
+          path: /setup/office_win/
+        - title: psd等设计图件在线预览组件
+          path: /setup/psd_win/
+- sectiontitle: 4 其他系统安装
+  section:
+    - title: 4.1 群晖
+      path: /setup/4.1/
+    - title: 4.2 爱快
+      path: /setup/4.2/
+- sectiontitle: 5 TeamOS安装
+  section:
+    - title: 5.0 概览
+      path: /setup/5.0/
+    - title: 5.1 制作U盘启动盘
+      path: /setup/5.1/
+    - title: 5.2 系统安装
+      path: /setup/5.2/
+    - title: 5.3 系统初始配置
+      path: /setup/5.3/
+
+
+admin:
+- title: 前言
+  path: /admin/
+- sectiontitle: 1 系统管理
+  section:
+  - path: /admin/1.1/
+    title: 1.1 概览
+  - path: /admin/1.2/
+    title: 1.2 基础设置
+  - path: /admin/1.3/
+    title: 1.3 授权激活与企业形象自定义
+  - path: /admin/1.4/
+    title: 1.4 菜单管理
+  - path: /admin/1.5/
+    title: 1.5 通知管理
+- sectiontitle: 2 系统权限
+  section:
+  - path: /admin/2.1/
+    title: 2.1 权限设定
+  - path: /admin/2.2/
+    title: 2.2 角色权限
+  - path: /admin/2.3/
+    title: 2.3 文档权限
+- sectiontitle: 3 部门与用户
+  section:
+  - path: /admin/3.1/
+    title: 3.1 概览
+  - path: /admin/3.2/
+    title: 3.2 部门管理
+  - path: /admin/3.3/
+    title: 3.3 用户管理
+- sectiontitle: 4 存储与备份
+  section:
+  - path: /admin/4.1/
+    title: 4.1 存储管理
+  - path: /admin/4.2/
+    title: 4.2 数据备份与恢复
+  - path: /admin/4.3/
+    title: 4.3 系统回收站
+- sectiontitle: 5 插件与应用
+  section:
+  - path: /admin/5.1/
+    title: 5.1 插件列表
+  - path: /admin/5.2/
+    title: 5.2 插件配置说明
+- title: 6 安全审计
+  path: /admin/6/
+- title: 7 系统运维
+  path: /admin/7/
+
+user:
+- title: 概览
+  path: /user/
+- title: 1 系统登录
+  path: /user/1/
+- sectiontitle: 2 操作界面引导
+  section:
+  - path: /user/2.1/
+    title: 2.1 菜单栏
+  - path: /user/2.2/
+    title: 2.2 左侧目录窗口（导航窗格）
+  - path: /user/2.3/
+    title: 2.3 右侧文件窗口
+- sectiontitle: 3 文件操作
+  section:
+  - path: /user/3.1/
+    title: 3.1 选择与操作
+  - path: /user/3.2/
+    title: 3.2 上传下载
+  - path: /user/3.3/
+    title: 3.3 增删改查
+  - path: /user/3.4/
+    title: 3.4 效率提升
+  - path: /user/3.5/
+    title: 3.5 分享与协作
+  - path: /user/3.6/
+    title: 3.6 文件预览
+
+- sectiontitle: 4 权限设置
+  section:
+  - path: /user/4.1/
+    title: 4.1 系统权限说明
+  - path: /user/4.2/
+    title: 4.2 文档权限
+  - path: /user/4.3/
+    title: 4.3 文档权限设置与应用
+
+- title: 5 个性化设置
+  path: /user/5/
+
+
+- sectiontitle: 6 PC客户端
+  section:
+  - path: /user/PC/6.1/
+    title: 6.1 安装
+  - path: /user/PC/6.2/
+    title: 6.2 登录
+  - path: /user/PC/6.3/
+    title: 6.3 文件同步
+  - path: /user/PC/6.4/
+    title: 6.4 本地打开
+  - path: /user/PC/6.5/
+    title: 6.5 下载位置
+
+
+- sectiontitle: 7 移动端APP
+  section:
+  - path: /user/app/7.1/
+    title: 7.1 APP下载与安装
+  - path: /user/app/7.2/
+    title: 7.2 地址输入&系统登录
+  - path: /user/app/7.3/
+    title: 7.3 注册
+  - path: /user/app/7.4/
+    title: 7.4 忘记密码
+  - path: /user/app/7.5/
+    title: 7.5 文件管理
+  - path: /user/app/7.6/
+    title: 7.6 文件传输
+  - path: /user/app/7.7/
+    title: 7.7 个人信息
+
+
+guide:
+- title: 前言
+  path: /guide/overview/
+- title: 开始
+  path: /guide/1/
+- title: 上传下载
+  path: /guide/2/
+- title: 分享协作
+  path: /guide/3/
+- title: PC客户端
+  path: /guide/4/
+- title: 存储挂载
+  path: /guide/5/
+- title: 功能升级
+  path: /guide/6/
+
+
+

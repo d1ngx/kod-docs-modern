@@ -1,0 +1,6 @@
+{%- unless page.skip_read_time == true -%}
+{%- assign words = content | number_of_words -%}
+{%- if words >= 360 -%}
+<em class="reading-time">本文阅读预计需要: {{ words | divided_by:180 }} minutes</em>
+{%- endif -%}
+{%- endunless -%}

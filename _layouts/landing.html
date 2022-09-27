@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<!-- Page generated {{ site.time }} -->
+<html lang="en">
+{%- include head.html -%}
+<body id="landing" class="landing">
+  <nav class="navbar header">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-content" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img src="/assets/images/docs-logo.png" alt="Kodcloud Docs" title="Kodcloud Docs" width="160" height="28" />
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="header-content">
+        <ul class="nav navbar-nav">
+        {%- for entry in site.data.toc.horizontalnav -%}
+          {%- if entry.hide_home -%}{% continue %}{%- endif -%}
+          <li{% if entry.node == "home" %} class=active{% endif %}><a href="{{ entry.path }}" id="{{ entry.node }}">{{ entry.title }}</a></li>
+        {%- endfor -%}
+        <!-- 最后一个标题由于连着hide_home，被判断结束，需手动添加 -->
+        <li><a href="/admin/">管理员手册</a></li>
+        <li><a href="https://doc.kodcloud.com/#/">开发</a></li>  
+        <li><a href="https://kodcloud.com/">官网</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>{% include theme-switch.html %}</li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero container">
+    <div class="row justify-content-center">
+      <div class="col-xs-12 text-center">
+        <h2>您想了解什么？</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <form action="/search/" method="get" class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <label class="sr-only" for="st-search-input">Search</label>
+        <input
+          id="st-search-input"
+          class="form-control"
+          name="q"
+          placeholder="输入关键词，搜索相关资料..."
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          dir="auto"
+          autofocus
+        />
+        <div id="autocompleteResults"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card rocket" href="/start/">
+          <h5 class="title">新手入门</h5>
+          <p>
+            了解可道云的基础功能、常见问题及部分典型特性的应用。
+            </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card downloading" href="/setup/">
+          <h5 class="title">安装部署</h5>
+          <p>
+            在您自己的设备上，搭建专属的、可随时随地访问的企业级私有云存储。
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card guides" href="/admin/1.3/#132-自定义企业形象">
+          <h5 class="title">自定义向导</h5>
+          <p>
+           了解如何快速地自定义网盘LOGO和形象，打造属于专属于您公司的云盘。
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card language-guides" href="/admin/">
+          <h5 class="title">管理员手册</h5>
+          <p>
+          面向超管及其他有后台权限的管理员，讲述如何进行后台各项的设置。
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card manuals" href="/user/">
+          <h5 class="title">用户手册</h5>
+          <p>
+          供普通用户了解不同部分的具体操作方式。
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card reference" href="https://doc.kodcloud.com/v2/">
+          <h5 class="title">开发</h5>
+          <p>
+          了解OpenAPI、插件开发、用户及组织架构或文件存取等第三方系统对接方法。
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container help-by-product">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="cardlet container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+            </div>
+			
+            <div class="col-xs-12">
+              <ul class="nav nav-tabs">
+                <li class="active" role="presentation" data-tab="desktop">
+                  <a onclick="onChangeHelpTab('desktop')">客户端</a>
+                </li>
+                <li role="presentation" data-tab="action">
+                  <a onclick="onChangeHelpTab('action')">操作体验</a>
+                </li>
+                <li role="presentation" data-tab="view">
+                  <a onclick="onChangeHelpTab('view')">文件预览</a>
+                </li>
+                <li role="presentation" data-tab="share">
+                  <a onclick="onChangeHelpTab('share')">分享协作</a>
+                </li>
+                    <li role="presentation" data-tab="admin">
+                  <a onclick="onChangeHelpTab('admin')">管理员</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- DESKTOP -->
+          <div class="row active" data-tab="desktop" data-os="win">
+            <div class="col-xs-12 col-md-4 col-lg-2 text-center">
+              <div class="image" style="background-image: url(/assets/images/xp.svg);"></div>
+              <h5>客户端/APP</h5>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="os-label only-win">PC客户端</span>
+                  <span class="os-label only-mac">移动端APP</span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a onclick="onChangeHelpOs('win')">PC客户端</a></li>
+                  <li><a onclick="onChangeHelpOs('mac')">移动端APP</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>多端协同，轻松访问</h6>
+              <p>
+                  浏览器随时随地访问的同时，可道云提供多端支持，包括但不限于移动端APP、PC客户端软件、H5集成页面等。
+              </p>
+              <p>
+                <a href="/user/PC/6.1/">了解更多</a>
+              </p>
+              <h6>常见问题</h6>
+              <p class="only-win">
+                <a href="/start/faq/4/#可道云pc客户端操作界面跟网页看起来很像有什么区别么">
+                  PC客户端和网页有什么区别？
+                </a>
+              </p>
+              <p class="only-win">
+                <a href="/user/PC/6.2/#623-切换登录站点">
+                  PC客户端如何切换站点？
+                </a>
+              </p>
+              <p class="only-win">
+                <a href="/user/PC/6.3/">
+                  如何将本地文件同步到云端文件夹？
+                </a>
+              </p>
+              <p class="only-mac">
+                <a href="/user/app/7.2/">
+                  手机APP如何登录？
+                </a>
+              </p>
+              <p class="only-mac">
+                <a href="/user/app/7.6/#762-相册备份">
+                  手机相册怎么备份？
+                </a>
+              </p>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>系统相关</h6>
+              <p><a href="/start/faq/1/">可道云跟FTP、SMB等传统文件共享方式有什么区别？</a></p>
+              <p><a href="/start/faq/5/">可道云可以挂载对象存储吗？支持哪些云厂商的对象存储？</a></p>
+              <p><a href="/setup/#4-更多平台体验">如何在群晖、爱快、QNAP等平台中安装可道云？</a></p>
+            </div>
+          </div>
+          <!-- ACTION -->
+          <div class="row" data-tab="action">
+            <div class="col-xs-12 col-md-4 col-lg-2 text-center">
+              <div class="image" style="background-image: url(/assets/images/laptop.svg);"></div>
+              <h5>文件操作</h5>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>在线操作，如此熟悉高效</h6>
+              <p>
+                可道云整合了Windows和MacOS操作逻辑和用户习惯，支持框选、拖拽、快捷键等操作，云端操作也能如本地般熟悉高效。让您用最舒适直观的方式轻松管理文件。无需学习，立即上手。
+              </p>
+              <p><a href="/user/2.2/">了解更多</a></p>
+
+              <h6>常见问题</h6>
+              <p><a href="/user/3.2/">如何上传文件？</a></p>
+              <p><a href="/user/3.4/#341-收藏夹">怎么将文件（夹）添加常用？</a></p>
+              <p><a href="/user/2.2/#4-回收站">如何一键还原误删除的文件夹？</a></p>
+             
+              <p><a href="/start/faq/1/#个人空间企业空间部门空间的区别是什么">个人空间、企业空间和部门空间有什么区别？</a></p>
+              
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>推荐内容</h6>
+              <p><a href="/start/3/">框选、拖拽、快捷键，如此熟悉高效</a></p>
+              <p><a href="/start/articles/2/">善用智能文件附件，让文件管理整洁、严谨、高效</a></p>
+              <p><a href="/start/articles/1/">小小文件标签，大大提升效率</a></p>
+            </div>
+          </div>
+          <!-- VIEW -->
+          <div class="row" data-tab="view">
+            <div class="col-xs-12 col-md-4 col-lg-2 text-center">
+              <div class="image" style="background-image: url(/assets/images/view.svg);"></div>
+              <h5>文件预览</h5>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>随时随地，文档轻松在线预览</h6>
+              <p>
+                可道云支持数百种常见格式文档的在线预览，几乎覆盖所有办公场景。您无需下载文件到本地，也不需要在安装软件。随时随地，只需浏览器即可轻松查看。
+              </p>
+              <p><a href="/start/2/">了解更多</a></p>
+
+              <h6>常见问题</h6>
+              <p><a href="/start/2/">可道云支持哪些格式在线预览？</a></p>
+              <p><a href="/start/2/#office文件">可道云支持在线编辑office文件么？</a></p>
+              <p><a href="/user/PC/6.4/">怎么使用本地软件打开或编辑云端文档？</a></p>
+              <p><a href="/user/3.6/#2-设置默认打开方式">文件支持多种打开方式时，如何将默认打开方式设置成我喜欢的？</a></p>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>推荐内容</h6>
+              <p><a href="/user/3.6/#3-压缩文件直接预览">不解压也能快速预览压缩包内文件</a></p>
+              <p><a href="/start/2/#流程图">在线流程图、脑图，也能轻松搞定</a></p>
+              <p><a href="/start/features/4/">在编辑公共文档时，如何可以防止被其他人修改覆盖？</a></p>
+            </div>
+          </div>
+          <!-- SHARE -->
+          <div class="row" data-tab="share">
+            <div class="col-xs-12 col-md-4 col-lg-2 text-center">
+              <div
+                class="image"
+                style="background-image: url(/assets/images/share.svg);"
+              ></div>
+              <h5>分享协作</h5>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>高效协作、轻松分享两相宜</h6>
+              <p>
+               轻松发起内部协作，邀请任意用户、任意部门在指定权限下参与项目协作。外链分享可灵活设置密码、时间、权限等，安全高效与企业外部的客户或合作伙伴分享文件。
+              </p>
+              <p><a href="/user/3.5/">了解更多</a></p>
+
+              <h6>常见问题</h6>
+              <p><a href="/start/faq/3/#如何管理分享出去的文件">如何管理分享出去的文件？</a></p>
+              <p><a href="/user/3.5/#352-外链分享">如何将文件（夹）分享给外部人员？</a></p>
+               <p><a href="/user/4.2/#422-查看自己的文档权限">如何查看自己所在部门或文件夹的权限？</a></p>
+              <p><a href="/user/3.5/#351-内部协作分享">如何拉组，快速发起跨部门协作，并设置权限？</a></p>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>推荐内容</h6>
+              <p><a href="http://blog.kodcloud.com/homework-collection.html">如何可以快速高效收集文件？</a></p>
+              <p><a href="/user/3.5/#353-文档评论">如何进行文件（夹）评论</a></p>
+              <p><a href="/user/3.5/#353-历史记录查看">如何查看文件的历史版本</a></p>
+              <p><a href="/user/3.5/#353-文档动态">如何查看文件（夹）的动态</a></p>
+              <p><a href="/user/2.2/#2-我的分享/">哪里可以修改协作成员的权限？</a></p>
+            </div>
+          </div>
+		      <!-- ADMIN -->
+          <div class="row" data-tab="admin">
+            <div class="col-xs-12 col-md-4 col-lg-2 text-center">
+              <div class="image" style="background-image: url(/assets/images/admin.svg);"></div>
+              <h5>管理与安全</h5>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>强大、灵活、全面的文档授权体系</h6>
+              <p>
+             可道云支持角色权限&文档权限双轨权限体系，角色权限、部门权限、文档权限三维权限管控，覆盖多场景权限设置需求。
+              </p>
+              <p><a href="/admin/">了解更多</a></p>
+              <h6>常见问题</h6>
+              <p><a href="/admin/1.3/#132-自定义企业形象">我可以将系统修改成公司名称、LOGO吗？如何操作？</a></p>
+              <p><a href="/admin/3.3/#332-批量添加用户">怎么快速批量导入用户？</a></p>
+              <p><a href="/admin/6/#152-操作日志">操作日志可以单独选择某个成员进行查询吗？</a></p>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-5">
+              <h6>推荐内容</h6>
+              <p><a href="/admin/1.2/#122-安全设置">简单设置，防止勒索病毒破坏文件</a></p>
+              <p><a href="/admin/4.3/">如何预防员工“删库跑路”给公司数字资产带来巨大损失？</a></p>
+              <p><a href="http://blog.kodcloud.com/file-watermark.html">给文件添加动态水印，确保文件分享安全</a></p>
+              <p><a href="/admin/4.1/">我们在使用钉钉/企业微信，可以对接吗？</a></p>
+              <p><a href="/start/1/#统一认证/">如何设置超级管理员及分级管理员？</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include landing-page/extensions-banner.html %}
+  
+  <section class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <h2 class="title">最佳实践</h2>
+              <p>
+                了解我们的推荐的典型应用和部署实践，给您的解决方案提供更多参考。
+              </p>
+              <p><a href="/start/1/">企业微信、钉钉轻松对接，实现用户同步、扫码登录及应用内免登跳转</a></p>
+              <p><a href="/admin/">云打印助力企业效率提升和权限管控</a></p>
+              <p><a href="/admin/">使用CDN全球加速功能优化跨国业务访问体验</a></p>
+              <p><a href="/admin/4.1//">多云挂载与无缝迁移</a></p>
+              <p><a href="/admin/">高可用集群部署方案</a></p>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <h2 class="title">轻松开发</h2>
+              <p>数百个API接口，轻松实现插件开发、账户对接、文件存取和服务调用。</p>
+              <p><a href="https://doc.kodcloud.com/v2/#/user/user" target="_blank" rel="noopener">账号集成与统一登录</a></p>
+              <p><a href="http://doc.kodcloud.com/#/plugins/main/" target="_blank" rel="noopener">通过插件方式轻松进行功能拓展</a></p>
+              <p><a href="https://doc.kodcloud.com/v2/#/explorer/file" target="_blank" rel="noopener">第三方系统文件存取管理</a></p>
+              <p><a href="https://doc.kodcloud.com/v2/#/sdk/view">第三方系统文件预览接口调用</a></p>
+              <p><a href="https://doc.kodcloud.com/v2/#/sdk/index" target="_blank" rel="noopener">开放组件及SDK</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="play-with-kod" class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 class="title">玩转可道云</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-4 card-holder">
+        <a href="https://group.kodcloud.com/#s/6VIqrscg" class="card" target="_blank" rel="noopener">
+          <h5 class="title">教学视频</h5>
+          <p>仍然不会操作？通过培训视频快速上手</p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 card-holder">
+        <a href="https://group.kodcloud.com/#s/6Dz0jUhA" class="card" target="_blank" rel="noopener">
+        <h5 class="title">资料下载</h5>
+          <p>
+            最新的操作手册、宣传资料、功能介绍等，获取更多关于可道云的资料。
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 card-holder">
+        <a href="https://bbs.kodcloud.com/" class="card">
+          <h5 class="title">社区沟通</h5>
+          <p>与更多的用户一起，享受沟通的快乐, 发现更多玩法和惊喜.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    {% include footer.html %}
+  </footer>
+
+  <script>
+    window.onChangeHelpTab = function (name) {
+      const currentActiveTab = document.querySelector(".help-by-product ul.nav li.active");
+      if (currentActiveTab) currentActiveTab.classList.remove("active");
+      const currentActiveBody = document.querySelector(".help-by-product div.row.active[data-tab]");
+      if (currentActiveBody) currentActiveBody.classList.remove("active");
+      const nextActiveTab = document.querySelector('.help-by-product ul.nav li[data-tab="' + name + '"]');
+      if (nextActiveTab) nextActiveTab.classList.add("active");
+      const nextActiveBody = document.querySelector('.help-by-product div.row[data-tab="' + name + '"]');
+      if (nextActiveBody) nextActiveBody.classList.add("active");
+    };
+    window.onChangeHelpOs = function (os) {
+      const container = document.querySelector('div[data-tab="desktop"]');
+      if (container) container.setAttribute("data-os", os);
+    };
+  </script>
+</body>
+</html>
