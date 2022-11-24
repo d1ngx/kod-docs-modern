@@ -84,8 +84,25 @@ setup:
       path: /setup/environment/
     - title: 安装向导
       path: /setup/start/
-    - title: 配置优化
-      path: /setup/configuration/ 
+    - sectiontitle: 配置优化
+      section:
+        - title: NGINX
+          path: /setup/nginx/
+        - title: PHP
+          path: /setup/php/
+        - title: MySQL
+          path: /setup/mysql/
+        - title: 其他
+          path: /setup/others/
+    - sectiontitle: 最佳实践
+      path: /setup/best-practice/
+      section:
+        - title: 迁移数据到可道云
+          path: /setup/migratokod/
+        - title: 可道云数据备份
+          path: /setup/backup/
+        - title: 全球加速方案
+          path: /setup/oss/
     - sectiontitle: 在指定发行版上的安装示例
       section:
         - title: Loongnix-Server Linux release 8.4

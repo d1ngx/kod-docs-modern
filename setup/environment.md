@@ -16,7 +16,7 @@ description: 可道云依赖环境说明
 
 - [Loongnix-Server 8.4 安装可道云示例](./loongnix.md)
 - [Kylin V10 安装可道云示例](./kylin.md)
-- [OpenEuler 22.04 LTS 安装可道云示例](./openeuler.md)
+- [OpenEuler 22.03 LTS 安装可道云示例](./openeuler.md)
 - [Ubuntu 22.04 LTS 安装可道云示例](./ubuntu.md)
 - [CentOS 7.9 安装可道云示例](./centos.md)
 
