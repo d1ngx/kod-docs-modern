@@ -5,14 +5,14 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
-    chef-utils (17.10.0)
+    chef-utils (18.0.185)
       concurrent-ruby
     colorator (1.1.0)
     concurrent-ruby (1.1.10)
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
-    ethon (0.15.0)
+    ethon (0.16.0)
       ffi (>= 1.15.0)
     eventmachine (1.2.7)
     ffi (1.15.5)
@@ -75,7 +75,7 @@ GEM
       tomlrb
     mixlib-shellout (3.2.7)
       chef-utils
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     octopress-hooks (2.6.2)
       jekyll (>= 2.0)
@@ -122,4 +122,4 @@ DEPENDENCIES
   webrick (~> 1.7)
 
 BUNDLED WITH
-   2.3.21
+   2.3.26

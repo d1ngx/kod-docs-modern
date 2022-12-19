@@ -34,10 +34,11 @@ php-fpm的配置文件位置通常位于`/etc/php/7.4/fpm/`或者`/etc/php-fpm.d
 
 ```www.conf
 pm = dynamic
-pm.max_children = 20
-pm.start_servers = 5
-pm.min_spare_servers = 5
-pm.max_spare_servers = 5
+pm.max_children = 50
+pm.start_servers = 20
+pm.min_spare_servers = 10
+pm.max_spare_servers = 30
+pm.max_requests = 500
 ```
 
 在调整php-fpm配置后, 执行`php-fpm -t`检查语法, 确定无误后重启服务

@@ -34,7 +34,9 @@ http {
     server_names_hash_bucket_size 512;
     client_header_buffer_size 32k;
     large_client_header_buffers 4 32k;
-    client_max_body_size 10G;
+    client_max_body_size 1024M;
+    client_body_timeout 300s;
+    client_body_buffer_size 512k;
 
     sendfile            on;
     tcp_nopush          on;
@@ -42,7 +44,6 @@ http {
     keepalive_timeout   65;
     types_hash_max_size 4096;
 
-    fastcgi_connect_timeout 3600;
     fastcgi_send_timeout 3600;
     fastcgi_read_timeout 3600;
     fastcgi_buffer_size 64k;
@@ -50,27 +51,43 @@ http {
     fastcgi_busy_buffers_size 128k;
     fastcgi_temp_file_write_size 256k;
     fastcgi_intercept_errors on;
+    fastcgi_hide_header X-Powered-By;
 
     gzip on;
     gzip_min_length  1k;
-    gzip_buffers     4 16k;
-    gzip_http_version 1.1;
     gzip_comp_level 2;
     gzip_types     text/plain application/javascript application/x-javascript text/javascript text/css application/xml;
     gzip_vary on;
-    gzip_proxied   expired no-cache no-store private auth;
     gzip_disable   "MSIE [1-6]\.";
     server_tokens off;
+
+    add_header Referrer-Policy                      "no-referrer"   always;
+    add_header X-Content-Type-Options               "nosniff"       always;
+    add_header X-Download-Options                   "noopen"        always;
+    add_header X-Frame-Options                      "SAMEORIGIN"    always;
+    add_header X-Permitted-Cross-Domain-Policies    "none"          always;
+    add_header X-Robots-Tag                         "none"          always;
+    add_header X-XSS-Protection                     "1; mode=block" always;
 
     include             /etc/nginx/mime.types;
     default_type        application/octet-stream;
 
     server {
-        listen       80;
-        listen       [::]:80;
-        server_name  _;
+        listen 80;
+        listen [::]:80;
+        server_name cloud.example.com;
+        return 301 https://$server_name$request_uri;
+    }
+
+    server {
+        listen 443      ssl http2;
+        listen [::]:443 ssl http2;
+        server_name  cloud.example.com;
         root         /var/www/html;
         index        index.php index.html;
+
+        ssl_certificate     /etc/ssl/nginx/cloud.example.com.crt;
+        ssl_certificate_key /etc/ssl/nginx/cloud.example.com.key;
 
         location ~ [^/]\.php(/|$) {
             try_files $uri =404;

@@ -34,7 +34,7 @@ $ systemctl enable docker && systemctl start docker
 
 ```console
 $ docker run -itd -p 8001:80 --name kodoffice --restart always \
-registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice
+registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
 ```
 
 - onlyoffice缓存目录是`/var/lib/onlyoffice`,如果编辑文件特别多，可以考虑挂载。

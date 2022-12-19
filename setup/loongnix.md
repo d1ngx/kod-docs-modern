@@ -38,13 +38,8 @@ $ systemctl start nginx php-fpm mysqld redis
 
 ```console
 $ yum install ImageMagick
-$ yum install git
-$ git clone --depth 1  https://git.ffmpeg.org/ffmpeg.git ffmpeg
-$ cd ffmpeg/
-$ ./configure
-$ make && make install
-$ ffmpeg -version
-ffmpeg version git-2022-09-21-acbb277 Copyright (c) 2000-2022 the FFmpeg developers
+$ dnf config-manager --set-enabled plus
+$ yum install ffmpeg
 ```
 
 ### NGINX

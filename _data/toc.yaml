@@ -97,6 +97,8 @@ setup:
     - sectiontitle: 最佳实践
       path: /setup/best-practice/
       section:
+        - title: 使用Docker离线部署
+          path: /setup/dockerOffline/
         - title: 迁移数据到可道云
           path: /setup/migratokod/
         - title: 可道云数据备份
@@ -138,9 +140,13 @@ setup:
           path: /setup/psd_win/
 - sectiontitle: 4 其他系统安装
   section:
-    - title: 4.1 群晖
-      path: /setup/4.1/
-    - title: 4.2 爱快
+    - sectiontitle: 4.1 群晖Synology NAS
+      section:
+        - title: 适用于DSM 7.1的KodBox套件
+          path: /setup/dsm7/
+        - title: 通过Docker安装
+          path: /setup/dsm_docker/
+    - title: 4.2 爱快iKuai
       path: /setup/4.2/
 - sectiontitle: 5 TeamOS安装
   section:
