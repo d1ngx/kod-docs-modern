@@ -8,8 +8,8 @@ description: 在离线环境下, 如何使用Docker部署可道云网盘
 
 ## 环境需求
 
-- 一台离线的服务器, 需要部署可道云网盘
-- 一台能联网的服务器, 要求有docker环境, 用于下载安装包和在线拉取镜像
+- 一台离线的服务器A, 需要部署可道云网盘
+- 一台能联网的服务器B, 要求有docker环境, 用于下载安装包和在线拉取镜像
 
 ### 离线安装Docker
 
@@ -23,7 +23,7 @@ description: 在离线环境下, 如何使用Docker部署可道云网盘
 - [docker-ce-rootless-extras](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-rootless-extras-20.10.9-3.el7.x86_64.rpm)
 - [docker-scan-plugin](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-scan-plugin-0.23.0-3.el7.x86_64.rpm)
 
-把以上文件都上传到服务器, 假设目录位于`docker`, 执行安装命令
+把以上文件都上传到服务器A, 假设目录位于`docker`, 执行安装命令
 
 ```bash
 [root@kod ~]# rpm -ivh docker/*.rpm
@@ -41,18 +41,18 @@ Docker version 20.10.19, build d85ef84
 
 ### 导入镜像
 
-在一台能联网、有Docker环境的服务器上拉取镜像, 并导出tar包
+在一台能联网、有Docker环境的服务器B上拉取镜像, 并导出tar包
 
 ```console
 $ docker pull kodcloud/kodbox
-$ docker pull redis:alpine3.17
-$ docker pull mariadb:10.9
+$ docker pull redis:alpine
+$ docker pull mariadb
 $ docker save -o kodbox.tar kodcloud/kodbox
-$ docker save -o redis.tar redis:alpine3.17
-$ docker save -o mariadb.tar mariadb:10.9
+$ docker save -o redis.tar redis:alpine
+$ docker save -o mariadb.tar mariadb
 ```
 
-将tar包上传到离线服务器上, 然后执行导入命令
+将tar包上传到离线服务器A上, 然后执行导入命令
 
 ```console
 $ docker load -i kodbox.tar
@@ -60,81 +60,109 @@ $ docker load -i redis.tar
 $ docker load -i mariadb.tar
 ```
 
-导入完成后, `docker images`看到3个镜像，kodbox、redis 和mariadb
+导入完成后, `docker images`看到3个镜像, `kodbox、redis 和mariadb`
 
+### http方式快速启动
 
+> 注意
+>
+> 在离线服务器A上创建一个目录作为项目目录，后面所有命令都在这个目录下执行
+{: .important}
 
-部署可道云kodbox
-1.下载 http://box.kodcloud.ltd:10081/static/docker/docker-compose.yml 
+- 创建文件.env来设置环境变量（必须修改等号右边的值，形式如 `MYSQL_USER=kodbox`，值不要包含&符号），这些在docker启动时会自动传入容器
 
-docker-compose.yml这个是核心配置文件，在其中定义启动的容器服务和挂载的存储
+  ```console
+  $ mkdir /kodbox && cd /kodbox
+  $ vim .env
+  ```
 
-/var/lib/mysql :服务器目录，用于数据库存储目录
-/data/kodbox: 服务器目录，用于映射可道云站点目录（包含默认存储）
-"MYSQL_ROOT_PASSWORD=root密码"
-      - "MYSQL_DATABASE=数据库"
-      - "MYSQL_USER=数据库用户"
-      - "MYSQL_PASSWORD=数据库密码"
+  ```bash
+  MYSQL_ROOT_PASSWORD=[数据库root密码]
+  MYSQL_DATABASE=[数据库名称]
+  MYSQL_USER=[数据库用户]
+  MYSQL_PASSWORD=[数据库密码]
+  ```
 
-ports:
-      - 服务器端口:80
+- 创建docker-compose.yml 文件，在其中配置映射端口、持久化目录
 
-修改端口: 改服务器端口即可
-配置全部内容如下：
-version: "3.5"
+  ```console
+  $ vim docker-compose.yml
+  ```
 
-services:
-  db:
-    image: mariadb:10.6
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    volumes:
-      - "/var/lib/mysql:/var/lib/mysql"
-    environment:
-      - "TZ=Asia/Shanghai"
-      - "MYSQL_ROOT_PASSWORD=root密码"
-      - "MYSQL_DATABASE=数据库"
-      - "MYSQL_USER=数据库用户"
-      - "MYSQL_PASSWORD=数据库密码"
-    restart: always
+  ```yaml
+  version: '3.5'
 
-  app:
-    image: kodcloud/kodbox:v1.23
-    ports:
-      - 80:80
-    links:
-      - db
-      - redis
-    volumes:
-      - "/data/kodbox:/var/www/html"
-    restart: always
+  services:
+    db:
+      image: mariadb
+      command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+      volumes:
+        - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+      environment:
+        - "TZ=Asia/Shanghai"
+        - "MYSQL_ROOT_PASSWORD"
+        - "MYSQL_DATABASE"
+        - "MYSQL_USER"
+        - "MYSQL_PASSWORD"
+      restart: always
+      
+    app:
+      image: kodcloud/kodbox
+      ports:
+        - 80:80                       #左边80是使用端口，可以修改
+      links:
+        - db
+        - redis
+      volumes:
+        - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      restart: always
 
-  redis:
-    image: redis:alpine3.14
-    environment:
-      - "TZ=Asia/Shanghai"
-    restart: always
-2.执行启动命令，在docker-compose.yml 文件所在目录。执行
-docker-compose up -d 
+    redis:
+      image: redis:alpine
+      environment:
+        - "TZ=Asia/Shanghai"
+      restart: always
+  ```
 
-3.docker ps  检查kodbox/mariadb/redis 都是运行状态 Up
-4.运行onlyoffice在线编辑预览解析服务（服务器端口8001，可以改）
-docker run -itd -p 8001:80 –name kodoffice –restart always kodoffice
+进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
 
-5.此时，所有相关服务都已启动，在网页访问服务器IP即可配置可道云初始化。
-检测环境跳过，数据库配置页面 类似下图，填写在docker-compo.yml中配置的参数。
-选择MySQL+Redis
-填写MySQL 服务器：db
-			用户名：数据库用户
-			密码：数据库密码
-			数据库：数据库
-填写redis 服务器：redis
-			端口号：6379
+```console
+$ docker compose up -d
+Creating network "kodbox_default" with the default driver
+Creating kodbox_redis_1 ... done
+Creating kodbox_db_1    ... done
+Creating kodbox_app_1   ... done
+```
 
-然后点击确定，会让你设置管理员密码，设置后登陆即可。
-6.上传企业版插件(http://box.kodcloud.ltd:10081/static/docker/plugins.tar.gz )到可道云.plugins目录解压；
+列出docker容器，可以看到3个容器正在运行
 
-7.离线激活
+```console
+$ docker ps 
+CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                          NAMES
+f596f5b00305   kodcloud/kodbox   "/entrypoint.sh /usr…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, 9000/tcp   kodbox_app_1
+5f94f6d1aabb   mariadb           "docker-entrypoint.s…"   About a minute ago   Up About a minute   3306/tcp                       kodbox_db_1
+e6296b23fb0a   redis:alpine      "docker-entrypoint.s…"   About a minute ago   Up About a minute   6379/tcp                       kodbox_redis_1
+```
 
-8.配置onlyoffice插件,IP是你的服务器地址,8001是运行时指定的端口。
-填写解析地址：http://IP:8001/web/
+如果需要停止服务
 
+```console
+$ docker compose down
+Stopping kodbox_app_1   ... done
+Stopping kodbox_db_1    ... done
+Stopping kodbox_redis_1 ... done
+Removing kodbox_app_1   ... done
+Removing kodbox_db_1    ... done
+Removing kodbox_redis_1 ... done
+Removing network kodbox_default
+```
+
+由于数据库和kodbox已经挂载了持久化目录，需要时可以重新启动，不用担心数据丢失
+
+```console
+$ docker compose up -d
+```
+
+然后访问KodBox安装向导，完成系统初始化
+
+</div>

@@ -99,12 +99,8 @@ setup:
       section:
         - title: 使用Docker离线部署
           path: /setup/dockerOffline/
-        - title: 迁移数据到可道云
-          path: /setup/migratokod/
-        - title: 可道云数据备份
+        - title: 可道云数据备份和恢复
           path: /setup/backup/
-        - title: 全球加速方案
-          path: /setup/oss/
     - sectiontitle: 在指定发行版上的安装示例
       section:
         - title: Loongnix-Server Linux release 8.4
