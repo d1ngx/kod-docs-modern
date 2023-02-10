@@ -68,10 +68,9 @@ registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
 
 ## 3.离线部署方式
 
-> 说明
+> 提示：
 >
-> 离线部署请联系可道云技术售后。
-{: .important}
+> - 离线部署请联系可道云技术售后。
 
 ## 4.配置到可道云
 
@@ -81,9 +80,11 @@ registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
 
 ### 2.配置插件
 
-点击配置插件,将上面office所在服务器ip替换到如图选中的内容(注意结尾/web/不能去除);
+> 提示：
+>
+> - 如果office和可道云部署在同一台服务器, 且office使用`8001`端口, 插件则无需任何配置 。
 
-**如果office和可道云部署在同一台服务器，则无需任何配置 。**
+点击配置插件,将上面office所在服务器ip替换到如图选中的内容(注意结尾`/web/`不能去除);
 
 点击"检测office服务器"，如果检测通过这说明全部配置完成，刷新可道云页面，选中一个office文件右键打开方式，选择onlyoffice编辑即可体验。
 ![插件设置](/setup/images/2.3/1.png){:width="800px"}

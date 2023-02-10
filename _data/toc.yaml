@@ -201,6 +201,15 @@ admin:
     title: 5.1 插件列表
   - path: /admin/5.2/
     title: 5.2 插件配置说明
+  - sectiontitle: 5.3 第三方账户认证同步集成
+    section:
+    - path: /admin/ldap/
+      title: AD域账户认证
+    - path: /admin/dingtalk/
+      title: 钉钉
+    - path: /admin/weixin/
+      title: 企业微信
+
 - title: 6 安全审计
   path: /admin/6/
 - title: 7 系统运维
