@@ -8,7 +8,10 @@ horizontalnav:
   node: start
 - title: 安装
   path: /setup/
-  node: setup  
+  node: setup
+- title: 硬件
+  path: /guide/
+  node: guide  
 - title: 用户手册
   path: /user/
   node: user
@@ -155,6 +158,33 @@ setup:
     - title: 5.3 系统初始配置
       path: /setup/5.3/
 
+guide:
+- title: 导览
+  path: /guide/
+- sectiontitle: 1 开机引导
+  section:
+    - title: 1.1 存储设置
+      path: /guide/1.1/
+    - title: 1.2 系统设置
+      path: /guide/1.2/ 
+        
+- sectiontitle: 2 硬件管理
+  section:
+    - title: 2.1 概述
+      path: /guide/2.1/
+    - title: 2.2 磁盘RAID阵列
+      path: /guide/2.2/
+    - title: 2.3 网络设置
+      path: /guide/2.3/
+    - title: 2.4 挂载NFS存储
+      path: /guide/2.4/
+
+- sectiontitle: 3 其他
+  section:
+    - title: 3.1 常见问题
+      path: /guide/3.1/
+    - title: 3.2 使用环境
+      path: /guide/3.2/
 
 admin:
 - title: 前言
@@ -286,23 +316,6 @@ user:
     title: 7.6 文件传输
   - path: /user/app/7.7/
     title: 7.7 个人信息
-
-
-guide:
-- title: 前言
-  path: /guide/overview/
-- title: 开始
-  path: /guide/1/
-- title: 上传下载
-  path: /guide/2/
-- title: 分享协作
-  path: /guide/3/
-- title: PC客户端
-  path: /guide/4/
-- title: 存储挂载
-  path: /guide/5/
-- title: 功能升级
-  path: /guide/6/
 
 
 
