@@ -44,7 +44,7 @@ $ yum install ffmpeg
 
 ### NGINX
 
-需要注意的配置
+`/etc/nginx/nginx.conf`需要注意的配置
 
 ```nginx
 listen 80;              ##访问端口

@@ -13,7 +13,7 @@ description: Docker环境可道云网盘的安装示例
 安装并启动docker服务, 新版本docker会自动安装`docker-compose-plugin`
 
 ```console
-$ curl -sSL https://get.daocloud.io/docker | sh
+$ curl -fsSL https://get.docker.com | bash -s docker
 $ systemctl enable docker && systemctl start docker
 ```
 

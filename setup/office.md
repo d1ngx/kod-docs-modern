@@ -24,7 +24,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 安装并启动docker服务
 
 ```console
-$ curl -sSL https://get.daocloud.io/docker | sh
+$ curl -fsSL https://get.docker.com | bash -s docker
 $ systemctl enable docker && systemctl start docker
 ```
 
@@ -104,7 +104,41 @@ registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
 ### 如何配置https访问
 
 - 如果部署是以https方式启动，直接访问即可
-- 如果部署是以http方式启动的，需要配置nginx反向代理来实现https转http，具体实现: [参考这里](http://doc.kodcloud.com/vip/#/others/office_https)
+- 如果部署是以http方式启动的，需要配置nginx反向代理来实现https转http，具体实现参考：
+
+    ```bash
+    server
+    {
+        listen 8443 ssl http2;
+        server_name cloud.example.com;
+
+        ssl_certificate    /etc/ssl/nginx/cloud.example.com.crt;
+        ssl_certificate_key    /etc/ssl/nginx/cloud.example.com.key;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 SSLv2 SSLv3;
+        ssl_ciphers HIGH:!aNULL:!MD5:!3DES;
+        ssl_prefer_server_ciphers on;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+
+        location / {
+            proxy_pass  http://localhost:8001;
+            proxy_set_header Host $host:$server_port;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            #websocket wss代理
+            proxy_http_version 1.1;  
+            proxy_set_header Upgrade $http_upgrade;  
+            proxy_set_header Connection "Upgrade";
+
+            proxy_cache_key $time_local$host$request_uri$is_args$args;
+            proxy_cache_valid 200 304 301 302 1h;
+            add_header X-Cache $upstream_cache_status;
+            expires 3600s;
+        }
+    }
+    ```
 
 ### 重启系统后如何自启动
 

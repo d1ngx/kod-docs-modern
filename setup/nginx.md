@@ -30,36 +30,33 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log  /var/log/nginx/access.log  main;
-
-    server_names_hash_bucket_size 512;
+	
     client_header_buffer_size 32k;
     large_client_header_buffers 4 32k;
-    client_max_body_size 1024M;
+    client_max_body_size 30G;
     client_body_timeout 300s;
     client_body_buffer_size 512k;
 
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 4096;
-
-    fastcgi_send_timeout 3600;
-    fastcgi_read_timeout 3600;
+    sendfile on;
+    tcp_nopush on;
+    server_tokens off;
+	
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
     fastcgi_buffer_size 64k;
     fastcgi_buffers 4 64k;
     fastcgi_busy_buffers_size 128k;
-    fastcgi_temp_file_write_size 256k;
     fastcgi_intercept_errors on;
     fastcgi_hide_header X-Powered-By;
 
     gzip on;
+    gzip_vary on;
     gzip_min_length  1k;
     gzip_comp_level 2;
+    gzip_proxied   expired no-cache no-store private auth;
     gzip_types     text/plain application/javascript application/x-javascript text/javascript text/css application/xml;
-    gzip_vary on;
     gzip_disable   "MSIE [1-6]\.";
-    server_tokens off;
 
     add_header Referrer-Policy                      "no-referrer"   always;
     add_header X-Content-Type-Options               "nosniff"       always;
@@ -71,23 +68,26 @@ http {
 
     include             /etc/nginx/mime.types;
     default_type        application/octet-stream;
+    # include /etc/nginx/office-ssl.conf;
 
     server {
-        listen 80;
-        listen [::]:80;
-        server_name cloud.example.com;
-        return 301 https://$server_name$request_uri;
-    }
-
-    server {
-        listen 443      ssl http2;
-        listen [::]:443 ssl http2;
+        listen       80;
+        # listen 443 ssl http2;
         server_name  cloud.example.com;
-        root         /var/www/html;
+        root         /var/www/html/product_name;
         index        index.php index.html;
 
-        ssl_certificate     /etc/ssl/nginx/cloud.example.com.crt;
-        ssl_certificate_key /etc/ssl/nginx/cloud.example.com.key;
+        # if ($server_port !~ 443){
+        #     rewrite ^(/.*)$ https://$host$1 permanent;
+        # }
+        # ssl_certificate     /etc/ssl/nginx/cloud.example.com.crt;
+        # ssl_certificate_key /etc/ssl/nginx/cloud.example.com.key;
+        # ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+        # ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+        # ssl_prefer_server_ciphers on;
+        # ssl_session_cache shared:SSL:10m;
+        # ssl_session_timeout 10m;
+        # add_header Strict-Transport-Security "max-age=31536000";
 
         location ~ [^/]\.php(/|$) {
             try_files $uri =404;
@@ -110,12 +110,13 @@ http {
         }
 
         location ~* \.(jpg|jpeg|gif|png|css|js|ico|webp|tiff|ttf|svg)$ {
-            expires      30d;
+            expires 30d;
         }
 
         location ~ .*\.(js|css)?$ {
-            expires      12h;
+            expires 12h;
         }
+
         location = /favicon.ico {
             log_not_found off;
         }
