@@ -156,6 +156,6 @@ $ sudo ufw allow http
 $ sudo ufw enable
 ```
 
-然后在浏览器访问安装向导, 完成所需步骤。
+然后在浏览器访问[安装向导](./start.md), 完成系统初始化步骤。
 
 </div>

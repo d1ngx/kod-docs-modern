@@ -17,8 +17,7 @@ keywords: 群晖, DSM7
 
 ## 2. 安装KodBox套件
 
-- 下载[KodBox-1.36-2212.spk](https://static.box.kodcloud.com/server/dsm7.1/KodBox-1.36-2212.spk)
-  - `sha256sum`值: `219bdee34297a4aabda32486b83186d4ec12093bc06a045b91a62b0d17794d10`
+- 下载最新[KodBox版本spk安装包](https://github.com/KodCloud-dev/dsm/releases/)
 - 在套件中心选择**手动安装**并上传`KodBox`的spk安装包
 - 由于是第三方套件会有风险提示，这里点击同意（`KodBox`不会影响其他应用，但仍建议提前备份好重要数据）
 ![warn](../images/dsm/warn.png){:width="650px"}

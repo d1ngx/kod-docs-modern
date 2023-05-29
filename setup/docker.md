@@ -134,7 +134,10 @@ Removing network kodbox_default
 $ docker compose up -d
 ```
 
-然后访问KodBox安装向导，完成系统初始化
+根据`docker-compose.yml`文件中配置的映射端口, 访问[安装向导](./start.md), 需要注意
+
+- 数据库服务器地址: 将`127.0.0.1`更改为`db` (根据`links`:下的映射名称)
+- redis服务器地址: 将`127.0.0.1`更改为`redis` (根据`links`:下的映射名称)
 
 ### 3.配置https证书
 

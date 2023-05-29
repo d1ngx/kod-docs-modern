@@ -105,7 +105,7 @@ description: Docker环境可道云网盘的安装示例
     PS D:\kodbox> docker compose up
     ```
 
-4. 根据`docker-compose.yml`文件中配置的映射端口, 访问[KodBox安装向导](./start.md), 需要注意
+4. 根据`docker-compose.yml`文件中配置的映射端口, 访问[安装向导](./start.md), 需要注意
     - 数据库服务器地址: 将`127.0.0.1`更改为`db` (根据`links`:下的映射名称)
     - redis服务器地址: 将`127.0.0.1`更改为`redis` (根据`links`:下的映射名称)
 
