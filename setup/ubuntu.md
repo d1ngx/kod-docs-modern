@@ -24,7 +24,7 @@ description: Ubuntu 22.04 LTS系统中可道云网盘的安装示例
 ```console
 $ sudo apt update && sudo apt upgrade
 $ sudo apt install nginx mysql-server redis-server
-$ sudo apt install php php-fpm php-mysql php-gd php-redis php-mbstring php-curl php-xml php-zip
+$ sudo apt install php php-fpm php-mysql php-gd php-redis php-mbstring php-curl php-xml php-zip php-json
 $ sudo systemctl disable apache2.service
 $ sudo systemctl enable nginx php8.1-fpm mysql redis-server
 ```
@@ -93,7 +93,7 @@ $ sed -i \
    -e "s/;listen.mode = 0660/listen.mode = 0666/g" \
    ${PHP_FPM}
 
-$ systemctl restart php-fpm
+$ sudo systemctl restart php8.1-fpm
 ```
 
 ### MySQL
