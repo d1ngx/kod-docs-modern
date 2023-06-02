@@ -35,6 +35,11 @@ $ sudo systemctl enable nginx php8.1-fpm mysql redis-server
 $ sudo apt install imagemagick ffmpeg
 ```
 
+> 如果PDF文件没有生成缩略图，可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
+>  
+> `sudo sed -i '/PDF/s/none/read \| write/g' /etc/ImageMagick-6/policy.xml`
+>
+
 ### NGINX
 
 `/etc/nginx/sites-enabled/default`配置调整
