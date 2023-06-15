@@ -239,6 +239,12 @@ admin:
       title: 钉钉
     - path: /admin/weixin/
       title: 企业微信
+  - path: /admin/webdav/
+    title: 5.4 WebDAV插件
+  - path: /admin/docnet/
+    title: 5.5 内网穿透插件
+  - path: /admin/fileapl/
+    title: 5.6 文档审批插件
 
 - title: 6 安全审计
   path: /admin/6/

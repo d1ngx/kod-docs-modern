@@ -8,7 +8,7 @@ description: Ubuntu 22.04 LTS系统中可道云网盘的安装示例
 
 ## 概述
 
-在**Ubuntu 22.04 LTS** 上部署**kodbox**，安装依赖软件环境比较简单，所有软件在默认源中已经包含。
+在**Ubuntu 22.04 LTS** 上部署**kodbox**, 安装依赖软件环境比较简单, 所有软件在默认源中已经包含。
 
 ### 软件版本
 
@@ -35,7 +35,7 @@ $ sudo systemctl enable nginx php8.1-fpm mysql redis-server
 $ sudo apt install imagemagick ffmpeg
 ```
 
-> 如果PDF文件没有生成缩略图，可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
+> 如果PDF文件没有生成缩略图, 可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
 >  
 > `sudo sed -i '/PDF/s/none/read \| write/g' /etc/ImageMagick-6/policy.xml`
 >
@@ -105,7 +105,7 @@ $ sudo systemctl restart php8.1-fpm
 
 这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时, `KodBox`将创建数据库表。
 
-要启动 MySQL 命令行模式，请使用以下命令：
+要启动 MySQL 命令行模式, 请使用以下命令：
 
 ```console
 $ sudo mysql
@@ -124,7 +124,7 @@ mysql> quit
 $ sudo mysql_secure_installation
 ```
 
-再次启动 MySQL 命令行模式，输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
+再次启动 MySQL 命令行模式, 输入以下行, 将`username`和`password`替换为适当的值, 并使用 Enter 键确认：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -139,7 +139,7 @@ mysql> FLUSH PRIVILEGES;
 mysql> quit
 ```
 
-#### 安装KodBox
+### 安装KodBox
 
 下载最新版本的kodbox安装包, 解压到站点目录
 

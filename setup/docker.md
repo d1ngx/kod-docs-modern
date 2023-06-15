@@ -69,6 +69,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
       command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+        #- "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
       environment:
         - "TZ=Asia/Shanghai"
         - "MYSQL_ROOT_PASSWORD"
@@ -94,6 +95,10 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
         - "TZ=Asia/Shanghai"
       restart: always
   ```
+
+> 增加自定义mysql配置：
+>
+> `mkdir -p ./etc/mysql/conf.d && vim ./etc/mysql/conf.d/custom.cnf`
 
 进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
 
