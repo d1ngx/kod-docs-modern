@@ -61,7 +61,7 @@ http {
     add_header Referrer-Policy                      "no-referrer"   always;
     add_header X-Content-Type-Options               "nosniff"       always;
     add_header X-Download-Options                   "noopen"        always;
-    add_header X-Frame-Options                      "SAMEORIGIN"    always;
+    # add_header X-Frame-Options                      "SAMEORIGIN"    always;
     add_header X-Permitted-Cross-Domain-Policies    "none"          always;
     add_header X-Robots-Tag                         "none"          always;
     add_header X-XSS-Protection                     "1; mode=block" always;
@@ -73,8 +73,8 @@ http {
     server {
         listen       80;
         # listen 443 ssl http2;
-        server_name  cloud.example.com;
-        root         /var/www/html/product_name;
+        server_name  _;
+        root         /var/www/html;
         index        index.php index.html;
 
         # if ($server_port !~ 443){
@@ -83,7 +83,7 @@ http {
         # ssl_certificate     /etc/ssl/nginx/cloud.example.com.crt;
         # ssl_certificate_key /etc/ssl/nginx/cloud.example.com.key;
         # ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-        # ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+        # ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+!3DES:!MD5;
         # ssl_prefer_server_ciphers on;
         # ssl_session_cache shared:SSL:10m;
         # ssl_session_timeout 10m;

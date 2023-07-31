@@ -11,25 +11,36 @@ Loongnix操作系统是龙芯开源社区推出的Linux操作系统。 [了解�
 #### 查看系统版本
 
 ```console
-$ cat /etc/loongnix-release
-Loongnix-Server Linux release 8.4.1
+$ cat /etc/os-release
+NAME="Loongnix-Server Linux"
+VERSION="8"
+ID="loongnix-server"
+ID_LIKE="rhel fedora centos"
+VERSION_ID="8"
+PLATFORM_ID="platform:lns8"
+PRETTY_NAME="Loongnix-Server Linux 8"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:loongnix-server:loongnix-server:8"
+HOME_URL="http://www.loongnix.cn/"
+BUG_REPORT_URL="http://bugs.loongnix.cn/"
+CENTOS_MANTISBT_PROJECT="Loongnix-server-8"
+CENTOS_MANTISBT_PROJECT_VERSION="8"
 ```
 
 ### 软件版本
 
-- **nginx** 1.14
-- **php** 7.2
+- **nginx** 1.16
+- **php** 7.4
 - **MySQL** 8.0
-- **redis** 5.0
+- **redis** 6.0
 
 ### 安装依赖环境
 
 安装基础依赖环境
 
 ```console
-$ yum install nginx
-$ yum install php php-fpm php-gd php-json php-mbstring php-mysqlnd php-xml
-$ yum install mysql-server redis docker-ce
+$ dnf module enable nginx:1.16 php:8.0 redis:6
+$ dnf install nginx php php-fpm php-gd php-json php-mbstring php-mysqlnd php-xml php-intl mysql-server redis
 $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
 ```
@@ -37,9 +48,9 @@ $ systemctl start nginx php-fpm mysqld redis
 支持图片视频等文件生成封面缩略图
 
 ```console
-$ yum install ImageMagick
+$ dnf install ImageMagick
 $ dnf config-manager --set-enabled plus
-$ yum install ffmpeg
+$ dnf install ffmpeg
 ```
 
 ### NGINX
@@ -129,7 +140,7 @@ mysql> FLUSH PRIVILEGES;
 由于系统默认不包含`php-redis`扩展, 这里需要手动编译, 执行
 
 ```console
-$ yum install git php-devel make -y
+$ dnf install git php-devel make -y
 $ git clone https://github.com/phpredis/phpredis.git
 $ cd phpredis
 $ phpize
@@ -145,7 +156,7 @@ $ systemctl restart php-fpm
 下载最新版本的kodbox安装包，解压到站点目录
 
 ```console
-$ yum install -y unzip
+$ dnf install -y unzip
 $ cd /var/www/html/
 $ curl -L "https://api.kodcloud.com/?app/version&download=server.link" -o kodbox.zip
 $ unzip kodbox.zip && rm -f kodbox.zip
