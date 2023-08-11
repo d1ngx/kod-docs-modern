@@ -98,14 +98,19 @@ setup:
         - title: 其他
           path: /setup/others/
     - sectiontitle: 最佳实践
-      path: /setup/best-practice/
       section:
+        - title: 迁移数据到可道云
+          path: /setup/migratokod/
+        - title: 挂载网络文件系统到可道云
+          path: /setup/netmount/        
         - title: 使用Docker离线部署
           path: /setup/dockerOffline/
         - title: 可道云数据备份和恢复
           path: /setup/backup/
     - sectiontitle: 在指定发行版上的安装示例
       section:
+        - title: Anolis OS 8.8
+          path: /setup/anolis/
         - title: Loongnix-Server Linux release 8.4
           path: /setup/loongnix/
         - title: Kylin Linux Advanced Server release V10
@@ -157,6 +162,8 @@ setup:
       path: /setup/5.2/
     - title: 5.3 系统初始配置
       path: /setup/5.3/
+    - title: 5.4 迁移数据到可道云
+      path: /setup/migratokod2/
 
 guide:
 - title: 导览

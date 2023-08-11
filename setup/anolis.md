@@ -41,16 +41,19 @@ $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
 ```
 
-支持图片视频等文件生成封面缩略图
+支持图片视频等文件生成封面缩略图, 需要安装`ImageMagick`和`ffmpeg`。
 
-> 如果是龙芯CPU, 需替换Plus源地址为
-> `baseurl=http://pkg.loongnix.cn/loongnix-server/8.4/Loongnixplus/$basearch/release/`
-
-```console
-$ --- dnf install ImageMagick
-$ dnf config-manager --set-enabled Plus
-$ dnf install ffmpeg
-```
+> 提示：
+>
+> 如果是龙芯CPU
+>
+> - 安装`ImageMagick`可以从 `https://pkg.loongnix.cn/loongnix-server/8.4/epel/loongarch64/release/Everything/Packages/`下载RPM;
+> - 安装`ffmpeg`需要切换Plus源地址`/etc/yum.repos.d/AnolisOS-Plus.repo`
+>
+> 1. 修改
+`baseurl=http://pkg.loongnix.cn/loongnix-server/8.4/Loongnixplus/$basearch/release`
+> 2. 修改`gpgcheck=0`
+> 3. `dnf install ffmpeg --enablerepo=Plus`
 
 ### NGINX
 

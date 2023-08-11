@@ -41,9 +41,9 @@ http {
     tcp_nopush on;
     server_tokens off;
 	
-    fastcgi_connect_timeout 300;
-    fastcgi_send_timeout 300;
-    fastcgi_read_timeout 300;
+    fastcgi_connect_timeout 3600;
+    fastcgi_send_timeout 3600;
+    fastcgi_read_timeout 3600;
     fastcgi_buffer_size 64k;
     fastcgi_buffers 4 64k;
     fastcgi_busy_buffers_size 128k;
