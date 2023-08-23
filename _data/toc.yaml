@@ -9,9 +9,6 @@ horizontalnav:
 - title: 安装
   path: /setup/
   node: setup
-- title: 硬件
-  path: /guide/
-  node: guide  
 - title: 用户手册
   path: /user/
   node: user
@@ -157,11 +154,11 @@ setup:
     - title: 5.0 概览
       path: /setup/5.0/
     - title: 5.1 制作U盘启动盘
-      path: /setup/5.1/
+      path: /setup/rufus/
     - title: 5.2 系统安装
-      path: /setup/5.2/
+      path: /setup/teamos/
     - title: 5.3 系统初始配置
-      path: /setup/5.3/
+      path: /setup/teamos1/
     - title: 5.4 迁移数据到可道云
       path: /setup/migratokod2/
 
