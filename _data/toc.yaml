@@ -78,89 +78,89 @@ setup:
   path: /setup/
 - title: 1 硬件环境及需求
   path: /setup/1/
-- sectiontitle: 2 Linux系统安装(推荐)
+- sectiontitle: 2 TeamOS安装(推荐)
   section:
-    - title: 依赖环境说明
-      path: /setup/environment/
-    - title: 安装向导
-      path: /setup/start/
-    - sectiontitle: 配置优化
-      section:
-        - title: NGINX
-          path: /setup/nginx/
-        - title: PHP
-          path: /setup/php/
-        - title: MySQL
-          path: /setup/mysql/
-        - title: 其他
-          path: /setup/others/
-    - sectiontitle: 最佳实践
-      section:
-        - title: 迁移数据到可道云
-          path: /setup/migratokod/
-        - title: 挂载网络文件系统到可道云
-          path: /setup/netmount/        
-        - title: 使用Docker离线部署
-          path: /setup/dockerOffline/
-        - title: 可道云数据备份和恢复
-          path: /setup/backup/
-    - sectiontitle: 在指定发行版上的安装示例
-      section:
-        - title: Anolis OS 8.8
-          path: /setup/anolis/
-        - title: Loongnix-Server Linux release 8.4
-          path: /setup/loongnix/
-        - title: Kylin Linux Advanced Server release V10
-          path: /setup/kylin/
-        - title: OpenEuler 22.03 LTS
-          path: /setup/openeuler/
-        - title: Ubuntu 22.04 LTS
-          path: /setup/ubuntu/
-        - title: CentOS 7.9
-          path: /setup/centos/
-    - title: 使用Docker安装示例
-      path: /setup/docker/
-    - title: 使用宝塔面板安装示例
-      path: /setup/bt/
-    - title: OnlyOffice组件安装
-      path: /setup/office/
-        
-- sectiontitle: 3 Windows系统安装
+    - title: 2.0 概览
+      path: /setup/5.0/
+    - title: 2.1 制作U盘启动盘
+      path: /setup/rufus/
+    - title: 2.2 系统安装
+      path: /setup/teamos/
+    - title: 2.3 系统初始配置
+      path: /setup/teamos1/
+    - title: 2.4 迁移数据到可道云
+      path: /setup/migratokod2/
+- sectiontitle: 3 其他系统安装
   section:
-    - title: 使用宝塔面板安装示例
-      path: /setup/bt_win/
-    - title: 使用Docker安装示例
-      path: /setup/docker_win/
-    - title: 使用XAMPP安装示例
-      path: /setup/xampp/
-    - sectiontitle: 支持组件安装部署
+    - sectiontitle: 3.1 Linux系统安装
       section:
-        - title: OnlyOffice组件
-          path: /setup/office_win/
-        - title: psd等设计图件在线预览组件
-          path: /setup/psd_win/
-- sectiontitle: 4 其他系统安装
-  section:
-    - sectiontitle: 4.1 群晖Synology NAS
+        - title: 依赖环境说明
+          path: /setup/environment/
+        - title: 安装向导
+          path: /setup/start/
+        - sectiontitle: 配置优化
+          section:
+            - title: NGINX
+              path: /setup/nginx/
+            - title: PHP
+              path: /setup/php/
+            - title: MySQL
+              path: /setup/mysql/
+            - title: 其他
+              path: /setup/others/
+        - sectiontitle: 最佳实践
+          section:
+            - title: 迁移数据到可道云
+              path: /setup/migratokod/
+            - title: 挂载网络文件系统到可道云
+              path: /setup/netmount/        
+            - title: 使用Docker离线部署
+              path: /setup/dockerOffline/
+            - title: 可道云数据备份和恢复
+              path: /setup/backup/
+        - sectiontitle: 在指定发行版上的安装示例
+          section:
+            - title: Anolis OS 8.8
+              path: /setup/anolis/
+            - title: Loongnix-Server Linux release 8.4
+              path: /setup/loongnix/
+            - title: Kylin Linux Advanced Server release V10
+              path: /setup/kylin/
+            - title: OpenEuler 22.03 LTS
+              path: /setup/openeuler/
+            - title: Ubuntu 22.04 LTS
+              path: /setup/ubuntu/
+            - title: CentOS 7.9
+              path: /setup/centos/
+        - title: 使用Docker安装示例
+          path: /setup/docker/
+        - title: 使用宝塔面板安装示例
+          path: /setup/bt/
+        - title: OnlyOffice组件安装
+          path: /setup/office/
+            
+    - sectiontitle: 3.2 Windows系统安装
+      section:
+        - title: 使用宝塔面板安装示例
+          path: /setup/bt_win/
+        - title: 使用Docker安装示例
+          path: /setup/docker_win/
+        - title: 使用XAMPP安装示例
+          path: /setup/xampp/
+        - sectiontitle: 支持组件安装部署
+          section:
+            - title: OnlyOffice组件
+              path: /setup/office_win/
+            - title: psd等设计图件在线预览组件
+              path: /setup/psd_win/
+    - sectiontitle: 3.3 群晖Synology NAS
       section:
         - title: 适用于DSM 7.1的KodBox套件
           path: /setup/dsm7/
         - title: 通过Docker安装
           path: /setup/dsm_docker/
-    - title: 4.2 爱快iKuai
-      path: /setup/4.2/
-- sectiontitle: 5 TeamOS安装
-  section:
-    - title: 5.0 概览
-      path: /setup/5.0/
-    - title: 5.1 制作U盘启动盘
-      path: /setup/rufus/
-    - title: 5.2 系统安装
-      path: /setup/teamos/
-    - title: 5.3 系统初始配置
-      path: /setup/teamos1/
-    - title: 5.4 迁移数据到可道云
-      path: /setup/migratokod2/
+    - title: 3.4 爱快iKuai
+      path: /setup/ikuai/
 
 guide:
 - title: 导览

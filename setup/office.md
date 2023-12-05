@@ -8,16 +8,13 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 ## 环境要求
 
-- 激活可道云授权：企业版及以上；[更多了解](https://kodcloud.com/price/)
 - 操作系统: CentOS 7+、Ubtntu 14+、Debian 8+、RedHat 7+
 - 服务器内存4G以上
 - 剩余磁盘空间不少于10G
-- 当前登录用户必须是管理员
 
-> 重要：
+> 提示：
 >
-> 本节仅适用于以及购买可道云企业版授权并激活后的用户。免费用户请忽略本环节。
-{: .important}
+> 默认使用社区版onlyoffice容器解析服务，支持20编辑并发，超出的并发数只能预览。
 
 ## 1.安装docker
 
@@ -33,33 +30,43 @@ $ systemctl enable docker && systemctl start docker
 ### 1.快速启动
 
 ```console
-$ docker run -itd -p 8001:80 --name kodoffice --restart always \
-registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
+$ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
 ```
 
 - onlyoffice缓存目录是`/var/lib/onlyoffice`,如果编辑文件特别多，可以考虑挂载。
-- 验证启动成功，在浏览器访问 `http://[域名(IP)]:8001/web/` 会看到`success,运行正常`.
+- 验证启动成功：
+    - 等待1~3分钟，在浏览器访问 `http://[域名(IP)]:8001/web/` 会看到`success,运行正常`.
+
+> 提示：
+>
+> - kodoffice版本增加了多种中文字体 并且兼容插件检测;
+> - 如果使用onlyoffice官方社区版部署，也是支持的：
+```console
+$ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
+--name onlyoffice --restart always onlyoffice/documentserver:7.5
+```
 
 ### 2.以https方式启动
 
 使用已有ssl证书
 
 - `/data/certs/onlyoffice.key`
-- `/data/certs/onlyoffice.pem`
-- 确认`/data/certs`目录有证书存在（证书名称必须为`onlyoffice.key`、`onlyoffice.pem`），在执行下方命令启动
+- `/data/certs/onlyoffice.crt`
+- 确认`/data/certs`目录有证书存在（证书名称必须为`onlyoffice`），在执行下方命令启动
 
 ```console
-$ docker run -itd -p 8001:443 --name kodoffice --restart always \
--v /data/certs:/etc/onlyoffice/documentserver/certs  \
-registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
+$ docker run -itd --name kodoffice -p 8443:443 \
+-v /data/certs:/var/www/onlyoffice/Data/certs \
+kodcloud/kodoffice:7.4.1.1
 ```
 
-- 验证启动成功，在浏览器访问`https://[域名]:8001/web/`会看到`success,运行正常`.
+- 验证启动成功：
+    - 等待1~3分钟，在浏览器访问`https://[域名]:8443/web/`会看到`success,运行正常`.
 
 #### 更新证书
 
-1. 替换证书文件`/data/certs/onlyoffice.key`、`/data/certs/onlyoffice.pem`, 注意证书名称不能改变。
-2. 重启容器服务`docker restart kodoffice`
+1. 替换证书文件`/data/certs/onlyoffice.key`、`/data/certs/onlyoffice.crt`, 注意证书名称不能改变。
+2. 重启容器内nginx服务`docker exec -it kodoffice service nginx restart`
 
 ### 3.注意事项
 
@@ -95,11 +102,17 @@ registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
 > **注意：**
 >
 > 1. 上面配置ip也可以是绑定了到该服务器的域名，不能为localhost
-> 2. 不知道如何获取本机ip的，可以通过`ifconfig` 指令查看
-> 3. 如果网络内、或服务器开启防火墙，导致访问不了，可以尝试关闭防火墙或开启8001端口
+> 2. 如果网络内、或服务器开启防火墙，导致访问不了，可以尝试关闭防火墙或开启8001端口
+> 3. 使用onlyoffice官方社区版本时，需填写服务地址`http://[IP]:8001`,插件第3，4项可能会报错，但是不影响使用，可以忽略。
 {: .warning}
 
 ## 5.其他问题
+
+### 重启、停止和删除
+
+- `docker restart kodoffice`
+- `docker stop kodoffice`
+- `docker rm kodoffice`
 
 ### 如何配置https访问
 
@@ -140,6 +153,45 @@ registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:mini
     }
     ```
 
+### insecure ssl
+
+使用自签名ssl证书
+
+> 提示： 
+> 
+> 浏览器会有警告，但继续访问仍可以使用。
+
+1. 生成证书
+    ```console
+    $ sudo mkdir /etc/nginx/ssl
+    $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx-selfsigned.key -out /etc/nginx/ssl/nginx-selfsigned.crt
+    ```
+2. 更新证书到nginx反代配置
+> 提示：
+>
+> 将onlyoffice服务地址（`https://[server]:[port]/web/`）配置到插件后, 需单独访问一次onlyoffice服务地址, 浏览器允许继续访问才可正常使用。
+
+    ```nginx
+        ssl_certificate    /etc/nginx/ssl/nginx-selfsigned.crt;
+        ssl_certificate_key     /etc/nginx/ssl/nginx-selfsigned.key;
+    ```
+3. 修改容器配置, 允许不安全访问
+> 提示：
+> 
+> 如果网盘站点使用了不安全证书，则需要进行以下配置。
+
+    ```console
+    $ docker exec -it kodoffice bash
+    $ sed -i.bak '/rejectUnauthorized/ s/true/false/g' /etc/onlyoffice/documentserver/default.json
+    $ bash documentserver-update-securelink.sh
+    ```
+
 ### 重启系统后如何自启动
 
 - 安装默认已经加入自启动了
+
+### 自定义域名解析
+
+重新运行容器, 加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`
+
+<div>

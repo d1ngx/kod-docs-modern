@@ -48,6 +48,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
   ```
 
   ```bash
+  MYSQL_SERVER=db
   MYSQL_ROOT_PASSWORD=[数据库root密码]
   MYSQL_DATABASE=[数据库名称]
   MYSQL_USER=[数据库用户]
@@ -87,6 +88,11 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
         - redis
       volumes:
         - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      environment:
+        - "MYSQL_SERVER"
+        - "MYSQL_DATABASE"
+        - "MYSQL_USER"
+        - "MYSQL_PASSWORD"
       restart: always
 
     redis:
@@ -146,6 +152,52 @@ $ docker compose up -d
 
 ### 3.配置https证书
 
+#### 方式一：宿主机Nginx反向代理
+
+```nginx
+upstream backend {
+    server 192.168.x.x:80;
+}
+server {
+    listen 80;
+    listen 443 ssl http2;
+    server_name example.com;
+
+    ssl_certificate     /etc/nginx/ssl/example.com.pem;
+    ssl_certificate_key /etc/nginx/ssl/example.com.key;
+    ssl_protocols       TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers         EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:!MD5;
+    add_header Strict-Transport-Security "max-age=31536000";
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:2m;
+    ssl_session_timeout 1h;
+    ssl_session_tickets off;
+
+    client_max_body_size 0;
+    proxy_buffering off;
+
+    access_log  /var/log/nginx/proxy_access.log  main;
+    error_log  /var/log/nginx/proxy_error.log  info;
+
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+
+        proxy_connect_timeout 3600;
+        proxy_read_timeout 3600;
+        proxy_send_timeout 3600;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_pass http://backend/;
+    }
+}
+```
+
+#### 方式二：配置证书到容器
+
 创建一个证书目录,把下载的nginx版ssl证书放入目录
 
 ```console
@@ -159,7 +211,7 @@ $ mv xxx.pem fullchain.pem
 $ mv xxx.key privkey.pem
 ```
 
-在http的docker-compose.yml增加证书配置
+在http的docker-compose.yml增加证书目录映射`/etc/kodbox/ssl:/etc/nginx/ssl`, 容器检测到证书文件存在时会自动启用https配置.
 
 ```console
 $ mkdir kodbox && cd kodbox
@@ -193,6 +245,11 @@ services:
     volumes:
       - "/etc/kodbox/ssl:/etc/nginx/ssl"  #左边配置主机证书目录
       - "./site:/var/www/html"            #./site是站点持久化目录，可以修改
+    environment:
+      - "MYSQL_SERVER"
+      - "MYSQL_DATABASE"
+      - "MYSQL_USER"
+      - "MYSQL_PASSWORD"
     restart: always
 
   redis:
