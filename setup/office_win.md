@@ -26,7 +26,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 #### 2、下载下列内容到kod文件夹
 
-1. [docker安装程序 DockerToolbox](https://doc.kodcloud.com/tools/office/windows/?action=toolbox)
+1. [docker安装程序 DockerToolbox](https://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/DockerToolbox-18.03.0-ce.exe)
 2. [docker资源文件夹 data.zip](http://kodcdn.kodcloud.com/docker/data.zip)
 
 #### 3、解压data.zip 到当前文件夹(桌面的kod文件夹)

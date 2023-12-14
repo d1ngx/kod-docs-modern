@@ -10,7 +10,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 - 操作系统: CentOS 7+、Ubtntu 14+、Debian 8+、RedHat 7+
 - 服务器内存4G以上
-- 剩余磁盘空间不少于10G
+- 安装onlyoffice插件 ( v2.06版本后开放免费使用)
 
 > 提示：
 >
@@ -40,10 +40,14 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffic
 > 提示：
 >
 > - kodoffice版本增加了多种中文字体 并且兼容插件检测;
-> - 如果使用onlyoffice官方社区版部署，也是支持的：
+> - 部署onlyoffice官方社区版（包含arm版）：
 ```console
 $ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
 --name onlyoffice --restart always onlyoffice/documentserver:7.5
+```
+> - 部署龙芯版（loongarch64架构，如使用3A5000、3A6000的CPU）：
+```console
+$ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:loongarch-7.4.1.3
 ```
 
 ### 2.以https方式启动
@@ -193,5 +197,26 @@ kodcloud/kodoffice:7.4.1.1
 ### 自定义域名解析
 
 重新运行容器, 加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`
+```console
+$ docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.com:192.168.3.4 kodcloud/kodoffice:7.4.1.1
+```
 
+### 修改`docker0`网口默认网段
+
+> 提示： 
+> 
+> 请先删除所有已运行的容器，否则网段设置不会生效。
+
+参考[docker官网文档](https://docs.docker.com/network/drivers/bridge/#configure-the-default-bridge-network)
+`vim /etc/docker/daemon.json`
+
+```yaml
+{
+  "bip": "172.26.0.1/16"
+}
+```
+
+```console
+$ systemctl restart docker
+```
 <div>

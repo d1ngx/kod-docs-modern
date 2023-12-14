@@ -19,51 +19,53 @@ description: Docker环境可道云网盘的安装示例
 > 在Linux 或者 Mac OS上可以使用相同的部署步骤。
 
 1. 首先创建一个目录作为项目目录, 这里选择 `D:/kodbox/`
-2. 在`D:/kodbox/`下新建`docker-compose.yml`文件, 在其中配置映射端口、持久化目录等
-    - `MYSQL_ROOT_PASSWORD`: 数据库root密码
-    - `MYSQL_DATABASE`: 新建数据库名
-    - `MYSQL_USER`: 新建数据库用户
-    - `MYSQL_PASSWORD`: 新建数据库用户的密码
+2. 在`D:/kodbox/`下新建`db.env`文件来设置数据库环境变量
 
-    > 注意:
-    >
-    > 这里把默认参数都设为了`kod_box`, 实际使用时建议修改。
-    {: .important}
-
-    ```yaml
-    version: '3.5'
-
-    services:
-      db:
-        image: mariadb
-        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-        volumes:
-          - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
-        environment:
-          - "TZ=Asia/Shanghai"
-          - "MYSQL_ROOT_PASSWORD=kod_box"
-          - "MYSQL_DATABASE=kod_box"
-          - "MYSQL_USER=kod_box"
-          - "MYSQL_PASSWORD=kod_box"
-        restart: always
-        
-      app:
-        image: kodcloud/kodbox
-        ports:
-          - 80:80                       #左边80是使用端口，可以修改
-        links:
-          - db
-          - redis
-        volumes:
-          - "./site:/var/www/html"      #./site是站点目录位置，可以修改
-        restart: always
-
-      redis:
-        image: redis:alpine
-        environment:
-          - "TZ=Asia/Shanghai"
-        restart: always
+    ```bash
+    MYSQL_PASSWORD=
+    MYSQL_DATABASE=kodbox
+    MYSQL_USER=kodbox
     ```
+
+3. 在`D:/kodbox/`下新建`docker-compose.yml`文件, 在其中配置映射端口、持久化目录等
+
+  ```yaml
+  version: '3.5'
+
+  services:
+    db:
+      image: mariadb:10.6
+      restart: always
+      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+      volumes:
+        - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MARIADB_AUTO_UPGRADE=1
+        - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      env_file:
+        - db.env
+      
+    app:
+      image: kodcloud/kodbox
+      restart: always
+      ports:
+        - 80:80                       #左边80是使用端口，可以修改
+      volumes:
+        - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      environment:
+        - MYSQL_SERVER=db
+        - CACHE_HOST=redis
+      env_file:
+        - db.env
+      depends_on:
+        - db
+        - redis
+
+    redis:
+      image: redis:alpine
+      restart: always
+  ```
 
 3. 打开`powershell`终端, 进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
 

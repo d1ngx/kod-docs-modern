@@ -17,14 +17,6 @@ $ curl -fsSL https://get.docker.com | bash -s docker
 $ systemctl enable docker && systemctl start docker
 ```
 
-如果以前安装过docker, 请检查`docker-compose-plugin`是否存在
-
-```console
-$ rpm -qa | grep docker-compose-plugin
-docker-compose-plugin-2.10.2-3.el7.x86_64
-$ yum install docker-compose-plugin
-```
-
 docker compose 用法, 在通过`docker compose up`启动后, 可以使用`docker compose ls`查看配置文件位置
 
 ```console
@@ -33,26 +25,26 @@ NAME                STATUS              CONFIG FILES
 docker-compose      running(3)          /kodbox/docker-compose.yaml
 ```
 
+> 提示：
+>
+> 若`docker compose`命令不存在，可手动安装二进制文件`docker-compose`并在后续命令中替换。
+> - `curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose`
+> - `chmod +x /usr/local/bin/docker-compose`
+
 ### 2.http方式快速启动
 
-> 注意
+> 注意：
 >
 > 首先创建一个目录作为项目目录，后面所有命令都在这个目录下执行
+> - `mkdir /kodbox && cd /kodbox`
 {: .important}
 
-- 创建文件.env来设置环境变量（必须修改等号右边的值，形式如 `MYSQL_USER=kodbox`，值不要包含&符号），这些在docker启动时会自动传入容器
-
-  ```console
-  $ mkdir /kodbox && cd /kodbox
-  $ vim .env
-  ```
+- 创建文件来设置数据库环境变量`vim db.env`
 
   ```bash
-  MYSQL_SERVER=db
-  MYSQL_ROOT_PASSWORD=[数据库root密码]
-  MYSQL_DATABASE=[数据库名称]
-  MYSQL_USER=[数据库用户]
-  MYSQL_PASSWORD=[数据库密码]
+  MYSQL_PASSWORD=
+  MYSQL_DATABASE=kodbox
+  MYSQL_USER=kodbox
   ```
 
 - 创建docker-compose.yml 文件，在其中配置映射端口、持久化目录
@@ -66,39 +58,37 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 
   services:
     db:
-      image: mariadb
-      command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+      image: mariadb:10.6
+      restart: always
+      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
-        #- "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
+        # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
       environment:
-        - "TZ=Asia/Shanghai"
-        - "MYSQL_ROOT_PASSWORD"
-        - "MYSQL_DATABASE"
-        - "MYSQL_USER"
-        - "MYSQL_PASSWORD"
-      restart: always
+        - MYSQL_ROOT_PASSWORD=
+        - MARIADB_AUTO_UPGRADE=1
+        - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      env_file:
+        - db.env
       
     app:
       image: kodcloud/kodbox
+      restart: always
       ports:
         - 80:80                       #左边80是使用端口，可以修改
-      links:
-        - db
-        - redis
       volumes:
         - "./site:/var/www/html"      #./site是站点目录位置，可以修改
       environment:
-        - "MYSQL_SERVER"
-        - "MYSQL_DATABASE"
-        - "MYSQL_USER"
-        - "MYSQL_PASSWORD"
-      restart: always
+        - MYSQL_SERVER=db
+        - CACHE_HOST=redis
+      env_file:
+        - db.env
+      depends_on:
+        - db
+        - redis
 
     redis:
       image: redis:alpine
-      environment:
-        - "TZ=Asia/Shanghai"
       restart: always
   ```
 
@@ -223,42 +213,217 @@ version: '3.5'
 
 services:
   db:
-    image: mariadb
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    volumes:
-      - "./db:/var/lib/mysql"             #./db是数据库持久化目录，可以修改
-    environment:
-      - "TZ=Asia/Shanghai"
-      - "MYSQL_ROOT_PASSWORD"
-      - "MYSQL_DATABASE"
-      - "MYSQL_USER"
-      - "MYSQL_PASSWORD"
+    image: mariadb:10.6
     restart: always
-    
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
+    env_file:
+      - db.env
+      
   app:
     image: kodcloud/kodbox
+    restart: always
     ports:
-      - 443:443                            #左边443是使用端口，可以修改
-    links:
-      - db
-      - redis
+      - 443:443                      #左边80是使用端口，可以修改
     volumes:
       - "/etc/kodbox/ssl:/etc/nginx/ssl"  #左边配置主机证书目录
-      - "./site:/var/www/html"            #./site是站点持久化目录，可以修改
+      - "./site:/var/www/html"      #./site是站点目录位置，可以修改
     environment:
-      - "MYSQL_SERVER"
-      - "MYSQL_DATABASE"
-      - "MYSQL_USER"
-      - "MYSQL_PASSWORD"
-    restart: always
+      - MYSQL_SERVER=db
+      - CACHE_HOST=redis
+    env_file:
+      - db.env
+    depends_on:
+      - db
+      - redis
 
   redis:
     image: redis:alpine
-    environment:
-      - "TZ=Asia/Shanghai"
     restart: always
 ```
 
 然后进入项目目录，执行`docker compose up -d`命令启动
 
+### 4.其他问题
+
+#### 自定义容器网络及IP段
+
+参考[provide-static-ip-to-docker-containers-via-docker-compose](https://stackoverflow.com/questions/39493490)
+
+```yaml
+version: '3.5'
+
+services:
+  db:
+    image: mariadb:10.6
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
+    env_file:
+      - db.env
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+      
+  app:
+    image: kodcloud/kodbox
+    restart: always
+    ports:
+      - 80:80                       #左边80是使用端口，可以修改
+    volumes:
+      - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+    environment:
+      - MYSQL_SERVER=db
+      - CACHE_HOST=redis
+    env_file:
+      - db.env
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: always
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.7
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+```
+
+#### 挂载NFS存储卷
+
+> 提示：
+>
+> - NFS服务端需配置`no_root_squash`
+> - 启动后需赋予容器对挂载目录的读写权限`docker exec -it kodbox-app-1 chown -R nginx:nginx /mnt/nfs`
+
+```yaml
+version: '3.5'
+
+services:
+  db:
+    image: mariadb:10.6
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
+    env_file:
+      - db.env
+      
+  app:
+    image: kodcloud/kodbox
+    restart: always
+    ports:
+      - 80:80                       #左边80是使用端口，可以修改
+    volumes:
+      - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      - nfs_mount:/mnt/nfs
+    environment:
+      - MYSQL_SERVER=db
+      - CACHE_HOST=redis
+    env_file:
+      - db.env
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+volumes:
+  nfs_mount:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.4,nolock,rw"
+      device: ":/path/to-dir"
+```
+
+#### 挂载CIFS存储卷（SMB）
+
+参考[docker_compose_cifs_mounts](https://docs.unmanic.app/docs/advanced/docker_compose_cifs_mounts/)
+```bash
+# Variables that will need to be changed:
+#     <PUID>                            -  User id for folder/file permissions
+#     <PGID>                            -  Group id for folder/file permissions
+#     <PATH_TO_CONFIG>                  -  Path where Unmanic will store config files
+#     <PATH_TO_ENCODE_CACHE>            -  Cache path for in-progress encoding tasks
+#     <REMOTE_IP>                       -  Remote IP address of CIFS mount
+#     <PATH_TO_LIBRARY>                 -  Path in remote machine to be mounted as your library 
+#     <USERNAME>                        -  Remote mount username
+#     <PASSWORD>                        -  Remote mount password
+```
+
+```yaml
+version: '3.5'
+
+services:
+  db:
+    image: mariadb:10.6
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
+    env_file:
+      - db.env
+      
+  app:
+    image: kodcloud/kodbox
+    restart: always
+    ports:
+      - 80:80                       #左边80是使用端口，可以修改
+    volumes:
+      - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      - cifs_mount:/mnt/cifs
+    environment:
+      - MYSQL_SERVER=db
+      - CACHE_HOST=redis
+      - PUID=100
+      - PGID=101
+    env_file:
+      - db.env
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+volumes:
+  cifs_mount:
+    driver: local
+    driver_opts:
+      type: cifs    
+      device: //<REMOTE_IP>/<PATH_TO_LIBRARY>
+      o: "username=<USERNAME>,password=<PASSWORD>,uid=100,gid=101"
+```
 </div>
