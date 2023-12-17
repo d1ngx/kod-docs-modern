@@ -79,8 +79,8 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
       volumes:
         - "./site:/var/www/html"      #./site是站点目录位置，可以修改
       environment:
-        - MYSQL_SERVER=db
-        - CACHE_HOST=redis
+        - MYSQL_HOST=db
+        - REDIS_HOST=redis
       env_file:
         - db.env
       depends_on:
@@ -137,8 +137,8 @@ $ docker compose up -d
 
 根据`docker-compose.yml`文件中配置的映射端口, 访问[安装向导](./start.md), 需要注意
 
-- 数据库服务器地址: 将`127.0.0.1`更改为`db` (根据`links`:下的映射名称)
-- redis服务器地址: 将`127.0.0.1`更改为`redis` (根据`links`:下的映射名称)
+- 数据库服务器地址: 将`127.0.0.1`更改为`db`
+- redis服务器地址: 将`127.0.0.1`更改为`redis`
 
 ### 3.配置https证书
 
@@ -234,8 +234,8 @@ services:
       - "/etc/kodbox/ssl:/etc/nginx/ssl"  #左边配置主机证书目录
       - "./site:/var/www/html"      #./site是站点目录位置，可以修改
     environment:
-      - MYSQL_SERVER=db
-      - CACHE_HOST=redis
+      - MYSQL_HOST=db
+      - REDIS_HOST=redis
     env_file:
       - db.env
     depends_on:
@@ -283,8 +283,8 @@ services:
     volumes:
       - "./site:/var/www/html"      #./site是站点目录位置，可以修改
     environment:
-      - MYSQL_SERVER=db
-      - CACHE_HOST=redis
+      - MYSQL_HOST=db
+      - REDIS_HOST=redis
     env_file:
       - db.env
     networks:
@@ -343,8 +343,8 @@ services:
       - "./site:/var/www/html"      #./site是站点目录位置，可以修改
       - nfs_mount:/mnt/nfs
     environment:
-      - MYSQL_SERVER=db
-      - CACHE_HOST=redis
+      - MYSQL_HOST=db
+      - REDIS_HOST=redis
     env_file:
       - db.env
     depends_on:
@@ -404,8 +404,8 @@ services:
       - "./site:/var/www/html"      #./site是站点目录位置，可以修改
       - cifs_mount:/mnt/cifs
     environment:
-      - MYSQL_SERVER=db
-      - CACHE_HOST=redis
+      - MYSQL_HOST=db
+      - REDIS_HOST=redis
       - PUID=100
       - PGID=101
     env_file:
