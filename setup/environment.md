@@ -10,10 +10,11 @@ description: 可道云依赖环境说明
 
 可道云kodbox是一款由PHP语言开发的软件程序, 可以在经典的LNMP网站架构(Linux, Nginx, MySQL/MariaDB, PHP)下部署。
 
-本文档提供了使用[kodbox服务端安装包](https://kodcloud.com/download/)在带有 Nginx 和 MySQL 的 Ubuntu 22.04 LTS 服务器上安装可道云的完整教程。这也是我们推荐的方式。
+本文档提供了使用[kodbox服务端安装包](https://kodcloud.com/download/)在带有 Nginx 和 MySQL 的 Ubuntu 22.04 LTS 服务器上安装可道云的完整教程。
 
 本安装指南概述了所需的依赖项及其配置。有关特定Linux发行版的安装示例, 请参考
 
+- [Anolis OS 8.8 安装可道云示例](./anolis.md)
 - [Loongnix-Server 8.4 安装可道云示例](./loongnix.md)
 - [Kylin V10 安装可道云示例](./kylin.md)
 - [OpenEuler 22.03 LTS 安装可道云示例](./openeuler.md)
@@ -25,8 +26,8 @@ description: 可道云依赖环境说明
 ### 软件环境要求
 
 - 数据库：MySQL 5.7+ / **MySQL 8.0+** (推荐) / MariaDB 10.2+
-- Web服务器软件: Apache2.4+ / **Nginx** (推荐)  + `php-fpm`
-- PHP运行环境: 7.0+ / 8.0+ / **8.1** (推荐)
+- Web服务器软件: Apache2.4+ / **Nginx1.18+** (推荐)  + `php-fpm`
+- PHP运行环境: 7.0+ / **8.0+** (推荐)
 
 ### 依赖的PHP扩展
 

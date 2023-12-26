@@ -6,7 +6,6 @@ description: 关于AD域插件安装、配置的相关说明
 
 > **注意：**
 >
-> - 这里的`AD域`专指`Windows Server`的`Active Directory`域服务,其他环境的可能存在不兼容。
 > - `AD域`同步时, 默认会同步`Active Directory`中的所有`OU(组织单元)`, 而不会同步`Group(组)`。
 {: .important}
 
@@ -47,6 +46,7 @@ description: 关于AD域插件安装、配置的相关说明
 >
 > - 可道云服务器需要安装`php-ldap`扩展。一般通过`yum install php-ldap`或`apt install php-ldap`即可, 宝塔面板上在PHP管理可以直接安装。
 
+- **LDAP类型**：根据域控服务器类型, windows版通常是`AD`,linux通常选择`OpenLDAP`
 - **AD域服务器地址**：填写ip或域名
 - **AD域服务器域名**：填写域服务器设置的域名
 - **管理员用户名**：填写管理员

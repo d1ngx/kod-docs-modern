@@ -6,7 +6,7 @@ description: Docker环境可道云网盘的安装示例
 
 <div id="docker" class="tab-pane fade in active" markdown="1">
 
-## [安装Docker](https://get.daocloud.io/#install-docker)
+## [安装Docker](https://docs.docker.com/engine/install/)
 
 ### 1.安装环境
 
@@ -135,19 +135,13 @@ Removing network kodbox_default
 $ docker compose up -d
 ```
 
-根据`docker-compose.yml`文件中配置的映射端口, 访问[安装向导](./start.md), 需要注意
-
-- 数据库服务器地址: 将`127.0.0.1`更改为`db`
-- redis服务器地址: 将`127.0.0.1`更改为`redis`
+根据`docker-compose.yml`文件中配置的映射端口, 访问 [安装向导](./start.md) 进行系统初始化。
 
 ### 3.配置https证书
 
 #### 方式一：宿主机Nginx反向代理
 
 ```nginx
-upstream backend {
-    server 192.168.x.x:80;
-}
 server {
     listen 80;
     listen 443 ssl http2;
@@ -181,7 +175,7 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Connection "";
 
-        proxy_pass http://backend/;
+        proxy_pass http://127.0.0.1:80/;
     }
 }
 ```

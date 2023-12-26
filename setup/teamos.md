@@ -36,28 +36,29 @@ description: 该系统安装步骤与一般openEuler系统安装过程一致
 
 #### 1. 安装位置
 
-> 注意:
->
-> 快速分区时, 默认会创建`/var/lib/mysql`分区.
-{: .important}
+选择一块磁盘作为系统盘安装。如果提示磁盘被使用过, 没有剩余空间, **需要先清除磁盘已有数据**
 
-如果提示磁盘被使用过, 没有剩余空间, **请确认是否能清除数据**, 可以的话点击 **回收空间-全部删除**, 再点 **回收空间** 即可。
+![回收空间](/setup/images/reclaim.png)
+- 点击 **回收空间**, 然后点击 **删除所有分区**, 然后确认回收即可。
 
 #### 2. 网络和主机名
 
-**安装位置** 和 **网络和主机名** 两项设置好后, 继续点击 **开始安装**
+> 提示:
+>
+> 即使这里不设置网络, 系统初始化时也会自动开启网口DHCP模式。
+
+点击**网络和主机名(Network & HostName)**设置, 可以提前设置好IP和主机名。
+![net_host](/setup/images/net_host.png){:width="600px"}
 
 #### 3. Root密码
 
 设置 **ROOT密码**, 修改全部完成如下图所示
 ![install4](/setup/images/install4.png){:width="600px"}
 
-#### 4. 开始安装
+### 2.3 开始安装
 
 点击右下角 **开始安装**, 会自动安装包括 `Nginx/PHP/MySQL/Redis/Docker` 在内的依赖环境。
 ![install5](/setup/images/install5.png){:width="600px"}
-
-#### 5. 安装完成
 
 等待所有软件安装完成, 点击“重启”, **注意及时拔出U盘**。
   ![install5](/setup/images/install6.png){:width="600px"}

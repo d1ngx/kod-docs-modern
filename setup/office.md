@@ -1,6 +1,6 @@
 ---
 title: "OnlyOffice组件的安装示例"
-keywords: 在线预览, cad在线预览, 在线流程图, office在线编辑, psd在线预览
+keywords: 在线预览, office, office在线编辑, kodoffice, 容器, onlyoffice
 description: 可道云企业网盘支持数百种常见办公文档格式的在线预览。
 ---
 
@@ -112,6 +112,18 @@ kodcloud/kodoffice:7.4.1.1
 
 ## 5.其他问题
 
+### 插件检测说明
+
+- **域名规则检测**: 为IP或域名地址, 但不能为localhost;
+- **静态资源访问状态**: 检测`[填写地址]/sdkjs/common/AllFonts.js`;
+- **office服务器运行状态**: 检测`[填写地址]/check/`
+    - 若检测失败, 建议重启内部解析服务`docker exec -it kodoffice bash /app/ds/run-document-server.sh`;
+    - 使用onlyoffice官方社区版可忽略此项检测;
+- **office服务器请求kod**: 检测容器内是否能访问网盘地址
+    - 若检测失败, 建议容器内测试网盘连通性`docker exec -it kodoffice ping [网盘地址]`;
+    - 使用onlyoffice官方社区版可忽略此项检测;
+- **kod服务器请求office**: 检测网盘服务器是否能访问kodoffice地址。
+
 ### 重启、停止和删除
 
 - `docker restart kodoffice`
@@ -129,8 +141,8 @@ kodcloud/kodoffice:7.4.1.1
         listen 8443 ssl http2;
         server_name cloud.example.com;
 
-        ssl_certificate    /etc/ssl/nginx/cloud.example.com.crt;
-        ssl_certificate_key    /etc/ssl/nginx/cloud.example.com.key;
+        ssl_certificate    /etc/nginx/ssl/cloud.example.com.crt;
+        ssl_certificate_key    /etc/nginx/ssl/cloud.example.com.key;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2 SSLv2 SSLv3;
         ssl_ciphers HIGH:!aNULL:!MD5:!3DES;
         ssl_prefer_server_ciphers on;

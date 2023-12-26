@@ -41,14 +41,13 @@ Kod的企业微信插件，是结合企业微信中的自建应用（免密登�
 
 ### 1. 插件中心安装插件
 
-管理员登录；插件中心，安装『企业微信』插件。 在企业微信插件配置界面，需填写如下6个参数，以完成配置：
+管理员登录；插件中心，安装『企业微信』插件。 在企业微信插件配置界面，需填写如下几个参数，以完成配置：
 
 1. 企业应用`CorpId`
-2. 通讯录同步`Secret`
-3. kod应用`AgentId`
-4. kod应用`Secret`
-5. 推送回调`Token`
-6. `EncodingAESKey`
+2. kod应用`AgentId`
+3. kod应用`Secret`
+4. 推送回调`Token`(可选)
+5. `EncodingAESKey`(可选)
 
 ![wx_server](../images/wx_server.png){:width="600px"}
 
@@ -60,10 +59,9 @@ Kod的企业微信插件，是结合企业微信中的自建应用（免密登�
 
 登录企业微信，导航栏【我的企业】，页面底部，获取到 企业ID`CorpId [1]`。
 
-### 3. 通讯录Secret
+### 3. 通讯录设置
 
-- **导航栏【管理工具】**，点击[通讯录同步]，可获取到通讯录`Secret [2]`.
-- **企业可信IP**：填写kod服务器IP地址。
+- **导航栏【管理工具】**，点击【通讯录同步】 - 【企业可信IP】：填写kod服务器IP地址。
 
 ![wx_list](../images/wx_list.png){:width="800px"}
 
@@ -71,7 +69,7 @@ Kod的企业微信插件，是结合企业微信中的自建应用（免密登�
 
 导航栏【应用管理】，选择【自建应用】进行创建。
 ![wx_panel](../images/wx_panel.png){:width="800px"}
-点击新创建的应用，可以获取到`AgentId [3]`、`Secret [4]`。
+点击新创建的应用，可以获取到`AgentId [2]`、`Secret [3]`。
 ![wx_app](../images/wx_app.png){:width="800px"}
 继续下拉可以看到开发者接口设置
 ![wx_dev](../images/wx_dev.png){:width="600px"}
@@ -108,8 +106,8 @@ Kod的企业微信插件，是结合企业微信中的自建应用（免密登�
 2. **权限**：API编辑通讯录，并选择开启手动编辑
 3. **设置接收事件服务器**
     - `URL`：`[kod地址]/?plugin/weixinAuth/callback`
-    - `Token`：随机获取 [5]
-    - `EncodingAESKey`：随机获取 [6]
+    - `Token`：随机获取 [4]
+    - `EncodingAESKey`：随机获取 [5]
 
 ![wx_callback2](../images/wx_callback2.png){:width="800px"}
 点击保存，以验证回调地址——保存前，需先填写并保存插件配置，否则会因为获取不到相关配置参数而导致验证不通过。
