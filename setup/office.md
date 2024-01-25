@@ -112,6 +112,17 @@ kodcloud/kodoffice:7.4.1.1
 
 ## 5.其他问题
 
+### 限制访问域名
+
+配置网盘地址白名单，不允许其他站点调用onlyoffice.
+```console
+$ docker exec -it kodoffice vim /var/www/onlyoffice/documentserver/web-apps/kod/allowhost.js
+window.kod.allowHost = [
+        // 'kodcloud.com','*.kod.com',
+        /*allowHostAdd*/
+];
+```
+
 ### 插件检测说明
 
 - **域名规则检测**: 为IP或域名地址, 但不能为localhost;
@@ -129,6 +140,7 @@ kodcloud/kodoffice:7.4.1.1
 - `docker restart kodoffice`
 - `docker stop kodoffice`
 - `docker rm kodoffice`
+    - 容器删除后仍有部分数据保留，全部清除需要执行`docker volume prune`
 
 ### 如何配置https访问
 

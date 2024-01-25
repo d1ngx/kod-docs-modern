@@ -74,7 +74,7 @@ XAMPP 是一个完全免费、易于安装的 Apache 发行版，包含 MariaDB 
 
 1. 下载redis的Windows版本 `https://github.com/tporadowski/redis/releases` 并安装, 会生成系统服务redis
 2. 根据PHP版本/线程安全, 下载相应[php_redis.dll](https://pecl.php.net/package/redis/5.3.7/windows), 并拷贝`php_redis.dll`到
-`C:\xampp\php\ext\`目录
+`C:\xampp\php\ext\`目录.(PHP8.2 redis扩展[github下载地址](https://github.com/phpredis/phpredis/actions/runs/5916330188#artifacts), )
 ![php_redis](../images/php_redis.png)
 3. 编辑`C:\xampp\php\php.ini`, 添加`extension=redis`
 4. 重启apache服务

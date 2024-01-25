@@ -44,6 +44,10 @@ description: 关于WebDAV插件安装、配置的相关说明
 4. 保存后即连接成功, 可在本地目录中查看
 ![dav-win](../images/dav-win.png){:width="500px"}
 
+> 提示：
+>
+> - 若连接失败, 请在**个人中心**-**WebDAV挂载** -**如何使用**中下载脚本, 以管理员身份执行后再试。
+
 #### 使用Raidrive连接
 
 Raidrive 可以使WebDAV连接更加稳定

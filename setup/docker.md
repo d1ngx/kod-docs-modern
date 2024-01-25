@@ -13,7 +13,7 @@ description: Docker环境可道云网盘的安装示例
 安装并启动docker服务, 新版本docker会自动安装`docker-compose-plugin`
 
 ```console
-$ curl -fsSL https://get.docker.com | bash -s docker
+$ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 $ systemctl enable docker && systemctl start docker
 ```
 
