@@ -21,7 +21,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 安装并启动docker服务
 
 ```console
-$ curl -fsSL https://get.docker.com | bash -s docker
+$ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 $ systemctl enable docker && systemctl start docker
 ```
 

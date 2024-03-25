@@ -46,7 +46,7 @@ Docker version 20.10.19, build d85ef84
 ```console
 $ docker pull kodcloud/kodbox
 $ docker pull redis:alpine
-$ docker pull mariadb
+$ docker pull mariadb:10.6
 $ docker save -o kodbox.tar kodcloud/kodbox
 $ docker save -o redis.tar redis:alpine
 $ docker save -o mariadb.tar mariadb
@@ -76,11 +76,12 @@ $ docker load -i mariadb.tar
   $ vim .env
   ```
 
+ - 创建文件来设置数据库环境变量`vim db.env`
+
   ```bash
-  MYSQL_ROOT_PASSWORD=[数据库root密码]
-  MYSQL_DATABASE=[数据库名称]
-  MYSQL_USER=[数据库用户]
-  MYSQL_PASSWORD=[数据库密码]
+  MYSQL_PASSWORD=
+  MYSQL_DATABASE=kodbox
+  MYSQL_USER=kodbox
   ```
 
 - 创建docker-compose.yml 文件，在其中配置映射端口、持久化目录
@@ -94,33 +95,37 @@ $ docker load -i mariadb.tar
 
   services:
     db:
-      image: mariadb
-      command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+      image: mariadb:10.6
+      restart: always
+      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+        # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
       environment:
-        - "TZ=Asia/Shanghai"
-        - "MYSQL_ROOT_PASSWORD"
-        - "MYSQL_DATABASE"
-        - "MYSQL_USER"
-        - "MYSQL_PASSWORD"
-      restart: always
+        - MYSQL_ROOT_PASSWORD=
+        - MARIADB_AUTO_UPGRADE=1
+        - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      env_file:
+        - db.env
       
     app:
       image: kodcloud/kodbox
+      restart: always
       ports:
         - 80:80                       #左边80是使用端口，可以修改
-      links:
-        - db
-        - redis
       volumes:
         - "./site:/var/www/html"      #./site是站点目录位置，可以修改
-      restart: always
+      environment:
+        - MYSQL_HOST=db
+        - REDIS_HOST=redis
+      env_file:
+        - db.env
+      depends_on:
+        - db
+        - redis
 
     redis:
       image: redis:alpine
-      environment:
-        - "TZ=Asia/Shanghai"
       restart: always
   ```
 

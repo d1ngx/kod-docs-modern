@@ -1,6 +1,6 @@
 ---
 title: "适用于DSM 7.1的KodBox套件"
-keywords: 群晖, DSM7
+keywords: 群晖, DSM7, nas, spk
 ---
 
 <div id="dsm7" class="tab-pane fade in active" markdown="1">
@@ -10,10 +10,9 @@ keywords: 群晖, DSM7
 可道云KodBox套件的安装会依赖以下4个套件，请先在套件中心搜索并安装。
 
 - Apache 2.4
-- PHP 7.4
-- Web Station 3.1
+- PHP 8.2
+- Web Station
 - MariaDB 10 （安装时注意需要设置root密码，后面会用到）
-![deps](../images/dsm/deps.png){:width="650px"}
 
 ## 2. 安装KodBox套件
 
@@ -65,9 +64,9 @@ keywords: 群晖, DSM7
 
 ### 文件封面生成&视频转码
 
-- 由于群晖默认的`ffmpeg`编码不支持libx264，这里还是需要上述的社区源，搜索并安装`ffmpeg`
+- 由于群晖默认的`ffmpeg`编码不支持libx264，这里还是需要上述的社区源，搜索并安装`ffmpeg 6`
 ![ffmpeg2](../images/dsm/ffmpeg.png){:width="650px"}
-- 安装完成后，在可道云后台 -> 文件封面生成&视频转码，修改`ffmpeg`调用地址为`/var/packages/ffmpeg/target/bin/ffmpeg`，这里先**保存**，然后进行**连接测试**，通过即正常。
+- 安装完成后，在可道云后台 -> 文件封面生成&视频转码，修改`ffmpeg`调用地址为`/var/packages/ffmpeg6/target/bin/ffmpeg`，这里先**保存**，然后进行**连接测试**，通过即正常。
 ![ffmpeg2](../images/dsm/ffmpeg2.png)
 
 </div>

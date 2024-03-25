@@ -1,6 +1,6 @@
 ---
 title: "XAMPP环境可道云网盘的安装示例"
-keywords: XAMPP, windows
+keywords: XAMPP, windows, apache, mariadb
 description: XAMPP环境可道云网盘的安装示例
 ---
 

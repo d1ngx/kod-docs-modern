@@ -82,18 +82,18 @@ location ~ [^/]\.php(/|$) {
 $ PHP_INI=/etc/php/8.1/fpm/php.ini
 $ PHP_FPM=/etc/php/8.1/fpm/pool.d/www.conf
 $ sed -i \
-   -e "s/max_execution_time = 30/max_execution_time = 3600/g" \
-   -e "s/max_input_time = 60/max_input_time = 3600/g" \
-   -e "s/memory_limit = 128M/memory_limit = 512M/g" \
-   -e "s/post_max_size = 8M/post_max_size = 512M/g" \
-   -e "s/upload_max_filesize = 2M/upload_max_filesize = 512M/g" \
+   -e "s/max_execution_time = .*/max_execution_time = 3600/g" \
+   -e "s/max_input_time = .*/max_input_time = 3600/g" \
+   -e "s/memory_limit = .*/memory_limit = 512M/g" \
+   -e "s/post_max_size = .*/post_max_size = 512M/g" \
+   -e "s/upload_max_filesize = .*/upload_max_filesize = 512M/g" \
    ${PHP_INI}
     
 $ sed -i \
-   -e "s/pm.max_children = 5/pm.max_children = 100/g" \
-   -e "s/pm.start_servers = 2/pm.start_servers = 10/g" \
-   -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 10/g" \
-   -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 50/g" \
+   -e "s/pm.max_children = .*/pm.max_children = 100/g" \
+   -e "s/pm.start_servers = .*/pm.start_servers = 10/g" \
+   -e "s/pm.min_spare_servers = .*/pm.min_spare_servers = 10/g" \
+   -e "s/pm.max_spare_servers = .*/pm.max_spare_servers = 50/g" \
    -e "s/;pm.max_requests = 500/pm.max_requests = 500/g" \
    -e "s/;listen.mode = 0660/listen.mode = 0666/g" \
    ${PHP_FPM}
