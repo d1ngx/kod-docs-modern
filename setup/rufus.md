@@ -1,5 +1,5 @@
 ---
-title: "5.1 使用U盘制作ISO镜像启动盘"
+title: "1 使用U盘制作ISO镜像启动盘"
 keywords: U盘, ISO, 启动盘
 description: 在本地电脑上通过rufus制作ISO镜像启动盘
 ---

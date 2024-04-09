@@ -86,9 +86,11 @@ setup:
       path: /setup/rufus/
     - title: 2.2 系统安装
       path: /setup/teamos/
-    - title: 2.3 系统初始配置
+    - title: 2.3 发现teamOS
+      path: /setup/findteamos/
+    - title: 2.4 系统初始配置
       path: /setup/teamos1/
-    - title: 2.4 迁移数据到可道云
+    - title: 2.5 迁移数据到可道云
       path: /setup/migratokod2/
 - sectiontitle: 3 其他系统安装
   section:
