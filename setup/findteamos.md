@@ -44,7 +44,7 @@ description: 安装teamOS 后, 系统会自动以dhcp形式获取IP, 此时利�
 > **注意：**
 > - 若找不到IP, 请检查网线是否连接正常, 网口灯是否闪烁。
 > - 可连接显示器在本机登录root账户 (若修改过网盘admin密码, 则会同时修改root的密码)：
->   - 查询IP`ip -a`
+>   - 查询IP`ip a`
 >   - 重置网络, `menu 1` 重置dhcp, `menu 2`设置静态IP.
 {: .warning}
 

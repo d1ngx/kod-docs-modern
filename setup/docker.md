@@ -37,6 +37,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 >
 > 首先创建一个目录作为项目目录，后面所有命令都在这个目录下执行
 > - `mkdir /kodbox && cd /kodbox`
+> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充.
 {: .important}
 
 - 创建文件来设置数据库环境变量`vim db.env`

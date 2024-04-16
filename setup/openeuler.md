@@ -4,6 +4,8 @@ keywords: 欧拉, openEuler
 description: 欧拉系统下可道云网盘的安装示例
 ---
 
+<div id="openeuler" class="tab-pane fade in active" markdown="1">
+
 ## 概述
 
 ### 软件版本
@@ -23,12 +25,40 @@ $ yum install php php-fpm php-mysqlnd php-zip php-gd php-mbstring php-xml php-pe
 $ yum install mysql-server redis
 $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
+
+# 支持pdf、视频等文件生成封面缩略图,支持视频转码
+$ yum install ImageMagick ffmpeg
 ```
 
-支持图片视频等文件生成封面缩略图
+#### (可选)编译安装ImageMagick
+
+> 提示：
+>
+> - 对于HEIC格式的在线预览, 需要手动编译ImageMagick以增加支持。
 
 ```console
-$ yum install ImageMagick ffmpeg
+$ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+$ yum remove ImageMagick -y
+$ yum install gcc gcc-c++ autoconf make automake libtool libtool-ltdl-devel
+$ yum install -y fftw fftw-devel fftw-devel bzip2-devel freetype-devel libjpeg-devel libpng-devel libtiff-devel giflib-devel zlib-devel ghostscript-devel djvulibre-devel libwmf-devel libX11-devel libXext-devel libXt-devel libxml2-devel librsvg2-devel OpenEXR-devel openjpeg2 openjpeg2-devel LibRaw LibRaw-devel
+ 
+$ cd /usr/src/ 
+$ git clone https://github.com/strukturag/libde265.git  
+$ git clone https://github.com/strukturag/libheif.git
+$ git clone --depth 1 https://github.com/ImageMagick/ImageMagick.git
+ 
+$ cd libde265/
+$ mkdir build && cd build && cmake .. && make
+$ cd /usr/src/libheif/ 
+$ mkdir build && cd build && cmake --preset=release .. && make
+$ cd /usr/src/ImageMagick
+$ export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
+$ ./configure
+$ make -j 8
+$ make install
+$ echo "/usr/local/lib64" > /etc/ld.so.conf.d/libheif.conf
+$ ldconfig
+$ identify --version
 ```
 
 ### NGINX
@@ -151,3 +181,5 @@ $ firewall-cmd --reload
 ```
 
 然后在浏览器访问[安装向导](./start.md), 完成系统初始化步骤。
+
+</div>
