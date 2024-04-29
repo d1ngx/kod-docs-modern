@@ -120,7 +120,8 @@ $ sed -i \
    -e "s/;listen.owner = nobody/listen.owner = nginx/g" \
    -e "s/;listen.group = nobody/listen.group = nginx/g" \
    ${PHP_FPM}
-   
+
+$ chown -R root:nginx /var/lib/php
 $ systemctl restart php-fpm
 ```
 

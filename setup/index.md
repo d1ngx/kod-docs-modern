@@ -69,18 +69,18 @@ description: 可道云企业网盘的功能特性、常见问题、操作技巧�
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
             <div class="component">
                 <div class="component-icon">
-                    <a href="/setup/3.1/"><img src="/assets/images/windows_48.svg" alt="For Windows" width="70" height="70"></a>
+                    <a href="/setup/docker_win/"><img src="/assets/images/windows_48.svg" alt="For Windows" width="70" height="70"></a>
                 </div>
-                <h2 id="docker-for-windows/install/"><a href="/setup/bt_win/">Windows</a></h2>
+                <h2 id="docker-for-windows/install/"><a href="/setup/docker_win/">Windows</a></h2>
                 <p>具备良好的可视化操作环境，设备易得，部署和运维简单明快。</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
             <div class="component">
                 <div class="component-icon">
-                    <a href="/setup/2/"><img src="/assets/images/linux_48.svg" alt="or Linux" width="70" height="70"></a>
+                    <a href="/setup/environment/"><img src="/assets/images/linux_48.svg" alt="or Linux" width="70" height="70"></a>
                 </div>
-                <h2 id="docker-for-linux"><a href="/setup/environment/">Linux</a></h2>
+                <h2 id="linux"><a href="/setup/environment/">Linux</a></h2>
                 <p>Linux系统有多个分支系统，是在服务器领域应用广泛的操作系统。</p>
             </div>
         </div>
@@ -95,10 +95,10 @@ description: 可道云企业网盘的功能特性、常见问题、操作技巧�
     <!--start row-->
     <div class="row" style="display: flex; align-items: center; flex-wrap: nowrap;">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
-        <a href="/setup/4.1/"><img src="/setup/images/qunhui.png" alt="群晖"></a>
+        <a href="/setup/dsm7/"><img src="/setup/images/qunhui.png" alt="群晖"></a>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
-            <a href="/setup/4.2/"><img src="/setup/images/aikuai.png" alt="爱快"></a>
+            <a href="/setup/ikuai/"><img src="/setup/images/aikuai.png" alt="爱快"></a>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
             <a href="https://post.smzdm.com/p/ar0vpp8z/"><img src="/setup/images/qnap.png" alt="威联通"></a>
@@ -115,13 +115,13 @@ description: 可道云企业网盘的功能特性、常见问题、操作技巧�
         <a href="https://zhuanlan.zhihu.com/p/346247009"><img src="/setup/images/tie.png" alt="铁威马"></a>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
-            <a href="/setup/4.2/"><img src="/setup/images/freenas.png" alt="FreeNAS"></a>
+            <a href="https://www.truenasscale.com/2021/12/18/303.html/"><img src="/setup/images/freenas.png" alt="FreeNAS"></a>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
             <a href="https://www.bilibili.com/video/av714546349"><img src="/setup/images/omv.png" alt="openmediavault (omv)"></a>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="margin: 0 10px;box-shadow: 0 3px 6px #0b214a17, 0 -2px 2px #0b214a08; height: 140px; display: flex; align-items: center">
-            <a href="https://post.smzdm.com/p/az5e426r/"><img src="/setup/images/unraid.png" alt="unraid"></a>
+            <a href="https://forums.unraid.net/topic/145072-unraid/"><img src="/setup/images/unraid.png" alt="unraid"></a>
         </div>
     </div>
 </div>

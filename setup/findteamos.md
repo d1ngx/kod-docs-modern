@@ -8,6 +8,7 @@ description: 安装teamOS 后, 系统会自动以dhcp形式获取IP, 此时利�
 
 ## 1 使用要求
 
+- 系统镜像版本 teamOS-22.03.e13.iso或以上
 - PC客户端版本 0.5.4或以上,[下载地址](https://kodcloud.com/download/)
 - 手机APP端最新版本,[下载地址](https://kodcloud.com/download/)
 

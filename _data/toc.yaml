@@ -160,7 +160,7 @@ setup:
         - title: 适用于DSM 7.1的KodBox套件
           path: /setup/dsm7/
         - title: 通过Docker安装
-          path: /setup/dsm_docker/
+          path: /setup/dsm7_docker/
     - title: 3.4 爱快iKuai
       path: /setup/ikuai/
 
