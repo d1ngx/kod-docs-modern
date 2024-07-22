@@ -33,6 +33,12 @@ $ systemctl enable docker && systemctl start docker
 $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
 ```
 
+若网络不佳, 可切换阿里云容器镜像地址
+
+```console
+$ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:7.4.1.1
+```
+
 - onlyoffice缓存目录是`/var/lib/onlyoffice`,如果编辑文件特别多，可以考虑挂载。
 - 验证启动成功：
     - 等待1~3分钟，在浏览器访问 `http://[域名(IP)]:8001/web/` 会看到`success,运行正常`.

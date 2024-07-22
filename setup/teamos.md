@@ -45,7 +45,8 @@ description: 该系统安装步骤与一般openEuler系统安装过程一致
 
 > 提示:
 >
-> 即使这里不设置网络, 系统初始化时也会自动开启网口DHCP模式。
+> - 即使这里不设置网络, 系统初始化时也会自动开启网口DHCP模式。
+> - 当主机名设为`kod`时, 则可以通过`kod.local` 在局域网内访问(同样其他主机名也能通过 xxx.local的形式访问)。
 
 点击**网络和主机名(Network & HostName)**设置, 可以提前设置好IP和主机名。
 ![net_host](/setup/images/net_host.png){:width="600px"}

@@ -48,9 +48,9 @@ $ git clone https://github.com/strukturag/libheif.git
 $ git clone --depth 1 https://github.com/ImageMagick/ImageMagick.git
  
 $ cd libde265/
-$ mkdir build && cd build && cmake .. && make
+$ mkdir build && cd build && cmake .. && make && make install
 $ cd /usr/src/libheif/ 
-$ mkdir build && cd build && cmake --preset=release .. && make
+$ mkdir build && cd build && cmake --preset=release .. && make && make install
 $ cd /usr/src/ImageMagick
 $ export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
 $ ./configure
@@ -161,6 +161,13 @@ $ systemctl restart php-fpm
 ```
 
 #### 安装KodBox
+
+关闭selinux
+
+```console
+$ setenforce 0
+$ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+```
 
 下载最新版本的kodbox安装包，解压到站点目录
 
