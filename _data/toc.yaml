@@ -89,7 +89,7 @@ setup:
     - title: 2.3 发现teamOS
       path: /setup/findteamos/
     - title: 2.4 系统初始配置
-      path: /setup/teamos1/
+      path: /setup/teamos2/
     - title: 2.5 迁移数据到可道云
       path: /setup/migratokod2/
 - sectiontitle: 3 其他系统安装

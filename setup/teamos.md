@@ -36,7 +36,19 @@ description: 该系统安装步骤与一般openEuler系统安装过程一致
 
 #### 1. 安装位置
 
-选择一块磁盘作为系统盘安装。如果提示磁盘被使用过, 没有剩余空间, **需要先清除磁盘已有数据**
+选择一块磁盘作为系统盘安装, 若使用自动分区，至少应准备`120G`空间。
+
+如果系统盘较小或仅用于测试，请选择手动分区(`Custom`)
+![Custom](/setup/images/diskpart.png)
+
+并点击`+`依次创建分区如下(供参考)
+![diskpart1](/setup/images/diskpart1.png){:width="600px"}
+  - `/boot` `800M`
+  - `bios boot` `1M`
+  - `swap` `8G`
+  - `/` 根分区, 大小留空表示使用所有剩余空间。
+
+如果提示磁盘被使用过, 没有剩余空间, **需要先清除磁盘已有数据**
 
 ![回收空间](/setup/images/reclaim.png)
 - 点击 **回收空间**, 然后点击 **删除所有分区**, 然后确认回收即可。
@@ -61,7 +73,7 @@ description: 该系统安装步骤与一般openEuler系统安装过程一致
 点击右下角 **开始安装**, 会自动安装包括 `Nginx/PHP/MySQL/Redis/Docker` 在内的依赖环境。
 ![install5](/setup/images/install5.png){:width="600px"}
 
-等待所有软件安装完成, 点击“重启”, **注意及时拔出U盘**。
+等待所有软件安装完成, 点击“重启”, **注意及时拔出U盘**(完全黑屏时)。
   ![install5](/setup/images/install6.png){:width="600px"}
 
 > 提示:
