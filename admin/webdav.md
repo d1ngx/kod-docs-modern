@@ -19,7 +19,7 @@ description: 关于WebDAV插件安装、配置的相关说明
 
 #### 获取WebDAV连接地址
 
-进入`个人中心 -WebDAV挂载`, 可以看到`个人空间`、`all`(全部)等位置的WebDAV路径.
+进入`账号中心 -WebDAV挂载`, 可以看到`个人空间`、`all`(全部)等位置的WebDAV路径.
 ![dav](../images/dav.png)
 
 > 提示：
@@ -35,7 +35,7 @@ description: 关于WebDAV插件安装、配置的相关说明
 1. 在本地电脑, 右键选择 **添加一个网络位置**
 ![dav-net](../images/dav-net.png){:width="300px"}
 
-2. 点 **下一步**, 到 **指定网站的位置**, 填写从 **个人中心** 获取的WebDAV地址, 例如`https://box.kodcloud.com/index.php/dav/`, 然后输入 **网盘用户名和密码** 登录
+2. 点 **下一步**, 到 **指定网站的位置**, 填写从 **账号中心** 获取的WebDAV地址, 例如`https://box.kodcloud.com/index.php/dav/`, 然后输入 **网盘用户名和密码** 登录
 ![dav-location](../images/dav-location.png){:width="500px"}
 
 3. 设置网络位置的名称
@@ -46,14 +46,14 @@ description: 关于WebDAV插件安装、配置的相关说明
 
 > 提示：
 >
-> - 若连接失败, 请在**个人中心**-**WebDAV挂载** -**如何使用**中下载脚本, 以管理员身份执行后再试。
+> - 若连接失败, 请在**账号中心**-**WebDAV挂载** -**如何使用**中下载脚本, 以管理员身份执行后再试。
 
 #### 使用Raidrive连接
 
 Raidrive 可以使WebDAV连接更加稳定
 
 1. 下载Raidrive 并完成安装 [Raidrive](https://www.raidrive.com/)
-2. 点击`+`号依次进入 `NAS`- `WebDAV`, 填写从 **个人中心** 获取的WebDAV地址, 注意域名`box.kodcloud.com` 和路径 `/index.php/dav/` 需要分开填写, 然后输入 **网盘用户名和密码**, 点击连接即可。
+2. 点击`+`号依次进入 `NAS`- `WebDAV`, 填写从 **账号中心** 获取的WebDAV地址, 注意域名`box.kodcloud.com` 和路径 `/index.php/dav/` 需要分开填写, 然后输入 **网盘用户名和密码**, 点击连接即可。
 ![raidrive](../images/raidrive.png){:width="600px"}
 3. 然后可以在本地查看映射的webdav目录
 ![raidrive2](../images/raidrive2.png){:width="600px"}
