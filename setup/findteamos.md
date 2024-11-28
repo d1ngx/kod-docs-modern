@@ -37,16 +37,4 @@ description: 安装teamOS 后, 系统会自动以dhcp形式获取IP, 此时利�
 2. 也能发现局域网内的teamOS服务器地址并一键连接,输入账号密码即可登录。
 ![applogin](/setup/images/applogin.png){:width="300px"}
 
-### 2.3 服务器本机获取IP
-
-当teamOS系统安装完成后, 连接显示器时正常看到的页面如下图, 其中有显示IP地址,可以在网页访问使用
-![installed](/setup/images/installed.png){:width="600px"}
-
-> **注意：**
-> - 若找不到IP, 请检查网线是否连接正常, 网口灯是否闪烁。
-> - 可连接显示器在本机登录root账户 (若修改过网盘admin密码, 则会同时修改root的密码)：
->   - 查询IP`ip a`
->   - 重置网络, `menu 1` 重置dhcp, `menu 2`设置静态IP.
-{: .warning}
-
 </div>
