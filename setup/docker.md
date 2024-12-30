@@ -28,7 +28,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 > 提示：
 >
 > 若`docker compose`命令不存在，可手动安装二进制文件`docker-compose`并在后续命令中替换。
-> - `curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose`
+> - `curl -SL https://github.com/docker/compose/releases/download/v2.32.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose`
 > - `chmod +x /usr/local/bin/docker-compose`
 
 ### 2.http方式快速启动
@@ -48,15 +48,13 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
   MYSQL_USER=kodbox
   ```
 
-- 创建docker-compose.yml 文件，在其中配置映射端口、持久化目录
+- 创建 compose.yml 文件，在其中配置映射端口、持久化目录
 
   ```console
-  $ vim docker-compose.yml
+  $ vim compose.yml
   ```
 
   ```yaml
-  version: '3.5'
-
   services:
     db:
       image: mariadb:10.6
@@ -90,6 +88,45 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 
     redis:
       image: redis:alpine
+      restart: always
+  ```
+
+  若网络不佳, 可切换为阿里云容器镜像地址
+
+  ```yaml
+  services:
+    db:
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/mariadb:10.6
+      restart: always
+      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+      volumes:
+        - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+        # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MARIADB_AUTO_UPGRADE=1
+        - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      env_file:
+        - db.env
+      
+    app:
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/kodbox
+      restart: always
+      ports:
+        - 80:80                       #左边80是使用端口，可以修改
+      volumes:
+        - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      environment:
+        - MYSQL_HOST=db
+        - REDIS_HOST=redis
+      env_file:
+        - db.env
+      depends_on:
+        - db
+        - redis
+
+    redis:
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/redis:alpine
       restart: always
   ```
 
