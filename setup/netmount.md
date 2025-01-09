@@ -30,20 +30,22 @@ $ yum install nfs-utils rpcbind
 ```console
 $ showmount -e 192.168.1.100
 Export list for 192.168.1.100:
-/data 192.168.1.101
+/share 192.168.1.101
 ```
 
 执行挂载命令
 
 ```console
-$ mount -o nolock 192.168.1.100:/data /data
+$ mkdir /data
+$ mount -o nolock 192.168.1.100:/share /data
 ```
 
-设置自动挂载并测试
+设置开机自动挂载, 并验证无误.
 
 ```console
 $ cp /etc/fstab /etc/fstab.bak
-$ echo "192.168.1.100:/data /data nfs nolock 0 0" >> /etc/fstab
+$ echo "192.168.1.100:/share /data nfs nolock 0 0" >> /etc/fstab
+$ systemctl daemon-reload
 $ umount /data && mount -a
 ```
 
@@ -71,6 +73,7 @@ $ umount /data && mount -a
 其他选项保持默认即可, 然后在可道云**服务器 B**需要完成NFS挂载, 执行挂载命令同上
 
 ```console
+$ mkdir /data
 $ mount -o nolock 192.168.1.231:/volume1/web /data
 ```
 
@@ -86,13 +89,22 @@ $ mount -o nolock 192.168.1.231:/volume1/web /data
 然后在可道云**服务器 B**上完成SMB挂载, 在终端执行挂载命令
 
 ```console
-$ mount -t cifs -o username=test,password=123456,file_mode=0777,dir_mode=0777 //192.168.1.100/data /data
+$ mkdir /data
+$ mount -t cifs -o username=test,password=123456,file_mode=0777,dir_mode=0777 //192.168.1.100/share /data
 ```
 
-设置开机自动挂载, 在`/etc/fstab`新增一行
+设置开机自动挂载, 并验证无误.
+
+> **提示**：
+>
+> - `file_mode=0777`权限过于开放, 生产环境建议设为755, 并指定拥有者为nginx.
+> - 在**服务器 B**执行`id nginx`, 假设得到`uid=997(nginx) gid=996(nginx)`
 
 ```console
-$ //192.168.1.100/data /data cifs username=test,password=123456 0 0
+$ cp /etc/fstab /etc/fstab.bak
+$ echo "//192.168.1.100/share /data cifs username=test,password=123456,file_mode=0755,dir_mode=0755,uid=997,gid=996 0 0" >> /etc/fstab
+$ systemctl daemon-reload
+$ umount /data && mount -a
 ```
 
 在网页登录可道云管理员, 在文件路径输入挂载的`/data`目录回车, 可以看到SMB目录已经共享成功。同样浏览器里只有可道云管理员可见, 但可以内部协作分享的方式分享给其他用户。
