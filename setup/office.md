@@ -49,7 +49,7 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangz
 > - 部署onlyoffice官方社区版（包含arm版）：
 ```console
 $ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
---name onlyoffice --restart always onlyoffice/documentserver:8.0
+--name onlyoffice --restart always onlyoffice/documentserver
 ```
 > - 部署龙芯版（loongarch64架构，如使用3A5000、3A6000的CPU）：
 ```console
