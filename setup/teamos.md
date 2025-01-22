@@ -36,15 +36,16 @@ description: 该系统安装步骤与一般openEuler系统安装过程一致
 
 #### 1. 安装位置
 
-选择一块磁盘作为系统盘安装, 若使用自动分区，至少应准备`120G`空间。
+选择一块磁盘作为系统盘安装。
 
-如果系统盘较小或仅用于测试，请选择手动分区(`Custom`)
+推荐选择自动分区(`Automatic`)，至少应准备`80G`空间。
+
+如果打算手动分区(`Custom`)
 ![Custom](/setup/images/diskpart.png)
 
-并点击`+`依次创建分区如下(供参考)
-![diskpart1](/setup/images/diskpart1.png){:width="600px"}
-  - `/boot` `800M`
-  - `bios boot` `1M`
+可点击`+`依次创建分区如下(供参考)
+  - `/boot/efi` `600M`
+  - `/boot` `1024M`
   - `swap` `8G`
   - `/` 根分区, 大小留空表示使用所有剩余空间。
 
