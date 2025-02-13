@@ -92,6 +92,10 @@ setup:
       path: /setup/teamos2/
     - title: 2.5 迁移数据到可道云
       path: /setup/migratokod2/
+    - sectiontitle: 2.6 其他
+      section:
+      - title: RAID5扩容说明
+        path: /setup/raid_expand/ 
 - sectiontitle: 3 其他系统安装
   section:
     - sectiontitle: 3.1 Linux系统安装
