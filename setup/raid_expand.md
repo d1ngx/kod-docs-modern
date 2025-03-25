@@ -40,12 +40,15 @@ description: 如何将新增磁盘加入RAID5阵列
 
 7. **查看 RAID 阵列状态**：
    ```bash
-   cat /proc/mdstat
+   cat /proc/mdstat  # 等待扩容完成，观察Array Size 会增加
    mdadm --detail /dev/md0
    ```
 
-8. **扩展文件系统**：如果文件系统已挂载，需扩容文件系统。例如，对于 XFS 文件系统：
+8. **扩展文件系统**：如果文件系统已挂载，需扩容文件系统
    ```bash
-   xfs_growfs /mnt/kdiskxxx   #ext4使用resize2fs /mnt/kdiskxxx
+   pvs
+   pvresize /dev/md0  
+   lvextend -l +100%FREE /dev/mapper/vgroup1-lvol1 # 扩容卷组
+   xfs_growfs /kdisk/volume1   # ext4使用resize2fs /mnt/kdiskxxx
    ```
 </div>

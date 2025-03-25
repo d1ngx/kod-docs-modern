@@ -259,6 +259,10 @@ admin:
     section:
     - path: /admin/samba/
       title: Samba插件
+    - path: /admin/docsearch/
+      title: 全文搜索插件
+    - path: /admin/stoimport/
+      title: 数据导入插件
 
 - title: 6 安全审计
   path: /admin/6/
