@@ -34,9 +34,9 @@ description: Docker环境可道云网盘的安装示例
 
   services:
     db:
-      image: mariadb:10.6
+      image: mariadb:lts
+      command: --transaction-isolation=READ-COMMITTED
       restart: always
-      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
       environment:

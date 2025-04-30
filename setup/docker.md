@@ -57,9 +57,9 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
   ```yaml
   services:
     db:
-      image: mariadb:10.6
+      image: mariadb:lts
+      command: --transaction-isolation=READ-COMMITTED
       restart: always
-      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
         # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
@@ -96,9 +96,9 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
   ```yaml
   services:
     db:
-      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/mariadb:10.6
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/mariadb:lts
+      command: --transaction-isolation=READ-COMMITTED
       restart: always
-      command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
       volumes:
         - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
         # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置

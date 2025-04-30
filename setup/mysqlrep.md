@@ -92,7 +92,7 @@ firewall-cmd --reload
 
 ```bash
 yum install nfs-utils rpcbind
-mount -t nfs -o nolock,soft 192.168.xx.10:/var/www/html /var/www/html
+mount -t nfs -o nolock,rw 192.168.xx.10:/var/www/html /var/www/html
 
 #nfsstat 命令可以显示有用的 NFS 信息。例如，以下命令显示 NFS 客户端当前挂载的内容
 nfsstat -m
@@ -101,7 +101,7 @@ nfsstat -m
  Flags: rw,relatime,vers=4.2,rsize=524288,wsize=524288,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=192.168.xx.11,local_lock=none,addr=192.168.xx.11
 
 # 开机自动挂载
-echo "192.168.xx.10:/var/www/html /var/www/html nfs nolock" >> /etc/fstab
+echo "192.168.xx.10:/var/www/html /var/www/html nfs nolock,rw" >> /etc/fstab
 umount /var/www/html
 mount -a
 ```
@@ -118,6 +118,26 @@ mysqldump kodbox -u root -p"xxx" > backup_db.sql
 
 -- 从库操作
 mysql -u root -p"xxx" kodbox < backup_db.sql
+```
+
+- 主库配置文件
+
+```ini
+[mysqld]
+server-id = 1
+log_bin = mysql-bin
+binlog_format = ROW
+expire_logs_days = 7
+max_binlog_size = 100M
+```
+
+- 从库配置文件
+
+```ini
+[mysqld]
+server-id = 2
+relay_log = relay-bin
+read_only = 1
 ```
 
 #### 1. 主库操作：创建复制账号
@@ -140,7 +160,7 @@ SHOW MASTER STATUS;
 #### 2. 从库操作：配置主从连接
 
 ```sql
--- 设置主库信息（替换 MASTER_HOST 为 master 的容器名或IP）
+-- 设置主库信息（替换 MASTER_HOST 为 master 的IP）
 CHANGE MASTER TO
   MASTER_HOST='master',
   MASTER_USER='repl_user',
@@ -155,9 +175,9 @@ START SLAVE;
 -- 检查从库状态（Slave_IO_Running 和 Slave_SQL_Running 应为 Yes）
 SHOW SLAVE STATUS\G
 
--- 如需要重置
-stop slave;
-reset slave;
+-- 如果需要重置
+-- stop slave;
+-- reset slave;
 ```
 
 #### 3. 验证主从同步

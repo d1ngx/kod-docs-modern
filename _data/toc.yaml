@@ -81,7 +81,7 @@ setup:
 - sectiontitle: 2 TeamOS安装(推荐)
   section:
     - title: 2.0 概览
-      path: /setup/5.0/
+      path: /setup/2.0/
     - title: 2.1 制作U盘启动盘
       path: /setup/rufus/
     - title: 2.2 系统安装
