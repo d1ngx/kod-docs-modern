@@ -4,7 +4,7 @@ keywords: 在线预览, cad在线预览, 在线流程图, office在线编辑, ps
 description: 可道云企业网盘支持数百种常见办公文档格式的在线预览。
 ---
 
-<div id="setup" class="tab-pane fade in active" markdown="1">
+<div id="psd_win" class="tab-pane fade in active" markdown="1">
 
 ## 环境要求
 

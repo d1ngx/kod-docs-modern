@@ -144,8 +144,12 @@ setup:
           path: /setup/docker/
         - title: 使用宝塔面板安装示例
           path: /setup/bt/
-        - title: OnlyOffice组件安装
-          path: /setup/office/
+        - sectiontitle: 支持组件安装部署
+          section:
+            - title: OnlyOffice组件
+              path: /setup/office/
+            - title: 封面生成组件
+              path: /setup/thumbnail/
             
     - sectiontitle: 3.2 Windows系统安装
       section:
@@ -159,7 +163,7 @@ setup:
           section:
             - title: OnlyOffice组件
               path: /setup/office_win/
-            - title: psd等设计图件在线预览组件
+            - title: 封面生成组件
               path: /setup/psd_win/
     - sectiontitle: 3.3 群晖Synology NAS
       section:
