@@ -15,7 +15,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 ```console
 $ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always \
-  registry.cn-hangzhou.aliyuncs.com/kodcloud/aio-imaginary \
+  registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary \
   -enable-url-source \
   -concurrency 10 \
   -max-allowed-resolution 500 \
@@ -30,6 +30,28 @@ $ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always 
 - `-max-allowed-resolution` 最大允许像素，单位MP.
 - `-key` API认证密钥.
 - ...
+
+或者使用`compose.yml` 配置，参考
+```yml
+services:
+  aio-imaginary:
+    image: registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary:latest
+    container_name: imaginary
+    restart: always
+    ports:
+      - 127.0.0.1:9000:9000
+    environment:
+      - PORT=9000
+    command: >
+      -enable-url-source
+      -concurrency 10
+      -max-allowed-resolution 500
+    deploy:
+      resources:
+        limits:
+          memory: 4096M  # 等价于 -m 4g
+          cpus: '4.0'    # 等价于 --cpus=4
+```
 
 完整运行参数请参考 [h2non/imaginary](https://github.com/h2non/imaginary)
 

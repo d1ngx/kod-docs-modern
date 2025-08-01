@@ -25,7 +25,7 @@ description: 关于全文搜索插件的配置说明
 ## 配置说明
 
 1. 在插件中心安装**全文搜索**插件。
-2. 在服务器端安装必要支持环境JAVA
+2. 在服务器端安装必要支持环境JAVA, 在插件中心进入**全文搜索**插件配置，检查连接测试是否正常。
 
    ```bash
    yum install java-11-openjdk
@@ -35,35 +35,50 @@ description: 关于全文搜索插件的配置说明
 
    ```sql
    -- 移除旧的索引(不存在报错正常)
-    ALTER TABLE `comment` DROP INDEX `content`;
-    ALTER TABLE `user` DROP INDEX `name`;
-    ALTER TABLE `user_meta` DROP INDEX `value`;
-    ALTER TABLE `group` DROP INDEX `name`;
-    ALTER TABLE `group_meta` DROP INDEX `value`;
-    ALTER TABLE `io_source` DROP INDEX `name`;
-    ALTER TABLE `io_source_meta` DROP INDEX `value`;
-    ALTER TABLE `io_file_contents` DROP INDEX `content`;
+   ALTER TABLE `comment` DROP INDEX `content`;
+   ALTER TABLE `user` DROP INDEX `name`;
+   ALTER TABLE `user_meta` DROP INDEX `value`;
+   ALTER TABLE `group` DROP INDEX `name`;
+   ALTER TABLE `group_meta` DROP INDEX `value`;
+   ALTER TABLE `io_source` DROP INDEX `name`;
+   ALTER TABLE `io_source_meta` DROP INDEX `value`;
+   ALTER TABLE `io_file_contents` DROP INDEX `content`;
 
-    -- 创建全文索引
-    ALTER TABLE `comment` ADD FULLTEXT(`content`);
-    ALTER TABLE `user` ADD FULLTEXT(`name`);
-    ALTER TABLE `user_meta` ADD FULLTEXT(`value`);
-    ALTER TABLE `group` ADD FULLTEXT(`name`);
-    ALTER TABLE `group_meta` ADD FULLTEXT(`value`);
-
-    ALTER TABLE `io_source` ADD FULLTEXT(`name`);
-    ALTER TABLE `io_source_meta` ADD FULLTEXT(`value`);
-    ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
+   -- 创建全文索引
+   ALTER TABLE `comment` ADD FULLTEXT (`content`) WITH PARSER ngram;
+   ALTER TABLE `user` ADD FULLTEXT (`name`) WITH PARSER ngram;
+   ALTER TABLE `user_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
+   ALTER TABLE `group` ADD FULLTEXT (`name`) WITH PARSER ngram;
+   ALTER TABLE `group_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
+   ALTER TABLE `io_source` ADD FULLTEXT (`name`) WITH PARSER ngram;
+   ALTER TABLE `io_source_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
+   ALTER TABLE `io_file_contents` ADD FULLTEXT (`content`) WITH PARSER ngram;
    ```
 
-4. 在站点下`config/setting_user.php`文件后新增配置
+> **提 示**
+> 
+> - ngram 中文分词较精准，但可能因短词重复率太高引起内存不足报错“FTS query exceeds”，建议优化配置
+   ```my.cnf
+   ngram_token_size = 4  #ngram 分词器中 N 的大小，默认为2，增大以避免查询过宽
+   innodb_ft_result_cache_limit = 4G  #InnoDB 引擎结果缓存大小，默认2G，最大4G
+   ```
+> - mariadb 不支持ngram，可以改为
+   ```sql
+      ALTER TABLE `comment` ADD FULLTEXT(`content`);
+      ALTER TABLE `user` ADD FULLTEXT(`name`);
+      ALTER TABLE `user_meta` ADD FULLTEXT(`value`);
+      ALTER TABLE `group` ADD FULLTEXT(`name`);
+      ALTER TABLE `group_meta` ADD FULLTEXT(`value`);
+      ALTER TABLE `io_source` ADD FULLTEXT(`name`);
+      ALTER TABLE `io_source_meta` ADD FULLTEXT(`value`);
+      ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
+   ```
 
-    ```php
-    $config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引  
-    $config['settingSystemDefault']['searchFulltextForce'] = 1; // 完整匹配; (否则会对$words进行分词,包含一部分也作为结果;会多出结果)   
-    $config['settingSystemDefault']['searchFulltextInnodb'] = 1;
-    ```
-
-5. 在插件中心进入**全文搜索**插件配置，检查连接测试是否正常。
+(可选)在站点下`config/setting_user.php`文件后新增配置
+```php
+$config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引  
+$config['settingSystemDefault']['searchFulltextForce'] = 1; // 完整匹配; (否则会对$words进行分词,包含一部分也作为结果;会多出结果)   
+$config['settingSystemDefault']['searchFulltextInnodb'] = 1;
+```
 
 </div>
