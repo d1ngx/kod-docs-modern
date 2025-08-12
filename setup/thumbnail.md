@@ -11,6 +11,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 > - imaginary 是一个高性能、无状态的图像处理服务，常用于图像缩放、裁剪、格式转换 等操作。
 > - kodbox 配合 imaginary能显著提升文件封面图生成效率。
 > - arm版本使用`registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary:arm64`
+> - 龙芯版本使用`registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary:loongarch64`
 
 ## 使用docker 安装 imaginary 
 
