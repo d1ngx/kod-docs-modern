@@ -45,13 +45,13 @@ description: 关于全文搜索插件的配置说明
    ALTER TABLE `io_file_contents` DROP INDEX `content`;
 
    -- 创建全文索引
-   ALTER TABLE `comment` ADD FULLTEXT (`content`) WITH PARSER ngram;
-   ALTER TABLE `user` ADD FULLTEXT (`name`) WITH PARSER ngram;
-   ALTER TABLE `user_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
-   ALTER TABLE `group` ADD FULLTEXT (`name`) WITH PARSER ngram;
-   ALTER TABLE `group_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
-   ALTER TABLE `io_source` ADD FULLTEXT (`name`) WITH PARSER ngram;
-   ALTER TABLE `io_source_meta` ADD FULLTEXT (`value`) WITH PARSER ngram;
+   ALTER TABLE `comment` ADD FULLTEXT (`content`)
+   ALTER TABLE `user` ADD FULLTEXT (`name`);
+   ALTER TABLE `user_meta` ADD FULLTEXT (`value`);
+   ALTER TABLE `group` ADD FULLTEXT (`name`);
+   ALTER TABLE `group_meta` ADD FULLTEXT (`value`);
+   ALTER TABLE `io_source` ADD FULLTEXT (`name`);
+   ALTER TABLE `io_source_meta` ADD FULLTEXT (`value`);
    ALTER TABLE `io_file_contents` ADD FULLTEXT (`content`) WITH PARSER ngram;
    ```
 
@@ -64,20 +64,12 @@ description: 关于全文搜索插件的配置说明
    ```
 > - mariadb 不支持ngram，可以改为
    ```sql
-      ALTER TABLE `comment` ADD FULLTEXT(`content`);
-      ALTER TABLE `user` ADD FULLTEXT(`name`);
-      ALTER TABLE `user_meta` ADD FULLTEXT(`value`);
-      ALTER TABLE `group` ADD FULLTEXT(`name`);
-      ALTER TABLE `group_meta` ADD FULLTEXT(`value`);
-      ALTER TABLE `io_source` ADD FULLTEXT(`name`);
-      ALTER TABLE `io_source_meta` ADD FULLTEXT(`value`);
       ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
    ```
 
 (可选)在站点下`config/setting_user.php`文件后新增配置
 ```php
-$config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引  
-$config['settingSystemDefault']['searchFulltextForce'] = 1; // 完整匹配; (否则会对$words进行分词,包含一部分也作为结果;会多出结果)   
+$config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引（默认只有内容搜索会用全文索引，这里把普通查询也改成全文索引方式）
 $config['settingSystemDefault']['searchFulltextInnodb'] = 1;
 ```
 
