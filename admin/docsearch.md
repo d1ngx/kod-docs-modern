@@ -39,6 +39,7 @@ description: 关于全文搜索插件的配置说明
    ALTER TABLE `user` DROP INDEX `name`;
    ALTER TABLE `user_meta` DROP INDEX `value`;
    ALTER TABLE `group` DROP INDEX `name`;
+   ALTER TABLE `group` DROP INDEX `nickName`;
    ALTER TABLE `group_meta` DROP INDEX `value`;
    ALTER TABLE `io_source` DROP INDEX `name`;
    ALTER TABLE `io_source_meta` DROP INDEX `value`;
@@ -47,6 +48,7 @@ description: 关于全文搜索插件的配置说明
    -- 创建全文索引
    ALTER TABLE `comment` ADD FULLTEXT (`content`)
    ALTER TABLE `user` ADD FULLTEXT (`name`);
+   ALTER TABLE `user` ADD FULLTEXT (`nickName`);
    ALTER TABLE `user_meta` ADD FULLTEXT (`value`);
    ALTER TABLE `group` ADD FULLTEXT (`name`);
    ALTER TABLE `group_meta` ADD FULLTEXT (`value`);
@@ -64,7 +66,7 @@ description: 关于全文搜索插件的配置说明
    ```
 > - mariadb 不支持ngram，可以改为
    ```sql
-      ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
+   ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
    ```
 
 (可选)在站点下`config/setting_user.php`文件后新增配置
