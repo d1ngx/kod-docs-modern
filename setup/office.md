@@ -226,7 +226,7 @@ window.kod.allowHost = [
 
 ### 自定义域名解析
 
-重新运行容器, 加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`
+重新运行容器, 加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`(或者指定dns如`--dns 192.168.1.1`)
 ```console
 $ docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.com:192.168.3.4 kodcloud/kodoffice:7.4.1.1
 ```
