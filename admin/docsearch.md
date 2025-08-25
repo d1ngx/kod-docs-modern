@@ -36,10 +36,7 @@ description: 关于全文搜索插件的配置说明
    ```sql
    -- 移除旧的索引(不存在报错正常)
    ALTER TABLE `comment` DROP INDEX `content`;
-   ALTER TABLE `user` DROP INDEX `name`;
-   ALTER TABLE `user` DROP INDEX `nickName`;
    ALTER TABLE `user_meta` DROP INDEX `value`;
-   ALTER TABLE `group` DROP INDEX `name`;
    ALTER TABLE `group_meta` DROP INDEX `value`;
    ALTER TABLE `io_source` DROP INDEX `name`;
    ALTER TABLE `io_source_meta` DROP INDEX `value`;
@@ -47,10 +44,7 @@ description: 关于全文搜索插件的配置说明
 
    -- 创建全文索引
    ALTER TABLE `comment` ADD FULLTEXT (`content`);
-   ALTER TABLE `user` ADD FULLTEXT (`name`);
-   ALTER TABLE `user` ADD FULLTEXT (`nickName`);
    ALTER TABLE `user_meta` ADD FULLTEXT (`value`);
-   ALTER TABLE `group` ADD FULLTEXT (`name`);
    ALTER TABLE `group_meta` ADD FULLTEXT (`value`);
    ALTER TABLE `io_source` ADD FULLTEXT (`name`);
    ALTER TABLE `io_source_meta` ADD FULLTEXT (`value`);
