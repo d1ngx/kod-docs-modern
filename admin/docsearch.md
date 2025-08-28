@@ -63,11 +63,40 @@ description: 关于全文搜索插件的配置说明
    ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
    ```
 
-(可选)在站点下`config/setting_user.php`文件后新增配置
+- （可选）在站点下`config/setting_user.php`文件后新增配置
 ```php
 $config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引（默认只有内容搜索会用全文索引，这里把普通查询也改成全文索引方式）
 // $config['settingSystemDefault']['searchFulltextForce']  = 1;    // 完整匹配; (否则会对$words进行分词,包含一部分也作为结果;会多出结果)
 $config['settingSystemDefault']['searchFulltextInnodb'] = 1;
 ```
 
+- （可选）如果没有使用`innodb`, 建议修改表引擎为`innodb`
+
+```sql
+alter table comment engine=InnoDB;
+alter table comment_meta engine=InnoDB;
+alter table comment_praise engine=InnoDB;
+alter table `group` engine=InnoDB;
+alter table group_meta engine=InnoDB;
+alter table io_file engine=InnoDB;
+alter table io_file_contents engine=InnoDB;
+alter table io_file_meta engine=InnoDB;
+alter table io_source engine=InnoDB;
+alter table io_source_auth engine=InnoDB;
+alter table io_source_event engine=InnoDB;
+alter table io_source_history engine=InnoDB;
+alter table io_source_meta engine=InnoDB;
+alter table io_source_recycle engine=InnoDB;
+alter table share engine=InnoDB;
+alter table share_report engine=InnoDB;
+alter table share_to engine=InnoDB;
+alter table system_log engine=InnoDB;
+alter table system_option engine=InnoDB;
+alter table system_session engine=InnoDB;
+alter table `user` engine=InnoDB;
+alter table user_fav engine=InnoDB;
+alter table user_group engine=InnoDB;
+alter table user_meta engine=InnoDB;
+alter table user_option engine=InnoDB;
+```
 </div>
