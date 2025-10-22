@@ -458,4 +458,73 @@ volumes:
       device: //<REMOTE_IP>/<PATH_TO_LIBRARY>
       o: "username=<USERNAME>,password=<PASSWORD>,uid=100,gid=101"
 ```
+
+#### 龙芯环境部署
+
+> 注意：
+>
+> 首先创建一个目录作为项目目录，后面所有命令都在这个目录下执行
+> - `mkdir /kodbox && cd /kodbox`
+> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充.
+> - `wget https://static.box.kodcloud.com/plugins/teamos/docker-compose-loongarch64 -O /usr/local/bin/docker-compose`
+> - `chmod +x /usr/local/bin/docker-compose`
+{: .important}
+
+- 创建文件来设置数据库环境变量`vim db.env`
+
+  ```bash
+  MYSQL_PASSWORD=
+  MYSQL_DATABASE=kodbox
+  MYSQL_USER=kodbox
+  ```
+
+- 创建 compose.yml 文件，在其中配置映射端口、持久化目录
+
+  ```console
+  $ vim compose.yml
+  ```
+
+  ```yaml
+  services:
+    db:
+      image: lcr.loongnix.cn/library/mariadb:10.5.18
+      command: --transaction-isolation=READ-COMMITTED
+      restart: always
+      volumes:
+        - "./db:/var/lib/mysql"       #./db是数据库持久化目录，可以修改
+        # - "./etc/mysql/conf.d:/etc/mysql/conf.d"       #增加自定义mysql配置
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MARIADB_AUTO_UPGRADE=1
+        - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      env_file:
+        - db.env
+      
+    app:
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/kodbox:loongarch64
+      restart: always
+      ports:
+        - 80:80                       #左边80是使用端口，可以修改
+      volumes:
+        - "./site:/var/www/html"      #./site是站点目录位置，可以修改
+      ulimits:
+        nofile:
+          soft: 51200
+          hard: 51200
+      environment:
+        - MYSQL_HOST=db
+        - REDIS_HOST=redis
+      env_file:
+        - db.env
+      depends_on:
+        - db
+        - redis
+
+    redis:
+      image: lcr.loongnix.cn/library/redis:8.2.2-alpine3.21
+      restart: always
+  ```
+
+进入项目目录，执行`docker-compose up -d`启动命令，会自动拉取容器并运行.
+
 </div>
