@@ -48,6 +48,7 @@ description: 关于全文搜索插件的配置说明
    ALTER TABLE `group_meta` ADD FULLTEXT (`value`);
    ALTER TABLE `io_source` ADD FULLTEXT (`name`);
    ALTER TABLE `io_source_meta` ADD FULLTEXT (`value`);
+   -- 这步可能非常耗时，和文件数量相关
    ALTER TABLE `io_file_contents` ADD FULLTEXT (`content`) WITH PARSER ngram;
    ```
 
