@@ -26,7 +26,7 @@ description: 关于数据导入插件的配置说明
 
 ## 配置说明
 
-1. 安装**数据导入**插件，[下载](https://static.box.kodcloud.com/plugins/storeImport.zip)并解压到站点下`plugins`目录。
+1. **数据导入**插件在网盘1.54及之后版本默认安装。
 2. 从后台**存储管理**页，右上方**数据导入**进入配置
 
     ![stoimport1](../images/stoimport1.png){:width="800px"}

@@ -269,6 +269,8 @@ admin:
       title: 全文搜索插件
     - path: /admin/stoimport/
       title: 数据导入插件
+    - path: /admin/aidoc/
+      title: AI助手插件
 
 - title: 6 安全审计
   path: /admin/6/
