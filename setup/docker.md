@@ -128,6 +128,19 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
     redis:
       image: registry.cn-hangzhou.aliyuncs.com/kodcloud/redis:alpine
       restart: always
+
+    imaginary:
+      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary
+      restart: always
+      command: >
+        -enable-url-source
+        -concurrency 10
+        -max-allowed-resolution 500
+      deploy:
+        resources:
+          limits:
+            memory: 8g
+            cpus: '4.0'
   ```
 
 > 增加自定义mysql配置：

@@ -11,9 +11,9 @@ description: 关于内AI助手插件安装、配置的相关说明
 > - 需要购买 pro 版本的 AI 插件，才能添加自定义模型。
 {: .important}
 
-## AI智能助手
+# AI智能助手
 
-### 功能概述
+## 功能概述
 
 - **深度集成网盘**: 让AI能针对文件,文件夹内容做问答,整理等丰富功能;全面打通网盘文件增删改查等能力;
 
@@ -31,18 +31,35 @@ description: 关于内AI助手插件安装、配置的相关说明
 
 ...
 
-### RAG配置说明
+## RAG配置说明
 
 
 -  模型服务名称: 自定义填写
--  API地址: 如硅基流动为 `https://api.siliconflow.cn/v1/chat/completions`
--  API密钥: 登录硅基流动获取 `https://cloud.siliconflow.cn/me/account/ak`
+-  API地址: 
+    - 如硅基流动为 `https://api.siliconflow.cn/v1/chat/completions`
+    - 如阿里云为 `https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
+-  API密钥: 如硅基流动获取 `https://cloud.siliconflow.cn/me/account/ak`
 
 ![-Aj.png](/admin/images/ai/-Aj.png)
 
+### 向量数据库部署
 
+- [https://milvus.io/docs/zh 参考说明](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
 
-#### 嵌入模型添加
+```console
+$ mkdir milvus && cd milvus
+$ wget https://github.com/milvus-io/milvus/releases/download/v2.6.7/milvus-standalone-docker-compose.yml -O docker-compose.yml
+# 或使用阿里源镜像地址
+# wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
+
+$ sudo docker compose up -d
+
+Creating milvus-etcd  ... done
+Creating milvus-minio ... done
+Creating milvus-standalone ... done
+```
+
+### 向量/嵌入模型添加
 
 1. 模型广场搜索 `BAAI/bge-m3` 适用embedding嵌入模型；
 2. 添加模型
@@ -53,9 +70,7 @@ description: 关于内AI助手插件安装、配置的相关说明
 3. 保存后检测是否正常
 ![20251209-152555-GR.png](/admin/images/ai/-GR.png)
 
-
-#### 图生文本模型添加
-
+### 图生文本模型添加
 
 1. 模型广场搜索 `Qwen/Qwen3-Omni-30B-A3B-Instruct` 适用于多模态；
 2. 添加模型
@@ -66,7 +81,7 @@ description: 关于内AI助手插件安装、配置的相关说明
 3. 保存后检测是否正常
 ![20251209-152823-an.png](/admin/images/ai/-an.png)
 
-#### RAG配置项
+### RAG配置项
 
 1. 启用RAG
 ![20251209-152928-7s.png](/admin/images/ai/-7s.png)
