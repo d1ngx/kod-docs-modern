@@ -34,7 +34,7 @@ description: 如何将其他系统的现有数据导入到可道云
 在**服务器 A** 执行同步命令:
 
 ```console
-$ rsync -avP /data/* root@192.168.1.101:/data
+$ rsync -avP /data/* --chown=nginx:nginx root@192.168.1.101:/data
 ```
 
 将**服务器A** 的 `/data` 目录同步到**服务器B**的 `/data` 目录.
@@ -48,12 +48,13 @@ $ rsync -avP /data/* root@192.168.1.101:/data
 >
 > - 可以使用`cwrsync`, 命令中目录要以`/cygdrive/` 开头，盘符后面没有`:`.
 > - 假设待迁移数据位于`D:\data`目录.
+> - `--chown=nginx:nginx`同步修改文件所有者为nginx，若服务器B没有nginx用户请省略.
 
 1. 下载[cwrsync_6.2.9_x64_free.zip](https://static.box.kodcloud.com/plugins/cwrsync_6.2.9_x64_free.zip), 解压并重命名到`c:\cwrsync`目录;
 2. 打开`powershell`终端, 执行同步命令:
 
     ```powershell
-    C:\cwrsync\bin\rsync.exe -e 'c:\cwrsync\bin\ssh.exe' -avP /cygdrive/d/data/* root@192.168.1.101:/data
+    C:\cwrsync\bin\rsync.exe -e 'c:\cwrsync\bin\ssh.exe' -avP --chown=nginx:nginx /cygdrive/d/data/* root@192.168.1.101:/data
     ```
 
     将**服务器A**的 `D:\data` 目录同步到**服务器B**的 `/data` 目录.
@@ -73,7 +74,7 @@ $ rsync -avP /data/* root@192.168.1.101:/data
 通过`ssh`登录NAS, 然后执行同步命令(需要注意命令加了`sudo`,回车后要输一次管理员密码):
 
 ```console
-$ sudo rsync -avP /volume1/web/data/* root@192.168.1.101:/data
+$ sudo rsync -avP /volume1/web/data/* --chown=nginx:nginx root@192.168.1.101:/data
 ```
 
 将**服务器A** 的 `/volume1/web/data` 目录同步到**服务器B**的 `/data` 目录
