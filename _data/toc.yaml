@@ -90,8 +90,8 @@ setup:
       path: /setup/findteamos/
     - title: 2.4 系统初始配置
       path: /setup/teamos2/
-    - title: 2.5 迁移数据到可道云
-      path: /setup/migratokod2/
+    - title: 2.5 可道云数据迁移
+      path: /setup/migrateamos/
     - sectiontitle: 2.6 其他
       section:
       - title: RAID5扩容说明
