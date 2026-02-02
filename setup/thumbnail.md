@@ -16,10 +16,10 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 ## 使用docker 安装 imaginary 
 
 ```console
-$ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always \
+$ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always --tmpfs /tmp:size=1024m \
   registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary \
   -enable-url-source \
-  -concurrency 10 \
+  -concurrency 3 \
   -max-allowed-resolution 500 \
   -key your_api_key_here
 ```
@@ -27,6 +27,7 @@ $ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always 
 参数说明
 
 - `-m 4g --cpus=4` 限制最大可用资源4g内存，4cpu.
+- `--tmpfs /tmp:size=1024m` 强制 tmp 走内存(不留缓存).
 - `-enable-url-source` 允许从url拉取图像.
 - `-concurrency` 处理并发数.
 - `-max-allowed-resolution` 最大允许像素，单位MP.
@@ -44,6 +45,8 @@ services:
       - 127.0.0.1:9000:9000
     environment:
       - PORT=9000
+    tmpfs:
+      - /tmp:size=1024m
     command: >
       -enable-url-source
       -concurrency 10
