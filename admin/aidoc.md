@@ -47,12 +47,13 @@ description: 关于内AI助手插件安装、配置的相关说明
 - [https://milvus.io/docs/zh 参考说明](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
 
 ```console
-$ mkdir milvus && cd milvus
-$ wget https://github.com/milvus-io/milvus/releases/download/v2.6.7/milvus-standalone-docker-compose.yml -O docker-compose.yml
-# 或使用阿里源镜像地址
-# wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
+$ curl -SL https://static.box.kodcloud.com/plugins/teamos/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
 
-$ sudo docker compose up -d
+$ mkdir milvus && cd milvus
+$ wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
+
+$ docker-compose up -d
 
 Creating milvus-etcd  ... done
 Creating milvus-minio ... done
