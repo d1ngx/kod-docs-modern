@@ -111,7 +111,7 @@ $ chmod -R 755 /data/
 
 1. 自动化脚本同步参考，并设置每小时自动执行`crontab -e`添加`0 * * * * /usr/local/bin/rsync_auto.sh`
 
-    ```console
+    ```bash
     #!/bin/bash
 
     # ===== 配置 =====
@@ -119,7 +119,7 @@ $ chmod -R 755 /data/
     DST="/kdisk/volume1/mgfiles/data/"
     LOG="/var/log/rsync.log"
     LOCK="/tmp/rsync.lock"
-    RSYNC_CMD="rsync -av --ignore-existing --partial --exclude='.*'"
+    RSYNC_CMD=(rsync -av --ignore-existing --partial --exclude='.*')
 
     # ===== 时间窗口 =====
     # 0 = 允许运行
@@ -158,11 +158,14 @@ $ chmod -R 755 /data/
             rm -f "$LOCK"
         fi
 
+        # ===== 启动 rsync =====
         echo "$(date '+%F %T') allowed window, starting rsync." >> "$LOG"
         touch "$LOCK"
-        stdbuf -oL -eL $RSYNC_CMD "$SRC" "$DST" >> "$LOG" 2>&1 &
-        echo "$(date '+%F %T') rsync started, pid=$!" >> "$LOG"
 
+        stdbuf -oL -eL "${RSYNC_CMD[@]}" "$SRC" "$DST" >> "$LOG" 2>&1 &
+        RSYNC_PID=$!
+
+        echo "$(date '+%F %T') rsync started, pid=$RSYNC_PID" >> "$LOG"
     else
         # ===== 禁止时间 =====
         if [ -n "$RSYNC_PIDS" ]; then
