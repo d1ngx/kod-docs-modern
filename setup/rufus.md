@@ -11,7 +11,7 @@ description: 在本地电脑上通过rufus制作ISO镜像启动盘
 - 一台windows电脑，用于制作U盘启动盘
 - 下载[rufus-4.2.exe](https://static.box.kodcloud.com/plugins/rufus-4.2.exe) 工具
 - 一个空的U盘，需要格式化，大小至少8G
-  
+
 ## 2 步骤（需要时间：5-10分钟）
 
 安装`rufus`后打开
@@ -22,6 +22,6 @@ description: 在本地电脑上通过rufus制作ISO镜像启动盘
 
 ![继续试用](/setup/images/rufus.png){:width="400px"}
 
-点击**开始**, 等待执行完成后关闭窗口, 拔出U盘。
+点击**开始**，等待执行完成后关闭窗口，拔出U盘。
 
 </div>

@@ -5,16 +5,16 @@ keywords: 群晖, docker, dsm7, Container, compose
 
 <div id="dsm7_docker" class="tab-pane fade in active" markdown="1">
 
-### 1 安装Docker套件
+### 1 安装 Docker 套件
 
 Docker 套件已更名为 `Container Manager`
 
 ![container_m](/setup/images/container_m.png){:width="800px"}
 
-### 2 准备compose配置
+### 2 准备 compose 配置
 
-- 打开`File Station`文件管理器, 在`docker`下新建`kodbox`目录.
-- 在本地新建一个文件`db.env`,修改内容如下(为了安全, 请将`your_password`替换为复杂密码):
+- 打开`File Station`文件管理器，在`docker`下新建`kodbox`目录。
+- 在本地新建一个文件`db.env`,修改内容如下(为了安全，请将`your_password`替换为复杂密码):
 
   ```bash
   MYSQL_ROOT_PASSWORD=your_password
@@ -40,7 +40,7 @@ services:
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
     env_file:
       - db.env
-      
+
   app:
     image: kodcloud/kodbox
     restart: always
@@ -72,26 +72,34 @@ services:
       - REDIS_SERVER_HOST=localhost
 ```
 
-- 将`compose.yml`、`db.env` 上传到kodbox目录, 并新建2个空文件夹`site`、`db`.
+- 将`compose.yml`、`db.env` 上传到kodbox目录，并新建2个空文件夹`site`、`db`.
+
 ![file_s](/setup/images/file_s.png){:width="800px"}
 
-### 3 运行kodbox项目
+### 3 运行 kodbox 项目
 
-1. 进入`Container Manager`, 打开**项目** - **新增** - **设置路径** - **选择kodbox目录** - **确定**.
+1. 进入`Container Manager`，打开**项目** - **新增** - **设置路径** - **选择kodbox目录** - **确定**.
+
   ![compose0](/setup/images/compose0.png){:width="800px"}
-2. 填写项目名称, 保持默认继续点击下一步.
+2. 填写项目名称，保持默认继续点击下一步。
+
   ![compose1](/setup/images/compose1.png){:width="600px"}
+
   ![compose2](/setup/images/compose2.png){:width="600px"}
+
   ![compose3](/setup/images/compose3.png){:width="600px"}
-3. 项目启动中, 等待镜像拉取运行, 最后运行有4个容器.
+3. 项目启动中，等待镜像拉取运行，最后运行有4个容器。
+
   ![container_all](/setup/images/container_all.png)
-4. 等待`3~5分钟`容器内部服务完全启动, 在网页从`8000端口`(`compose.yml`中定义) 访问站点, 设置新的管理员账号完成初始化.
+4. 等待`3~5分钟`容器内部服务完全启动，在网页从`8000端口`(`compose.yml`中定义) 访问站点，设置新的管理员账号完成初始化。
+
   ![kodbox_init](/setup/images/kodbox_init.png){:width="800px"}
 
-### 4 验证onlyoffice解析服务
+### 4 验证 onlyoffice 解析服务
 
-登录进入网盘**插件中心**, 安装**onlyoffice 插件**
+登录进入网盘**插件中心**，安装**onlyoffice 插件**
 
-点击**配置插件** - **检测服务器**, 验证解析服务运行正常.
+点击**配置插件** - **检测服务器**，验证解析服务运行正常。
+
   ![onlyoffice](/setup/images/onlyoffice.png)
 </div>

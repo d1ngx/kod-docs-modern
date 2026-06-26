@@ -30,7 +30,7 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log  /var/log/nginx/access.log  main;
-	
+
     client_header_buffer_size 32k;
     large_client_header_buffers 4 32k;
     client_max_body_size 30G;
@@ -40,7 +40,7 @@ http {
     sendfile on;
     tcp_nopush on;
     server_tokens off;
-	
+
     fastcgi_connect_timeout 3600;
     fastcgi_send_timeout 3600;
     fastcgi_read_timeout 3600;
@@ -105,8 +105,8 @@ http {
             include fastcgi_params;
         }
 
-        location ~ ^/(?:config|data)(?:$|/)  { 
-            return 404; 
+        location ~ ^/(?:config|data)(?:$|/)  {
+            return 404;
         }
 
         location ~* \.(jpg|jpeg|gif|png|css|js|ico|webp|tiff|ttf|svg)$ {
@@ -126,10 +126,10 @@ http {
 
 > 注意:
 >
-> 其中的`fastcgi_pass unix:/var/run/php-fpm.sock;`指的是绑定PHP的进程文件, 若该文件不存在, 请检查php-fpm配置。
+> 其中的`fastcgi_pass unix:/var/run/php-fpm.sock;`指的是绑定PHP的进程文件，若该文件不存在，请检查php-fpm配置。
 {: .important}
 
-在调整nginx配置后, 执行`nginx -t`检查语法, 确定无误后重启服务
+在调整nginx配置后，执行`nginx -t`检查语法，确定无误后重启服务
 
 ```console
 $ nginx -t

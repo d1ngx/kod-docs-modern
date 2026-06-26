@@ -18,7 +18,7 @@ description: Docker环境可道云网盘的安装示例
 >
 > 在Linux 或者 Mac OS上可以使用相同的部署步骤。
 
-1. 首先创建一个目录作为项目目录, 这里选择 `D:/kodbox/`
+1. 首先创建一个目录作为项目目录，这里选择 `D:/kodbox/`
 2. 在`D:/kodbox/`下新建`db.env`文件来设置数据库环境变量
 
     ```bash
@@ -27,7 +27,7 @@ description: Docker环境可道云网盘的安装示例
     MYSQL_USER=kodbox
     ```
 
-3. 在`D:/kodbox/`下新建`docker-compose.yml`文件, 在其中配置映射端口、持久化目录等
+3. 在`D:/kodbox/`下新建`docker-compose.yml`文件，在其中配置映射端口、持久化目录等
 
   ```yaml
   version: '3.5'
@@ -45,7 +45,7 @@ description: Docker环境可道云网盘的安装示例
         - MARIADB_DISABLE_UPGRADE_BACKUP=1
       env_file:
         - db.env
-      
+
     app:
       image: kodcloud/kodbox
       restart: always
@@ -67,7 +67,7 @@ description: Docker环境可道云网盘的安装示例
       restart: always
   ```
 
-3. 打开`powershell`终端, 进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
+3. 打开`powershell`终端，进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
 
     ```powershell
     PS D:\> cd D:/kodbox/
@@ -107,6 +107,6 @@ description: Docker环境可道云网盘的安装示例
     PS D:\kodbox> docker compose up
     ```
 
-4. 根据`docker-compose.yml`文件中配置的映射端口, 访问 [安装向导](./start.md) 进行系统初始化。
+4. 根据`docker-compose.yml`文件中配置的映射端口，访问 [安装向导](./start.md) 进行系统初始化。
 
 </div>

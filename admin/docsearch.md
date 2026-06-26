@@ -14,8 +14,8 @@ description: 关于全文搜索插件的配置说明
 
 在网盘文件管理页面搜索文件时，若勾选**更多-文件内容**，默认支持对txt等各种纯文本内容搜索，但若需要对PDF,office等文件进行内容搜索，则需要安装此扩展插件。
 
-> **注 意**
-> 
+> **注意**
+>
 > - 需要在插件中心启用，并且**连接测试正常**后方可使用。
 > - 全文搜索插件实现逻辑是提取文件内容到数据库，并通过对数据库增加`fulltext`索引实现的。
 > - 全文搜索文件内容提取默认每分钟执行一次，在后台服务器管理-计划任务中可以查看。
@@ -52,8 +52,8 @@ description: 关于全文搜索插件的配置说明
    ALTER TABLE `io_file_contents` ADD FULLTEXT (`content`) WITH PARSER ngram;
    ```
 
-> **提 示**
-> 
+> **提示**
+>
 > - ngram 中文分词较精准，但可能因短词重复率太高引起内存不足报错“FTS query exceeds”，建议优化配置`/etc/my.cnf`
    ```my.cnf
    ngram_token_size = 4  #ngram 分词器中 N 的大小，默认为2，增大以避免查询过宽
@@ -71,7 +71,7 @@ $config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文�
 $config['settingSystemDefault']['searchFulltextInnodb'] = 1;
 ```
 
-- （可选）如果没有使用`innodb`, 建议修改表引擎为`innodb`
+- （可选）如果没有使用`innodb`，建议修改表引擎为`innodb`
 
 ```sql
 alter table comment engine=InnoDB;

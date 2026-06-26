@@ -8,7 +8,7 @@ description: Ubuntu 22.04 LTS系统中可道云网盘的安装示例
 
 ## 概述
 
-在**Ubuntu 22.04 LTS** 上部署**kodbox**, 安装依赖软件环境比较简单, 所有软件在默认源中已经包含。
+在**Ubuntu 22.04 LTS** 上部署**kodbox**，安装依赖软件环境比较简单，所有软件在默认源中已经包含。
 
 ### 软件版本
 
@@ -35,8 +35,8 @@ $ sudo systemctl enable nginx php8.1-fpm mysql redis-server
 $ sudo apt install imagemagick ffmpeg
 ```
 
-> 如果PDF文件没有生成缩略图, 可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
->  
+> 如果PDF文件没有生成缩略图，可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
+>
 > `sudo sed -i '/PDF/s/none/read \| write/g' /etc/ImageMagick-6/policy.xml`
 >
 
@@ -52,7 +52,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置, 以解析PHP
+需要添加的配置，以解析PHP
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -60,7 +60,7 @@ location ~ [^/]\.php(/|$) {
    fastcgi_pass unix:/run/php/php8.1-fpm.sock;
    fastcgi_index index.php;
    set $path_info $fastcgi_path_info;
-   set $real_script_name $fastcgi_script_name;  
+   set $real_script_name $fastcgi_script_name;
    if ($fastcgi_script_name ~ "^(.+?\.php)(/.+)$") {
       set $real_script_name $1;
       set $path_info $2;
@@ -88,7 +88,7 @@ $ sed -i \
    -e "s/post_max_size = .*/post_max_size = 512M/g" \
    -e "s/upload_max_filesize = .*/upload_max_filesize = 512M/g" \
    ${PHP_INI}
-    
+
 $ sed -i \
    -e "s/pm.max_children = .*/pm.max_children = 100/g" \
    -e "s/pm.start_servers = .*/pm.start_servers = 10/g" \
@@ -103,28 +103,28 @@ $ sudo systemctl restart php8.1-fpm
 
 ### MySQL
 
-这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时, `KodBox`将创建数据库表。
+这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时，`KodBox`将创建数据库表。
 
-要启动 MySQL 命令行模式, 请使用以下命令：
+要启动 MySQL 命令行模式，请使用以下命令：
 
 ```console
 $ sudo mysql
 ```
 
-然后会出现 **mysql [root]>** 窗口。首次登陆建议先设置数据库root账号的密码
+然后会出现 **mysql [root]>** 窗口。首次登录建议先设置数据库root账号的密码
 
 ```sql
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'xxxx';
 mysql> quit
 ```
 
-并执行数据库安全设置向导, 根据提示步骤设置密码规则、删除匿名用户等
+并执行数据库安全设置向导，根据提示步骤设置密码规则、删除匿名用户等
 
 ```console
 $ sudo mysql_secure_installation
 ```
 
-再次启动 MySQL 命令行模式, 输入以下行, 将`username`和`password`替换为适当的值, 并使用 Enter 键确认：
+再次启动 MySQL 命令行模式，输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -139,9 +139,9 @@ mysql> FLUSH PRIVILEGES;
 mysql> quit
 ```
 
-### 安装KodBox
+### 安装 KodBox
 
-下载最新版本的kodbox安装包, 解压到站点目录
+下载最新版本的kodbox安装包，解压到站点目录
 
 ```console
 $ sudo apt install -y unzip
@@ -153,7 +153,7 @@ $ sudo chmod -R 755 /var/www/html
 $ sudo systemctl restart nginx
 ```
 
-设置防火墙, 更多防火墙设置[参考](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04)
+设置防火墙，更多防火墙设置[参考](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04)
 
 ```console
 $ sudo ufw allow ssh

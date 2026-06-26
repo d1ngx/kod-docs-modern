@@ -16,7 +16,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 >
 > 默认使用社区版onlyoffice容器解析服务，支持20编辑并发，超出的并发数只能预览。
 
-## 1.安装docker
+## 1.安装 docker
 
 安装并启动docker服务
 
@@ -33,7 +33,7 @@ $ systemctl enable docker && systemctl start docker
 $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
 ```
 
-若网络不佳, 可切换阿里云容器镜像地址
+若网络不佳，可切换阿里云容器镜像地址
 
 ```console
 $ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:7.4.1.1
@@ -45,7 +45,7 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangz
 
 > 提示：
 >
-> - kodoffice版本增加了多种中文字体 并且兼容插件检测;
+> - kodoffice版本增加了多种中文字体 并且兼容插件检测；
 > - 部署onlyoffice官方社区版（包含arm版）：
 ```console
 $ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
@@ -56,7 +56,7 @@ $ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=tr
 $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:loongarch-7.4.1.3
 ```
 
-### 2.以https方式启动
+### 2.以 https 方式启动
 
 使用已有ssl证书
 
@@ -75,7 +75,7 @@ kodcloud/kodoffice:7.4.1.1
 
 #### 更新证书
 
-1. 替换证书文件`/data/certs/onlyoffice.key`、`/data/certs/onlyoffice.crt`, 注意证书名称不能改变。
+1. 替换证书文件`/data/certs/onlyoffice.key`、`/data/certs/onlyoffice.crt`，注意证书名称不能改变。
 2. 重启容器内nginx服务`docker exec -it kodoffice service nginx restart`
 
 ### 3.注意事项
@@ -93,17 +93,18 @@ kodcloud/kodoffice:7.4.1.1
 
 ### 1.安装插件
 
-管理员登陆-进入**插件中心 (全部)**-找到onlyoffice插件，点击安装
+管理员登录-进入**插件中心 (全部)**-找到onlyoffice插件，点击安装
 
 ### 2.配置插件
 
 > 提示：
 >
-> - 如果office和可道云部署在同一台服务器, 且office使用`8001`端口, 插件则无需任何配置 。
+> - 如果office和可道云部署在同一台服务器，且office使用`8001`端口，插件则无需任何配置 。
 
 点击配置插件,将上面office所在服务器ip替换到如图选中的内容(注意结尾`/web/`不能去除);
 
 点击"检测office服务器"，如果检测通过这说明全部配置完成，刷新可道云页面，选中一个office文件右键打开方式，选择onlyoffice编辑即可体验。
+
 ![插件设置](/setup/images/2.3/1.png){:width="800px"}
 
 检测结果无误如下图:
@@ -131,14 +132,14 @@ window.kod.allowHost = [
 
 ### 插件检测说明
 
-- **域名规则检测**: 为IP或域名地址, 但不能为localhost;
+- **域名规则检测**: 为IP或域名地址，但不能为localhost;
 - **静态资源访问状态**: 检测`[填写地址]/sdkjs/common/AllFonts.js`;
 - **office服务器运行状态**: 检测`[填写地址]/check/`
-    - 若检测失败, 建议重启内部解析服务`docker exec -it kodoffice bash /app/ds/run-document-server.sh`;
-    - 使用onlyoffice官方社区版可忽略此项检测;
+    - 若检测失败，建议重启内部解析服务`docker exec -it kodoffice bash /app/ds/run-document-server.sh`;
+    - 使用onlyoffice官方社区版可忽略此项检测；
 - **office服务器请求kod**: 检测容器内是否能访问网盘地址
-    - 若检测失败, 建议容器内测试网盘连通性`docker exec -it kodoffice ping [网盘地址]`;
-    - 使用onlyoffice官方社区版可忽略此项检测;
+    - 若检测失败，建议容器内测试网盘连通性`docker exec -it kodoffice ping [网盘地址]`;
+    - 使用onlyoffice官方社区版可忽略此项检测；
 - **kod服务器请求office**: 检测网盘服务器是否能访问kodoffice地址。
 
 ### 重启、停止和删除
@@ -148,7 +149,7 @@ window.kod.allowHost = [
 - `docker rm kodoffice`
     - 容器删除后仍有部分数据保留，全部清除需要执行`docker volume prune`
 
-### 如何配置https访问
+### 如何配置 https 访问
 
 - 如果部署是以https方式启动，直接访问即可
 - 如果部署是以http方式启动的，需要配置nginx反向代理来实现https转http，具体实现参考：
@@ -175,8 +176,8 @@ window.kod.allowHost = [
             proxy_set_header X-Forwarded-Proto $scheme;
 
             #websocket wss代理
-            proxy_http_version 1.1;  
-            proxy_set_header Upgrade $http_upgrade;  
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
 
             proxy_cache_key $time_local$host$request_uri$is_args$args;
@@ -191,8 +192,8 @@ window.kod.allowHost = [
 
 使用自签名ssl证书
 
-> 提示： 
-> 
+> 提示：
+>
 > 浏览器会有警告，但继续访问仍可以使用。
 
 1. 生成证书
@@ -203,15 +204,15 @@ window.kod.allowHost = [
 2. 更新证书到nginx反代配置
 > 提示：
 >
-> 将onlyoffice服务地址（`https://[server]:[port]/web/`）配置到插件后, 需单独访问一次onlyoffice服务地址, 浏览器允许继续访问才可正常使用。
+> 将onlyoffice服务地址（`https://[server]:[port]/web/`）配置到插件后，需单独访问一次onlyoffice服务地址，浏览器允许继续访问才可正常使用。
 
     ```nginx
         ssl_certificate    /etc/nginx/ssl/nginx-selfsigned.crt;
         ssl_certificate_key     /etc/nginx/ssl/nginx-selfsigned.key;
     ```
-3. 修改容器配置, 允许不安全访问
+3. 修改容器配置，允许不安全访问
 > 提示：
-> 
+>
 > 如果网盘站点使用了不安全证书，则需要进行以下配置。
 
     ```console
@@ -226,15 +227,15 @@ window.kod.allowHost = [
 
 ### 自定义域名解析
 
-重新运行容器, 加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`(或者指定dns如`--dns 192.168.1.1`)
+重新运行容器，加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`(或者指定dns如`--dns 192.168.1.1`)
 ```console
 $ docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.com:192.168.3.4 kodcloud/kodoffice:7.4.1.1
 ```
 
 ### 修改`docker0`网口默认网段
 
-> 提示： 
-> 
+> 提示：
+>
 > 请先删除所有已运行的容器，否则网段设置不会生效。
 
 参考[docker官网文档](https://docs.docker.com/network/drivers/bridge/#configure-the-default-bridge-network)

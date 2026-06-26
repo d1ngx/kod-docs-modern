@@ -6,7 +6,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 <div id="office_win" class="tab-pane fade in active" markdown="1">
 
-## window部署office服务器流程
+## window 部署 office 服务器流程
 
 ### 环境要求
 
@@ -14,7 +14,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 - 服务器内存必须4G以上；
 - C盘剩余空间不少于20G；
 - 当前登录用户必须是管理员；
-- 由于DockerToolbox不再更新, 如果无法安装, 请更换linux操作系统
+- 由于DockerToolbox不再更新，如果无法安装，请更换linux操作系统
 
 > 提示：
 >
@@ -24,19 +24,20 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 
 #### 1、在桌面创建一个文件夹,重命名为`kod`【注: 必须在桌面】
 
-#### 2、下载下列内容到kod文件夹
+#### 2、下载下列内容到 kod 文件夹
 
 1. [docker安装程序 DockerToolbox](https://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/DockerToolbox-18.03.0-ce.exe)
 2. [docker资源文件夹 data.zip](http://kodcdn.kodcloud.com/docker/data.zip)
 
-#### 3、解压data.zip 到当前文件夹(桌面的kod文件夹)
+#### 3、解压 data.zip 到当前文件夹(桌面的 kod 文件夹)
 
-### 二、安装docker
+### 二、安装 docker
 
-#### 1、安装DockerToolbox程序
+#### 1、安装 DockerToolbox 程序
 
 双击桌面kod文件夹下“DockerToolbox”程序，无需任何设置，一直点下一步直到完成。
 安装成功后桌面会多出如下三个软件快捷方式。
+
 ![docker-install](/setup/images/run_office_win.png){:width="700px"}
 
 !> **注意：**
@@ -45,20 +46,21 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 - 如果你安装了360，可能会阻止程序的安装，应该注意允许程序安装
 - 在安装过程中，会出现几个其他的安装过程，全部选择安装即可
 
-#### 2、配置VirtualBox虚拟机
+#### 2、配置 VirtualBox 虚拟机
 
 ##### 1、安装，初始化
 
 双击运行`[桌面]/kod/启动或重启.cmd`。这是一键配置和运行docker的过程。
 
 配置成功后会显示如下图内容，窗口需要手动关闭。
+
 ![导入并运行](/setup/images/run_office.png){:width="650px"}
 
 !> **注意：**
 
 - 需要联网下载镜像，大概需要5分钟左右,如果界面长时间卡住不动，可以输入回车键激活一下。
 - 上图截图中的日志时间为UTC时间，等于国内时间+8小时。
-- 如果你安装了360，可能会阻止程序的安装，应该注意允许程序安装.
+- 如果你安装了360，可能会阻止程序的安装，应该注意允许程序安装。
 - 如果上面过程出现该报错:
 
 ```cmd
@@ -94,11 +96,11 @@ Error creating machine: Error in driver during machine creation: This computer d
 
 #### 1、安装插件
 
-管理员登陆-界面右上角菜单-**插件中心 (全部)**-找到onlyoffice插件，点击安装
+管理员登录-界面右上角菜单-**插件中心 (全部)**-找到onlyoffice插件，点击安装
 
 #### 2、配置插件
 
-##### 如果office和可道云部署在同一台服务器，则无需任何配置
+##### 如果 office 和可道云部署在同一台服务器，则无需任何配置
 
 office和可道云不在一台服务器：点击配置插件,将上面office所在服务器ip替换到如图选中的内容(注意结尾/web/不能去除);
 
@@ -117,33 +119,34 @@ office和可道云不在一台服务器：点击配置插件,将上面office所�
 
 ### 四、其他问题
 
-#### VirtulBox无法打开，提示软件不安全
+#### VirtulBox 无法打开，提示软件不安全
 
 请到[官网下载](https://www.virtualbox.org/wiki/Downloads)最新版本VirtulBox安装
 
 #### 如何查看容器状态？
 
 可以在桌面上运行Docker Quickstart Terminal,然后执行 `docker ps`查看
+
     ![容器状态](/setup/images/docker_ps.png){:width="650px"}
 
-#### 如何配置https访问
+#### 如何配置 https 访问
 
 - 若全站采用https访问office，需要配置nginx反向代理来实现https转http
 - 具体实现: [参考这里](/others/office_https.md)
 
-#### 如何自启动office服务，避免每次开启后需要手动启动
+#### 如何自启动 office 服务，避免每次开启后需要手动启动
 
 - `win + r` 输入 `shell:startup` 回车打开**启动**目录
-- 将`[桌面]/kod/启动或重启.cmd` 发送到桌面快捷方式, 并将快捷方式拷贝到该**启动**目录
+- 将`[桌面]/kod/启动或重启.cmd` 发送到桌面快捷方式，并将快捷方式拷贝到该**启动**目录
 
-#### 优化office打开预览速度
+#### 优化 office 打开预览速度
 
 - 优化office打开预览速度，建议分配docker 4G以上内存，设置方法：
     启动桌面的 VirtualBox ==> 右键左侧“default”-退出(关闭电源),设置-系统内存设置为 4096 MB; 选择处理器CPU ==> 处理器数量建议尽可能多。
 
 注意：操作完成后，双击运行`[桌面]/kod/启动或重启.cmd`生效
 
-#### docker占用空间越来越大怎么办
+#### docker 占用空间越来越大怎么办
 
 - 双击运行`[桌面]/kod/启动或重启.cmd`即可清理相关缓存及临时文件。
 

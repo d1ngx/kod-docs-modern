@@ -8,7 +8,7 @@ description: 可道云网盘的依赖环境优化
 
 ## MySQL
 
-`/etc/my.cnf`参考配置, 最大内存占用`6G`左右, 参考计算方法[MySQL最大内存占用计算](https://www.mysqlcalculator.com/)
+`/etc/my.cnf`参考配置，最大内存占用`6G`左右，参考计算方法[MySQL最大内存占用计算](https://www.mysqlcalculator.com/)
 
 `MySQL5.7`建议调整以下参数
 

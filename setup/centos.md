@@ -6,7 +6,7 @@ description: CentOS7.9系统下可道云网盘的安装示例
 
 > 重要：
 >
-> CentOS 7 将于 2024 年 6 月 30 日 停止维护, 请谨慎选择。
+> CentOS 7 将于 2024 年 6 月 30 日 停止维护，请谨慎选择。
 {: .important}
 
 ## 概述
@@ -22,7 +22,7 @@ description: CentOS7.9系统下可道云网盘的安装示例
 
 ### NGINX
 
-参考[nginx官网教程](http://nginx.org/en/linux_packages.html#RHEL-CentOS), 安装所需软件, 添加nginx稳定版yum源
+参考[nginx官网教程](http://nginx.org/en/linux_packages.html#RHEL-CentOS), 安装所需软件，添加nginx稳定版yum源
 
 ```console
 $ yum -y install yum-utils vim
@@ -55,7 +55,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置, 以解析PHP
+需要添加的配置，以解析PHP
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -117,7 +117,7 @@ $ sed -i \
    -e "s/;listen.group = nobody/listen.group = nginx/g" \
    -e "s/listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm.sock/g" \
    ${PHP_FPM}
-   
+
 $ systemctl restart php-fpm
 ```
 
@@ -151,10 +151,10 @@ $ mysql_secure_installation
 连上数据库
 
 ```console
-$ mysql -uroot -p 
+$ mysql -uroot -p
 ```
 
-创建kodbox数据库和账号, 将`username`和`password`替换为适当的值
+创建kodbox数据库和账号，将`username`和`password`替换为适当的值
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -171,7 +171,7 @@ $ yum install redis
 $ systemctl enable redis && systemctl start redis
 ```
 
-#### 安装KodBox
+#### 安装 KodBox
 
 关闭selinux
 

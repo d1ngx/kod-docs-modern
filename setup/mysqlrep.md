@@ -9,7 +9,7 @@ description: MySQL主从双机部署方案
 ## 需求和实现逻辑
 
 - 在A,B 2台机器上配置 MySQL主从同步
-- 在A,B 2台机器同时部署网盘应用, 并且站点目录相同( A站点目录通过NFS共享挂载到B)
+- 在A,B 2台机器同时部署网盘应用，并且站点目录相同( A站点目录通过NFS共享挂载到B)
 
 ### 一 环境准备
 
@@ -20,12 +20,14 @@ description: MySQL主从双机部署方案
 - 系统要求: 确保两台服务器时间同步（chronyd服务），防火墙开放相关端口包括`80/443/3306/6379`
 
 ```bash
+
 # 若无法联网更新时间，可配置局域网时间同步
 yum install chrony -y
 firewall-cmd --permanent --add-service=ntp
 firewall-cmd --reload
 
 # 服务端打开 /etc/chrony.conf 文件，添加或修改以下内容
+
 # 允许局域网内的客户端访问
 allow 192.168.0.0/16
 
@@ -39,6 +41,7 @@ driftfile /var/lib/chrony/drift
 rtcsync
 
 # 客户端打开 /etc/chrony.conf 文件，添加或修改以下内容
+
 # 指定时间服务器的 IP 地址
 server 192.168.1.1 iburst
 
@@ -57,18 +60,21 @@ timedatectl         # 确认已同步
 #### 2. 修改主机名（可选）
 
 ```bash
+
 # 主节点
 hostnamectl set-hostname master
+
 # 备节点
 hostnamectl set-hostname backup
 ```
 
-### 二 NFS共享目录挂载
+### 二 NFS 共享目录挂载
 
-#### NFS服务端
+#### NFS 服务端
 
 ```bash
-# 关闭selinux
+
+# 关闭 selinux
 setenforce 0
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 sestatus # 确认状态
@@ -88,7 +94,7 @@ firewall-cmd --permanent --add-service=mountd
 firewall-cmd --reload
 ```
 
-#### NFS客户端
+#### NFS 客户端
 
 ```bash
 yum install nfs-utils rpcbind
@@ -106,10 +112,10 @@ umount /var/www/html
 mount -a
 ```
 
-### 三 MySQL主从同步
+### 三 MySQL 主从同步
 
 > 提示：
-> 
+>
 > - 同步之前确保数据库状态一致，若数据库已创建，就需要同步到到从库。
 
 ```sql
@@ -182,10 +188,11 @@ SHOW SLAVE STATUS\G
 
 #### 3. 验证主从同步
 
-- 在主库创建测试数据,在从库查询数据.
+- 在主库创建测试数据,在从库查询数据。
 - 故障排查命令
 
 ```bash
+
 # 主库确认二进制日志正常
 mysql -uroot -pmaster_root_password -e "SHOW BINARY LOGS;"
 
@@ -193,7 +200,7 @@ mysql -uroot -pmaster_root_password -e "SHOW BINARY LOGS;"
 mysql -uroot -pslave_root_password -e "SHOW SLAVE STATUS\G" | grep "Last_IO_Error\|Last_SQL_Error"
 ```
 
-#### 4. 配置到kodbox
+#### 4. 配置到 kodbox
 
 > 注意：
 >

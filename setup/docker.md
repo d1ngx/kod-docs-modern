@@ -6,18 +6,18 @@ description: Docker环境可道云网盘的安装示例
 
 <div id="docker" class="tab-pane fade in active" markdown="1">
 
-## [安装Docker](https://docs.docker.com/engine/install/)
+## [安装 Docker](https://docs.docker.com/engine/install/)
 
 ### 1.安装环境
 
-安装并启动docker服务, 新版本docker会自动安装`docker-compose-plugin`
+安装并启动docker服务，新版本docker会自动安装`docker-compose-plugin`
 
 ```console
 $ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 $ systemctl enable docker && systemctl start docker
 ```
 
-docker compose 用法, 在通过`docker compose up`启动后, 可以使用`docker compose ls`查看配置文件位置
+docker compose 用法，在通过`docker compose up`启动后，可以使用`docker compose ls`查看配置文件位置
 
 ```console
 $ docker compose ls
@@ -31,13 +31,13 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 > - `curl -SL https://github.com/docker/compose/releases/download/v2.32.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose`
 > - `chmod +x /usr/local/bin/docker-compose`
 
-### 2.http方式快速启动
+### 2.http 方式快速启动
 
 > 注意：
 >
 > 首先创建一个目录作为项目目录，后面所有命令都在这个目录下执行
 > - `mkdir /kodbox && cd /kodbox`
-> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充.
+> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充。
 {: .important}
 
 - 创建文件来设置数据库环境变量`vim db.env`
@@ -69,7 +69,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
         - MARIADB_DISABLE_UPGRADE_BACKUP=1
       env_file:
         - db.env
-      
+
     app:
       image: kodcloud/kodbox
       restart: always
@@ -91,7 +91,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
       restart: always
   ```
 
-  若网络不佳, 可切换为阿里云容器镜像地址
+  若网络不佳，可切换为阿里云容器镜像地址
 
   ```yaml
   services:
@@ -108,7 +108,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
         - MARIADB_DISABLE_UPGRADE_BACKUP=1
       env_file:
         - db.env
-      
+
     app:
       image: registry.cn-hangzhou.aliyuncs.com/kodcloud/kodbox
       restart: always
@@ -160,7 +160,7 @@ Creating kodbox_app_1   ... done
 列出docker容器，可以看到3个容器正在运行
 
 ```console
-$ docker ps 
+$ docker ps
 CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                          NAMES
 f596f5b00305   kodcloud/kodbox   "/entrypoint.sh /usr…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, 9000/tcp   kodbox_app_1
 5f94f6d1aabb   mariadb           "docker-entrypoint.s…"   About a minute ago   Up About a minute   3306/tcp                       kodbox_db_1
@@ -186,11 +186,11 @@ Removing network kodbox_default
 $ docker compose up -d
 ```
 
-根据`docker-compose.yml`文件中配置的映射端口, 访问 [安装向导](./start.md) 进行系统初始化。
+根据`docker-compose.yml`文件中配置的映射端口，访问 [安装向导](./start.md) 进行系统初始化。
 
-### 3.配置https证书
+### 3.配置 https 证书
 
-#### 方式一：宿主机Nginx反向代理
+#### 方式一：宿主机 Nginx 反向代理
 
 ```nginx
 server {
@@ -246,7 +246,7 @@ $ mv xxx.pem fullchain.pem
 $ mv xxx.key privkey.pem
 ```
 
-在http的docker-compose.yml增加证书目录映射`/etc/kodbox/ssl:/etc/nginx/ssl`, 容器检测到证书文件存在时会自动启用https配置.
+在http的docker-compose.yml增加证书目录映射`/etc/kodbox/ssl:/etc/nginx/ssl`，容器检测到证书文件存在时会自动启用https配置。
 
 ```console
 $ mkdir kodbox && cd kodbox
@@ -269,7 +269,7 @@ services:
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
     env_file:
       - db.env
-      
+
   app:
     image: kodcloud/kodbox
     restart: always
@@ -296,7 +296,7 @@ services:
 
 ### 4.其他问题
 
-#### 自定义容器网络及IP段
+#### 自定义容器网络及 IP 段
 
 参考[provide-static-ip-to-docker-containers-via-docker-compose](https://stackoverflow.com/questions/39493490)
 
@@ -319,7 +319,7 @@ services:
     networks:
       vpcbr:
         ipv4_address: 10.5.0.5
-      
+
   app:
     image: kodcloud/kodbox
     restart: always
@@ -355,7 +355,7 @@ networks:
          gateway: 10.5.0.1
 ```
 
-#### 挂载NFS存储卷
+#### 挂载 NFS 存储卷
 
 > 提示：
 >
@@ -378,7 +378,7 @@ services:
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
     env_file:
       - db.env
-      
+
   app:
     image: kodcloud/kodbox
     restart: always
@@ -408,19 +408,28 @@ volumes:
       device: ":/path/to-dir"
 ```
 
-#### 挂载CIFS存储卷（SMB）
+#### 挂载 CIFS 存储卷（SMB）
 
 参考[docker_compose_cifs_mounts](https://docs.unmanic.app/docs/advanced/docker_compose_cifs_mounts/)
 ```bash
+
 # Variables that will need to be changed:
-#     <PUID>                            -  User id for folder/file permissions
-#     <PGID>                            -  Group id for folder/file permissions
-#     <PATH_TO_CONFIG>                  -  Path where Unmanic will store config files
-#     <PATH_TO_ENCODE_CACHE>            -  Cache path for in-progress encoding tasks
-#     <REMOTE_IP>                       -  Remote IP address of CIFS mount
-#     <PATH_TO_LIBRARY>                 -  Path in remote machine to be mounted as your library 
-#     <USERNAME>                        -  Remote mount username
-#     <PASSWORD>                        -  Remote mount password
+
+#     <PUID> - User id for folder/file permissions
+
+#     <PGID> - Group id for folder/file permissions
+
+#     <PATH_TO_CONFIG> - Path where Unmanic will store config files
+
+#     <PATH_TO_ENCODE_CACHE> - Cache path for in-progress encoding tasks
+
+#     <REMOTE_IP> - Remote IP address of CIFS mount
+
+#     <PATH_TO_LIBRARY> - Path in remote machine to be mounted as your library
+
+#     <USERNAME> - Remote mount username
+
+#     <PASSWORD> - Remote mount password
 ```
 
 ```yaml
@@ -439,7 +448,7 @@ services:
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
     env_file:
       - db.env
-      
+
   app:
     image: kodcloud/kodbox
     restart: always
@@ -467,7 +476,7 @@ volumes:
   cifs_mount:
     driver: local
     driver_opts:
-      type: cifs    
+      type: cifs
       device: //<REMOTE_IP>/<PATH_TO_LIBRARY>
       o: "username=<USERNAME>,password=<PASSWORD>,uid=100,gid=101"
 ```
@@ -478,7 +487,7 @@ volumes:
 >
 > 首先创建一个目录作为项目目录，后面所有命令都在这个目录下执行
 > - `mkdir /kodbox && cd /kodbox`
-> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充.
+> - 需在`db.env`中设置数据库密码，还有yml中的`MYSQL_ROOT_PASSWORD`需补充。
 > - `wget https://static.box.kodcloud.com/plugins/teamos/docker-compose-loongarch64 -O /usr/local/bin/docker-compose`
 > - `chmod +x /usr/local/bin/docker-compose`
 {: .important}
@@ -512,7 +521,7 @@ volumes:
         - MARIADB_DISABLE_UPGRADE_BACKUP=1
       env_file:
         - db.env
-      
+
     app:
       image: registry.cn-hangzhou.aliyuncs.com/kodcloud/kodbox:loongarch64
       restart: always
@@ -538,6 +547,6 @@ volumes:
       restart: always
   ```
 
-进入项目目录，执行`docker-compose up -d`启动命令，会自动拉取容器并运行.
+进入项目目录，执行`docker-compose up -d`启动命令，会自动拉取容器并运行。
 
 </div>

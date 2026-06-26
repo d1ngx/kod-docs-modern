@@ -21,35 +21,35 @@ description: 欧拉系统下可道云网盘的安装示例
 
 ```console
 $ yum install nginx
-$ yum install php php-fpm php-mysqlnd php-zip php-gd php-mbstring php-xml php-pear php-bcmath php-intl 
+$ yum install php php-fpm php-mysqlnd php-zip php-gd php-mbstring php-xml php-pear php-bcmath php-intl
 $ yum install mysql-server redis
 $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
 
-# 支持pdf、视频等文件生成封面缩略图,支持视频转码
+# 支持 pdf、视频等文件生成封面缩略图,支持视频转码
 $ yum install ImageMagick ffmpeg
 ```
 
-#### (可选)编译安装ImageMagick
+#### (可选)编译安装 ImageMagick
 
 > 提示：
 >
-> - 对于HEIC格式的在线预览, 需要手动编译ImageMagick以增加支持。
+> - 对于HEIC格式的在线预览，需要手动编译ImageMagick以增加支持。
 
 ```console
 $ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 $ yum remove ImageMagick -y
 $ yum install gcc gcc-c++ autoconf make automake libtool libtool-ltdl-devel
 $ yum install -y fftw fftw-devel fftw-devel bzip2-devel freetype-devel libjpeg-devel libpng-devel libtiff-devel giflib-devel zlib-devel ghostscript-devel djvulibre-devel libwmf-devel libX11-devel libXext-devel libXt-devel libxml2-devel librsvg2-devel OpenEXR-devel openjpeg2 openjpeg2-devel LibRaw LibRaw-devel
- 
-$ cd /usr/src/ 
-$ git clone https://github.com/strukturag/libde265.git  
+
+$ cd /usr/src/
+$ git clone https://github.com/strukturag/libde265.git
 $ git clone https://github.com/strukturag/libheif.git
 $ git clone --depth 1 https://github.com/ImageMagick/ImageMagick.git
- 
+
 $ cd libde265/
 $ mkdir build && cd build && cmake .. && make && make install
-$ cd /usr/src/libheif/ 
+$ cd /usr/src/libheif/
 $ mkdir build && cd build && cmake --preset=release .. && make && make install
 $ cd /usr/src/ImageMagick
 $ export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
@@ -71,7 +71,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置, 以解析PHP
+需要添加的配置，以解析PHP
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -127,7 +127,7 @@ $ systemctl restart php-fpm
 
 ### MySQL
 
-这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时, `KodBox`将创建数据库表。
+这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时，`KodBox`将创建数据库表。
 
 要启动 MySQL 命令行模式，请使用以下命令：
 
@@ -146,7 +146,7 @@ mysql> FLUSH PRIVILEGES;
 
 ### Redis
 
-由于系统默认不包含`php-redis`扩展, 这里需要手动编译, 执行
+由于系统默认不包含`php-redis`扩展，这里需要手动编译，执行
 
 ```console
 $ yum install git php-devel make -y
@@ -160,7 +160,7 @@ $ echo "extension=redis.so" > /etc/php.d/20-redis.ini
 $ systemctl restart php-fpm
 ```
 
-#### 安装KodBox
+#### 安装 KodBox
 
 关闭selinux
 

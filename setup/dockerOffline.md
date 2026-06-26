@@ -9,11 +9,11 @@ description: 在离线环境下, 如何使用Docker部署可道云网盘
 ## 环境需求
 
 - 一台离线的服务器A, 需要部署可道云网盘
-- 一台能联网的服务器B, 要求有docker环境, 用于下载安装包和在线拉取镜像
+- 一台能联网的服务器B, 要求有docker环境，用于下载安装包和在线拉取镜像
 
-### 离线安装Docker
+### 离线安装 Docker
 
-先从[Docker官网下载页面](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)下载`Docker`的软件包, 这里以`CentOS7`为例
+先从[Docker官网下载页面](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)下载`Docker`的软件包，这里以`CentOS7`为例
 分别下载最新的:
 
 - [containerd.io](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.6.13-3.1.el7.x86_64.rpm)
@@ -23,7 +23,7 @@ description: 在离线环境下, 如何使用Docker部署可道云网盘
 - [docker-ce-rootless-extras](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-rootless-extras-20.10.9-3.el7.x86_64.rpm)
 - [docker-scan-plugin](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-scan-plugin-0.23.0-3.el7.x86_64.rpm)
 
-把以上文件都上传到服务器A, 假设目录位于`docker`, 执行安装命令
+把以上文件都上传到服务器A, 假设目录位于`docker`，执行安装命令
 
 ```bash
 [root@kod ~]# rpm -ivh docker/*.rpm
@@ -41,7 +41,7 @@ Docker version 20.10.19, build d85ef84
 
 ### 导入镜像
 
-在一台能联网、有Docker环境的服务器B上拉取镜像, 并导出tar包
+在一台能联网、有Docker环境的服务器B上拉取镜像，并导出tar包
 
 ```console
 $ docker pull kodcloud/kodbox
@@ -52,7 +52,7 @@ $ docker save -o redis.tar redis:alpine
 $ docker save -o mariadb.tar mariadb
 ```
 
-将tar包上传到离线服务器A上, 然后执行导入命令
+将tar包上传到离线服务器A上，然后执行导入命令
 
 ```console
 $ docker load -i kodbox.tar
@@ -60,9 +60,9 @@ $ docker load -i redis.tar
 $ docker load -i mariadb.tar
 ```
 
-导入完成后, `docker images`看到3个镜像, `kodbox、redis 和mariadb`
+导入完成后，`docker images`看到3个镜像，`kodbox、redis 和mariadb`
 
-### http方式快速启动
+### http 方式快速启动
 
 > 注意
 >
@@ -107,7 +107,7 @@ $ docker load -i mariadb.tar
         - MARIADB_DISABLE_UPGRADE_BACKUP=1
       env_file:
         - db.env
-      
+
     app:
       image: kodcloud/kodbox
       restart: always
@@ -142,7 +142,7 @@ Creating kodbox_app_1   ... done
 列出docker容器，可以看到3个容器正在运行
 
 ```console
-$ docker ps 
+$ docker ps
 CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                          NAMES
 f596f5b00305   kodcloud/kodbox   "/entrypoint.sh /usr…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, 9000/tcp   kodbox_app_1
 5f94f6d1aabb   mariadb           "docker-entrypoint.s…"   About a minute ago   Up About a minute   3306/tcp                       kodbox_db_1

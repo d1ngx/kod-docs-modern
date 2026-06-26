@@ -41,7 +41,7 @@ $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
 ```
 
-支持图片视频等文件生成封面缩略图, 需要安装`ImageMagick`和`ffmpeg`。
+支持图片视频等文件生成封面缩略图，需要安装`ImageMagick`和`ffmpeg`。
 
 > 提示：
 >
@@ -65,7 +65,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置, 以解析PHP
+需要添加的配置，以解析PHP
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -114,21 +114,21 @@ $ sed -i \
    -e "s/;listen.owner = nobody/listen.owner = nginx/g" \
    -e "s/;listen.group = nobody/listen.group = nginx/g" \
    ${PHP_FPM}
-   
+
 $ systemctl restart php-fpm
 ```
 
 ### MySQL
 
-这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时, `KodBox`将创建数据库表。
+这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时，`KodBox`将创建数据库表。
 
-执行数据库安全设置向导, 根据提示步骤设置密码规则、删除匿名用户等
+执行数据库安全设置向导，根据提示步骤设置密码规则、删除匿名用户等
 
 ```console
 $ mysql_secure_installation
 ```
 
-启动 MySQL 命令行模式, 输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
+启动 MySQL 命令行模式，输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -139,7 +139,7 @@ mysql> FLUSH PRIVILEGES;
 
 ### Redis
 
-由于系统默认不包含`php-redis`扩展, 这里需要手动编译, 执行
+由于系统默认不包含`php-redis`扩展，这里需要手动编译，执行
 
 ```console
 $ dnf install git php-devel make -y
@@ -153,7 +153,7 @@ $ echo "extension=redis.so" > /etc/php.d/20-redis.ini
 $ systemctl restart php-fpm
 ```
 
-#### 安装KodBox
+#### 安装 KodBox
 
 下载最新版本的kodbox安装包，解压到站点目录
 

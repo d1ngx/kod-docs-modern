@@ -47,7 +47,7 @@ description: 如何将新增磁盘加入RAID5阵列
 8. **扩展文件系统**：如果文件系统已挂载，需扩容文件系统
    ```bash
    pvs
-   pvresize /dev/md0  
+   pvresize /dev/md0
    lvextend -l +100%FREE /dev/mapper/vgroup1-lvol1 # 扩容卷组
    xfs_growfs /kdisk/volume1   # ext4使用resize2fs /mnt/kdiskxxx
    ```
