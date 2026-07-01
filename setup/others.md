@@ -1,43 +1,43 @@
 ---
 title: "可道云依赖环境的配置优化"
 keywords: nginx, php, MySQL, redis
-description: 可道云网盘的依赖环境优化
+description: Redis 缓存切换、PSD 预览与 ImageMagick 编译说明
 ---
 
 <div id="others" markdown="1">
 
 ## Redis
 
-如果安装时未选择redis, 登录后在可道云后台 - 服务器管理，可以进行`缓存切换`
+Redis 是内存数据库，常用作缓存以加速可道云读写。若安装时未配置 Redis，可在可道云后台 **服务器管理** 中进行「缓存切换」：
 
-- 选择redis进行检测
-- 检测通过后可以执行切换，切换后会自动跳转到登录页面
+- 选择 Redis 并点击检测
+- 检测通过后可执行切换，切换完成后会自动跳转到登录页面
 
   ![swh_rds](../images/swh_rds.png){:width="550px"}
 
-为增强安全性，建议增加redis密码配置。
+为增强安全性，建议为 Redis 设置访问密码。
 
-编辑redis配置文件，通常是`/etc/redis.conf`，添加如下配置，将其中的`password`替换为您的redis密码。
+编辑 Redis 配置文件（通常为 `/etc/redis.conf`），添加以下配置，将 `password` 替换为实际密码：
 
 ```redis.conf
 requirepass password
 ```
 
-然后在`KodBox`的根目录下`./config/setting_user.php`文件中添加如下配置，将其中的`password`替换为您的redis密码。
+然后在 KodBox 站点目录下 `./config/setting_user.php` 中添加相同密码：
 
 ```php
 $config['cache']['redis']['auth'] = 'password';
 ```
 
-需要重启redis服务，执行`systemctl restart redis`
+修改后需重启 Redis 服务：`systemctl restart redis`
 
-## PSD
+## PSD 预览
 
-`KodBox`支持`PSD`、`AI`等文件预览，还有`pdf`、视频文件的封面缩略图生成。
+KodBox 支持 PSD、AI 等设计文件的在线预览，以及 PDF、视频文件的封面缩略图生成。
 
-实现这些需要安装`ImageMagick`和`ffmpeg`。
+实现这些功能需要安装 ImageMagick（图像处理）和 ffmpeg（音视频处理）。
 
-在CentOS 7.9 上，安装方式为
+在 CentOS 7.9 上，安装方式为：
 
 ```console
 $ yum install ImageMagick
@@ -46,7 +46,7 @@ $ yum install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.n
 $ yum install ffmpeg
 ```
 
-对于`HEIC`格式的在线预览，则需要手动编译`ImageMagick`以增加支持。
+对于 HEIC 格式（iPhone 常用照片格式）的在线预览，需手动编译 ImageMagick 并启用 libheif 支持：
 
 ```console
 $ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig

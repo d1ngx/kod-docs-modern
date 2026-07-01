@@ -1,25 +1,25 @@
 ---
 title: "Docker环境可道云网盘的安装示例"
 keywords: windows, docker, 容器
-description: Docker环境可道云网盘的安装示例
+description: 在 Windows Docker Desktop 上部署 kodbox
 ---
 
 <div id="docker_win" class="tab-pane fade in active" markdown="1">
 
 ## 概述
 
-从Docker官网下载[Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/), 注意Windows系统要求为`win10`或`win11`
+Docker Desktop 是 Windows 上的 Docker 图形化工具，可在本地运行 Linux 容器。请从 Docker 官网下载 [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)，系统要求为 Windows 10 或 Windows 11。
 
-安装并打开后页面如下图![docker desktop](../images/docker_dk.png){:width="700px"}
+安装并打开后，界面如下图所示：![docker desktop](../images/docker_dk.png){:width="700px"}
 
 ## 部署步骤
 
 > 提示:
 >
-> 在Linux 或者 Mac OS上可以使用相同的部署步骤。
+> 在 Linux 或 macOS 上可使用相同的部署步骤。
 
 1. 首先创建一个目录作为项目目录，这里选择 `D:/kodbox/`
-2. 在`D:/kodbox/`下新建`db.env`文件来设置数据库环境变量
+2. 在 `D:/kodbox/` 下新建 `db.env` 文件，用于设置数据库环境变量：
 
     ```bash
     MYSQL_PASSWORD=
@@ -27,7 +27,7 @@ description: Docker环境可道云网盘的安装示例
     MYSQL_USER=kodbox
     ```
 
-3. 在`D:/kodbox/`下新建`docker-compose.yml`文件，在其中配置映射端口、持久化目录等
+3. 在 `D:/kodbox/` 下新建 `docker-compose.yml` 文件，配置端口映射和数据持久化目录：
 
   ```yaml
   version: '3.5'
@@ -67,7 +67,7 @@ description: Docker环境可道云网盘的安装示例
       restart: always
   ```
 
-3. 打开`powershell`终端，进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
+4. 打开 PowerShell 终端，进入项目目录，执行 `docker compose up -d` 启动服务（`-d` 表示后台运行）。Docker 会自动拉取镜像并创建容器：
 
     ```powershell
     PS D:\> cd D:/kodbox/
@@ -80,7 +80,7 @@ description: Docker环境可道云网盘的安装示例
     PS D:\kodbox>
     ```
 
-    列出docker容器，可以看到3个容器正在运行
+    用 `docker ps` 查看正在运行的容器，正常情况下可以看到 3 个容器：
 
     ```powershell
     PS D:\kodbox> docker ps
@@ -90,7 +90,7 @@ description: Docker环境可道云网盘的安装示例
     d00f14f16ca7   redis:alpine      "docker-entrypoint.s…"   6 minutes ago   Up 6 minutes   6379/tcp                                kodbox-redis-1
     ```
 
-    如果需要停止服务
+    如需停止并移除所有容器（数据仍保留在挂载目录中）：
 
     ```powershell
     PS D:\kodbox> docker compose down
@@ -101,12 +101,12 @@ description: Docker环境可道云网盘的安装示例
     - Network kodbox_default    Removed
     ```
 
-    由于数据库和kodbox已经挂载了持久化目录，需要时可以重新启动，不用担心数据丢失
+    数据库和 kodbox 的数据已挂载到本地目录，再次执行 `docker compose up` 即可恢复，数据不会丢失：
 
     ```powershell
     PS D:\kodbox> docker compose up
     ```
 
-4. 根据`docker-compose.yml`文件中配置的映射端口，访问 [安装向导](./start.md) 进行系统初始化。
+5. 根据 `docker-compose.yml` 中配置的映射端口，访问 [安装向导](./start.md) 完成系统初始化。
 
 </div>

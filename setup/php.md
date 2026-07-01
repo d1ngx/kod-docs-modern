@@ -1,24 +1,26 @@
 ---
 title: "PHP的配置优化"
 keywords: nginx, php, MySQL, redis
-description: 可道云网盘的依赖环境优化
+description: PHP 与 php-fpm 参数调优（上传大文件、并发进程）
 ---
 
 <div id="php" markdown="1">
 
 ## PHP
 
-开启pathinfo, 支持webdav协议传输
+PHP 是可道云的运行语言。以下配置用于优化上传体验和并发处理能力。
+
+开启 pathinfo 支持（WebDAV 协议传输需要）：
 
 ```console
 $ echo "cgi.fix_pathinfo=1" >> /etc/php.ini
 ```
 
-建议调整`/etc/php.ini`中的如下参数，以实现更好的上传体验
+建议调整 `/etc/php.ini` 中的以下参数，提升大文件上传和处理体验：
 
 > 提示：
 >
-> KodBox采用分片上传，这里设置的参数不会影响上传大文件。
+> KodBox 采用分片上传，这里的 `upload_max_filesize` 限制的是单次请求大小，不影响整体大文件上传。
 
 ```php.ini
 max_execution_time = 3600
@@ -28,9 +30,9 @@ post_max_size = 512M
 upload_max_filesize = 512M
 ```
 
-php-fpm的配置文件位置通常位于`/etc/php/7.4/fpm/`或者`/etc/php-fpm.d/`
+php-fpm 是 PHP 的进程管理器，配置文件通常位于 `/etc/php/7.4/fpm/` 或 `/etc/php-fpm.d/`。
 
-以下参数控制php-fpm进程数量，建议根据实际情况适当调整，参考[计算PHP内存消耗](https://spot13.com/pmcalculator/)
+以下参数控制 php-fpm 进程数量，建议根据服务器内存适当调整，参考[计算 PHP 内存消耗](https://spot13.com/pmcalculator/)：
 
 ```www.conf
 pm = dynamic
@@ -41,7 +43,7 @@ pm.max_spare_servers = 30
 pm.max_requests = 500
 ```
 
-在调整php-fpm配置后，执行`php-fpm -t`检查语法，确定无误后重启服务
+修改 php-fpm 配置后，用 `php-fpm -t` 检查语法，确认无误再重启服务：
 
 ```console
 $ php-fpm -t

@@ -1,5 +1,6 @@
 ---
 title: "使用Docker安装示例"
+description: 在群晖 Container Manager 中用 Compose 部署 kodbox 与 OnlyOffice
 keywords: 群晖, docker, dsm7, Container, compose
 ---
 
@@ -95,7 +96,7 @@ services:
 
   ![kodbox_init](/setup/images/kodbox_init.png){:width="800px"}
 
-### 4 验证 onlyoffice 解析服务
+### 4 验证 OnlyOffice 在线编辑服务
 
 登录进入网盘**插件中心**，安装**onlyoffice 插件**
 

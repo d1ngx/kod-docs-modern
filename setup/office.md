@@ -1,33 +1,37 @@
 ---
 title: "OnlyOffice组件的安装示例"
 keywords: 在线预览, office, office在线编辑, kodoffice, 容器, onlyoffice
-description: 可道云企业网盘支持数百种常见办公文档格式的在线预览。
+description: Linux 上用 Docker 部署 OnlyOffice 在线编辑服务并接入 kodbox
 ---
 
 <div id="setup" class="tab-pane fade in active" markdown="1">
 
 ## 环境要求
 
-- 操作系统: CentOS 7+、Ubtntu 14+、Debian 8+、RedHat 7+
-- 服务器内存4G以上
-- 安装onlyoffice插件 ( v2.06版本后开放免费使用)
+OnlyOffice 是在线文档编辑服务，可让用户在浏览器中直接编辑 Word、Excel、PPT 等文件。
+
+- 操作系统：CentOS 7+、Ubuntu 14+、Debian 8+、RedHat 7+
+- 服务器内存 4GB 以上
+- 需安装 onlyoffice 插件（v2.06 版本起免费开放）
 
 > 提示：
 >
-> 默认使用社区版onlyoffice容器解析服务，支持20编辑并发，超出的并发数只能预览。
+> 默认使用社区版 OnlyOffice 容器，支持 20 路同时编辑；超出并发数的用户只能预览。
 
-## 1.安装 docker
+## 1. 安装 Docker
 
-安装并启动docker服务
+Docker 是容器运行平台。请先安装并启动 Docker 服务：
 
 ```console
 $ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 $ systemctl enable docker && systemctl start docker
 ```
 
-## 2.在线部署方式
+## 2. 在线部署方式
 
-### 1.快速启动
+### 1. 快速启动
+
+以下命令会拉取并运行 OnlyOffice 容器，映射到本机 8001 端口：
 
 ```console
 $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
@@ -39,9 +43,9 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffic
 $ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:7.4.1.1
 ```
 
-- onlyoffice缓存目录是`/var/lib/onlyoffice`,如果编辑文件特别多，可以考虑挂载。
-- 验证启动成功：
-    - 等待1~3分钟，在浏览器访问 `http://[域名(IP)]:8001/web/` 会看到`success,运行正常`.
+- OnlyOffice 缓存目录为 `/var/lib/onlyoffice`；若编辑文件较多，建议挂载到宿主机以节省容器空间。
+- 验证是否启动成功：
+    - 等待 1～3 分钟后，在浏览器访问 `http://[域名或IP]:8001/web/`，页面显示 `success,运行正常` 即表示正常。
 
 > 提示：
 >
@@ -56,9 +60,9 @@ $ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=tr
 $ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:loongarch-7.4.1.3
 ```
 
-### 2.以 https 方式启动
+### 2. 以 HTTPS 方式启动
 
-使用已有ssl证书
+HTTPS 会对传输加密，生产环境建议使用。需准备已有 SSL 证书：
 
 - `/data/certs/onlyoffice.key`
 - `/data/certs/onlyoffice.crt`
@@ -78,32 +82,32 @@ kodcloud/kodoffice:7.4.1.1
 1. 替换证书文件`/data/certs/onlyoffice.key`、`/data/certs/onlyoffice.crt`，注意证书名称不能改变。
 2. 重启容器内nginx服务`docker exec -it kodoffice service nginx restart`
 
-### 3.注意事项
+### 3. 注意事项
 
-- 快速启动是http的方式，如果可道云站点使用了https，请选择https的方式部署，否则无法使用
+- 快速启动使用 HTTP。若可道云站点已启用 HTTPS，OnlyOffice 也需用 HTTPS 部署，否则浏览器会拦截混合内容导致无法使用。
 - 8001端口是可以改的，修改后记得填写解析地址到onlyoffice插件配置里面
 
-## 3.离线部署方式
+## 3. 离线部署方式
 
 > 提示：
 >
-> - 离线部署请联系可道云技术售后。
+> - 无公网环境部署 OnlyOffice 请联系可道云技术售后。
 
-## 4.配置到可道云
+## 4. 配置到可道云
 
-### 1.安装插件
+### 1. 安装插件
 
-管理员登录-进入**插件中心 (全部)**-找到onlyoffice插件，点击安装
+管理员登录 → **插件中心（全部）** → 找到 onlyoffice 插件 → 点击安装。
 
-### 2.配置插件
+### 2. 配置插件
 
 > 提示：
 >
-> - 如果office和可道云部署在同一台服务器，且office使用`8001`端口，插件则无需任何配置 。
+> - 若 OnlyOffice 与可道云在同一台服务器且使用 8001 端口，插件通常无需额外配置。
 
-点击配置插件,将上面office所在服务器ip替换到如图选中的内容(注意结尾`/web/`不能去除);
+点击「配置插件」，将 OnlyOffice 所在服务器的 IP 填入图中位置（注意末尾 `/web/` 不可省略）：
 
-点击"检测office服务器"，如果检测通过这说明全部配置完成，刷新可道云页面，选中一个office文件右键打开方式，选择onlyoffice编辑即可体验。
+点击「检测 office 服务器」。检测通过后刷新可道云页面，选中 Office 文件 → 右键 → 打开方式 → onlyoffice 编辑，即可体验在线编辑。
 
 ![插件设置](/setup/images/2.3/1.png){:width="800px"}
 

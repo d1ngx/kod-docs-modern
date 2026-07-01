@@ -1,16 +1,16 @@
 ---
 title: "可道云安装向导"
 keywords: kodbox, 环境检测, 初始化, 管理员账号, 安装向导
-description: 可道云网盘的安装引导说明
+description: 浏览器安装向导分步说明：环境检测、数据库配置、管理员账号与安装后安全设置
 ---
 
 <div id="start" markdown="1">
 
 ## 快速开始
 
-当满足可道云的先决条件(LNMP环境), 并下载和解压kodbox的服务器端安装包后，完成安装的最后一步是运行安装向导。具体包含以下步骤：
+当服务器已准备好运行环境（Linux + Nginx + MySQL + PHP，简称 LNMP），并已下载、解压 kodbox 安装包后，完成安装的最后一步是运行安装向导。具体包含以下步骤：
 
-1. 打开Web 浏览器并访问服务器IP地址：`http://[IP]`
+1. 用浏览器访问服务器 IP 地址（同一局域网内可直接访问）：`http://[IP]`
 2. 确认环境检测无误，点击**下一步**
 
     ![环境检测](../images/env_chk.png){:width="600px"}
@@ -33,11 +33,11 @@ description: 可道云网盘的安装引导说明
 
 ## 数据库选择
 
-`SQLite` 是 kodbox 的默认数据库，它仅适用于测试环境和轻量级单用户体验，我们推荐使用 `MySQL/MariaDB`，需要确保PHP扩展`mysqli`或者`pdo_mysql`其中一个已安装。
+`SQLite` 是内置的轻量数据库，适合个人测试；正式使用或多人场景请选 `MySQL/MariaDB`，我们推荐使用 `MySQL/MariaDB`，需要确保PHP扩展`mysqli`或者`pdo_mysql`其中一个已安装。
 
 这里默认以 root 为数据库登录用户名，是因为 root 有新建数据库的权限，你可以在**数据库**一栏输入任何想要的名称。你也可以提前创建好**数据库**和有相应权限的**数据库用户**，这样就不必使用 root 账号。
 
-系统缓存类型推荐选择 `redis`，需要确保 `redis` 服务已启动，并且PHP扩展`php-redis`已经安装。
+系统缓存推荐选择 **Redis**（一种内存缓存服务，可加快访问速度）。使用前需已安装并启动 Redis 服务，并确保 PHP 扩展 `php-redis` 已安装。
 
     ![db_mysql](../images/db_mysql.png){:width="650px"}
 
@@ -51,7 +51,7 @@ description: 可道云网盘的安装引导说明
 
     ![add_stg](../images/add_stg.png){:width="750px"}
 
-站点下的 data 目录也可也整体迁移至其他位置，比如移动到`/data/`，然后需要在config文件夹下新建`define.php` 并新增一行
+站点下的 data 目录也可以整体迁移至其他位置，比如移动到`/data/`，然后需要在config文件夹下新建`define.php` 并新增一行
 
 ```php
 <?php define('DATA_PATH','/data/');

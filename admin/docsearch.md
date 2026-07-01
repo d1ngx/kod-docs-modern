@@ -1,7 +1,7 @@
 ---
 title: "全文搜索插件"
 keywords: 全文搜索, 内容搜索
-description: 关于全文搜索插件的配置说明
+description: 全文搜索插件的配置说明，支持对 PDF、Office 等文件内容进行检索
 ---
 
 <div id="docsearch" class="tab-pane fade in active" markdown="1">
@@ -12,26 +12,28 @@ description: 关于全文搜索插件的配置说明
 
 ## 插件介绍
 
-在网盘文件管理页面搜索文件时，若勾选**更多-文件内容**，默认支持对txt等各种纯文本内容搜索，但若需要对PDF,office等文件进行内容搜索，则需要安装此扩展插件。
+在网盘文件管理页面搜索时，勾选**更多 → 文件内容**，默认只能搜索 txt 等纯文本文件的内容。若需要对 PDF、Office 等格式的文件内容进行搜索，需安装本插件。
 
 > **注意**
 >
-> - 需要在插件中心启用，并且**连接测试正常**后方可使用。
-> - 全文搜索插件实现逻辑是提取文件内容到数据库，并通过对数据库增加`fulltext`索引实现的。
-> - 全文搜索文件内容提取默认每分钟执行一次，在后台服务器管理-计划任务中可以查看。
+> - 需在插件中心启用插件，且**连接测试正常**后方可使用。
+> - 插件工作原理：提取文件文字内容存入数据库，并对数据库建立 `fulltext`（全文）索引。
+> - 文件内容提取默认每分钟执行一次，可在后台「服务器管理 → 计划任务」中查看。
 {: .important}
 
 
 ## 配置说明
 
+按以下步骤完成配置：
+
 1. 在插件中心安装**全文搜索**插件。
-2. 在服务器端安装必要支持环境JAVA, 在插件中心进入**全文搜索**插件配置，检查连接测试是否正常。
+2. 在服务器端安装 Java 运行环境，然后在插件配置页检查连接测试是否正常。
 
    ```bash
    yum install java-11-openjdk
    ```
 
-3. 连接到MySQL数据库，增加`fulltext`索引
+3. 连接到 MySQL 数据库，创建全文索引：
 
    ```sql
    -- 移除旧的索引(不存在报错正常)
@@ -54,24 +56,24 @@ description: 关于全文搜索插件的配置说明
 
 > **提示**
 >
-> - ngram 中文分词较精准，但可能因短词重复率太高引起内存不足报错“FTS query exceeds”，建议优化配置`/etc/my.cnf`
+> - ngram 对中文分词较精准，但可能因短词重复率过高导致内存不足报错「FTS query exceeds」。可在 `/etc/my.cnf` 中优化配置：
    ```my.cnf
    ngram_token_size = 4  #ngram 分词器中 N 的大小，默认为2，增大以避免查询过宽
    innodb_ft_result_cache_limit = 4G  #InnoDB 引擎结果缓存大小，默认2G，最大4G
    ```
-> - 如果使用的不是MySQL，而是不支持ngram的MariaDB，最后一条改为
+> - 若使用的是不支持 ngram 的 MariaDB（而非 MySQL），最后一条 SQL 改为：
    ```sql
    ALTER TABLE `io_file_contents` ADD FULLTEXT(`content`);
    ```
 
-- （可选）在站点下`config/setting_user.php`文件后新增配置
+- （可选）在站点 `config/setting_user.php` 文件末尾新增配置：
 ```php
 $config['settingSystemDefault']['searchFulltext'] = 1;  // like%% 转为全文索引（默认只有内容搜索会用全文索引，这里把普通查询也改成全文索引方式）
 // $config['settingSystemDefault']['searchFulltextForce']  = 1;    // 完整匹配; (否则会对$words进行分词,包含一部分也作为结果;会多出结果)
 $config['settingSystemDefault']['searchFulltextInnodb'] = 1;
 ```
 
-- （可选）如果没有使用`innodb`，建议修改表引擎为`innodb`
+- （可选）若数据库表未使用 InnoDB 引擎，建议修改为 InnoDB：
 
 ```sql
 alter table comment engine=InnoDB;

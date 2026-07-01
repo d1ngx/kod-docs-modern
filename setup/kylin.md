@@ -1,7 +1,7 @@
 ---
 title: "银河麒麟(kylin V10)系统中可道云网盘的安装示例"
 keywords: 银河麒麟, kylin V10
-description: 银河麒麟高级服务器操作系统中可道云网盘的安装示例
+description: 在 Kylin Linux Advanced Server V10 上从零安装 Nginx、PHP、MySQL 与 kodbox 的分步教程
 ---
 
 ## 概述
@@ -132,7 +132,7 @@ mysql> FLUSH PRIVILEGES;
 
 ### Redis
 
-由于系统默认不包含`php-redis`扩展，这里需要手动编译，执行
+系统默认未包含 php-redis 扩展（用于连接 Redis 缓存），需手动编译安装：
 
 ```console
 $ yum install git php-devel make -y
@@ -148,7 +148,7 @@ $ systemctl restart php-fpm
 
 #### 安装 KodBox
 
-下载最新版本的kodbox安装包，解压到站点目录
+下载最新版 kodbox 安装包，解压到网站根目录：
 
 ```console
 $ yum install -y unzip

@@ -1,7 +1,7 @@
 ---
 title: "封面预览组件安装 - imaginary"
 keywords: 在线预览, 文件封面, 封面, 缩略图
-description: 可道云企业网盘支持数百种常见办公文档格式的在线预览。
+description: 使用 Docker 部署 imaginary 服务，加速 kodbox 文件封面与缩略图生成
 ---
 
 <div id="thumbnail" class="tab-pane fade in active" markdown="1">
@@ -19,7 +19,7 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 $ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always --tmpfs /tmp:size=1024m \
   registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary \
   -enable-url-source \
-  -concurrency 3 \
+  -concurrency 15 \
   -max-allowed-resolution 500 \
   -key your_api_key_here
 ```
@@ -49,7 +49,7 @@ services:
       - /tmp:size=1024m
     command: >
       -enable-url-source
-      -concurrency 10
+      -concurrency 15
       -max-allowed-resolution 500
     deploy:
       resources:

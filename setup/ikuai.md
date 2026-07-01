@@ -1,14 +1,14 @@
 ---
 title: "4.2 iKuai上使用Docker部署kodbox私有企业网盘"
 keywords: docker部署, 企业网盘本地部署, 部署教程
-description: iKuai上使用Docker部署kodbox私有企业网盘教程，附带图文
+description: 在爱快路由器 Docker 中部署 kodbox 的图文步骤
 ---
 
 <div id="setup" class="tab-pane fade in active" markdown="1">
 
 ### 1 部署准备
 
-- 安装Docker
+- 在爱快路由器中安装 Docker 插件（Docker 是容器运行平台，用于隔离运行 kodbox、数据库等服务）
 
  ![安装docker效果图](/setup/images/4.2.1-1.png){:width="800px"}
 - 打开Docker-服务设置，设置镜像库URL`https://hub.docker.com/`

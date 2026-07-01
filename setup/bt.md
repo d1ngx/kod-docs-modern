@@ -1,20 +1,20 @@
 ---
 title: "使用宝塔面板搭建可道云网盘示例"
 keywords: bt, 宝塔面板
-description: 使用宝塔面板搭建可道云网盘示例
+description: 通过宝塔面板一键部署 kodbox，含 LNMP 环境、Redis 缓存与 PHP 参数调整
 ---
 
 <div id="bt" class="tab-pane fade in active" markdown="1">
 
 ## 安装宝塔面板
 
-宝塔面板支持快速创建管理web项目，并且支持多种系统安装，安装方式请[参考宝塔官网](https://www.bt.cn/new/download.html)
+宝塔面板是 Linux 服务器可视化运维工具，可一键安装 Nginx、MySQL、PHP 等环境。安装方式请[参考宝塔官网](https://www.bt.cn/new/download.html)。
 
-安装好宝塔面板后，首次登录会出现弹窗，推荐选择LNMP环境安装套件，这里选择 Nginx, MySQL 和PHP 即可
+安装宝塔面板后，首次登录会弹出环境安装向导。推荐选择 LNMP 套件，勾选 Nginx、MySQL 和 PHP 即可。
 
 ![bt_lnmp](../images/bt_lnmp.png){:width="550px"}
 
-若开始没有选择安装，在应用商店也能够搜索到以下软件并安装:
+若首次未安装，也可在「应用商店」中搜索并安装：
 
 - **nginx** 1.22
 - **php** 8.0

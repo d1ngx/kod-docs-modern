@@ -1,7 +1,7 @@
 ---
 title: "4 可道云系统设置"
 keywords: kodbox
-description: 完成上述装机步骤之后，可道云相关服务会在开机时自启
+description: teamOS 首次配置：管理员账号、一键构建存储空间、固定 IP（新版界面）
 ---
 
 <div id="setup" class="tab-pane fade in active" markdown="1">

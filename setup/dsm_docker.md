@@ -1,5 +1,6 @@
 ---
 title: "使用Docker安装示例"
+description: 在群晖 Docker 中分别创建 redis、mariadb、kodbox 容器（图形界面方式）
 keywords: 群晖, Docker
 ---
 

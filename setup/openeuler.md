@@ -1,12 +1,14 @@
 ---
 title: "欧拉(openEuler 22.03)系统中可道云网盘的安装示例"
 keywords: 欧拉, openEuler
-description: 欧拉系统下可道云网盘的安装示例
+description: 在 OpenEuler 22.03 LTS 上从零安装 Nginx、PHP、MySQL 与 kodbox 的分步教程
 ---
 
 <div id="openeuler" class="tab-pane fade in active" markdown="1">
 
 ## 概述
+
+OpenEuler（openEuler，欧拉操作系统）是华为开源的服务器 Linux 发行版，与 CentOS/RHEL 兼容，适合部署可道云。
 
 ### 软件版本
 
@@ -17,7 +19,7 @@ description: 欧拉系统下可道云网盘的安装示例
 
 ### 安装依赖环境
 
-安装基础依赖环境
+以下命令安装 Nginx、PHP、MySQL、Redis 及缩略图生成所需的 ImageMagick、ffmpeg：
 
 ```console
 $ yum install nginx

@@ -1,17 +1,17 @@
 ---
 title: "CentOS 7.9系统中可道云网盘的安装示例"
 keywords: centos, CentOS7.9
-description: CentOS7.9系统下可道云网盘的安装示例
+description: 在 CentOS 7.9 上从零安装 Nginx、PHP、MySQL 与 kodbox 的分步教程
 ---
 
 > 重要：
 >
-> CentOS 7 将于 2024 年 6 月 30 日 停止维护，请谨慎选择。
+> CentOS 7 已停止官方维护，新项目建议选用 Ubuntu 22.04、openEuler 或 teamOS。
 {: .important}
 
 ## 概述
 
-从**CentOS 7.9 最小安装系统** 部署**KodBox**。
+本文介绍如何在 **CentOS 7.9 最小安装系统** 上部署 **KodBox**。CentOS 是基于 Red Hat 的 Linux 发行版，适合服务器环境。
 
 ### 软件版本
 
@@ -22,7 +22,7 @@ description: CentOS7.9系统下可道云网盘的安装示例
 
 ### NGINX
 
-参考[nginx官网教程](http://nginx.org/en/linux_packages.html#RHEL-CentOS), 安装所需软件，添加nginx稳定版yum源
+Nginx 是高性能 Web 服务器。请参考 [nginx 官网教程](http://nginx.org/en/linux_packages.html#RHEL-CentOS) 添加稳定版 yum 源并安装：
 
 ```console
 $ yum -y install yum-utils vim
@@ -39,7 +39,7 @@ gpgkey=https://nginx.org/keys/nginx_signing.key
 module_hotfixes=true
 ```
 
-安装nginx并修改nginx配置文件
+安装 Nginx 并编辑配置文件：
 
 ```console
 $ yum install nginx
@@ -55,7 +55,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置，以解析PHP
+还需添加以下配置，使 Nginx 能正确解析 PHP 文件：
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -136,13 +136,13 @@ $ yum install mysql-community-server
 $ systemctl enable mysqld && systemctl start mysqld
 ```
 
-获取临时密码
+MySQL 首次启动会生成临时 root 密码，可用以下命令查看：
 
 ```console
 $ grep 'temporary password' /var/log/mysqld.log
 ```
 
-根据提示步骤进行安全设置
+按向导完成安全设置（修改密码、删除测试库等）：
 
 ```console
 $ mysql_secure_installation
@@ -154,7 +154,7 @@ $ mysql_secure_installation
 $ mysql -uroot -p
 ```
 
-创建kodbox数据库和账号，将`username`和`password`替换为适当的值
+创建 kodbox 数据库和用户（将 `username` 和 `password` 替换为实际值）：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -173,14 +173,14 @@ $ systemctl enable redis && systemctl start redis
 
 #### 安装 KodBox
 
-关闭selinux
+关闭 SELinux（Linux 安全模块，可能阻止 Nginx 访问文件）：
 
 ```console
 $ setenforce 0
 $ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 ```
 
-下载最新版本的kodbox安装包，解压到站点目录
+下载最新版 kodbox 安装包，解压到网站根目录：
 
 ```console
 $ yum install -y unzip

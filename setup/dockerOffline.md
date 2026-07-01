@@ -1,20 +1,22 @@
 ---
 title: "使用Docker离线部署"
 keywords: Docker, 容器, 离线
-description: 在离线环境下, 如何使用Docker部署可道云网盘
+description: 无公网环境下导入 Docker 镜像并部署 kodbox
 ---
 
 <div id="docker" class="tab-pane fade in active" markdown="1">
 
 ## 环境需求
 
-- 一台离线的服务器A, 需要部署可道云网盘
-- 一台能联网的服务器B, 要求有docker环境，用于下载安装包和在线拉取镜像
+离线部署指目标服务器无法访问公网，需要先在能联网的机器上准备好安装包和镜像，再拷贝到离线环境安装。
+
+- **服务器 A**（离线）：需要部署可道云的目标机器
+- **服务器 B**（联网）：已安装 Docker，用于下载安装包和拉取镜像
 
 ### 离线安装 Docker
 
-先从[Docker官网下载页面](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)下载`Docker`的软件包，这里以`CentOS7`为例
-分别下载最新的:
+Docker 是容器运行平台。请先从 [Docker 官网下载页面](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/) 下载 RPM 安装包，以下以 CentOS 7 为例。
+分别下载最新版本的：
 
 - [containerd.io](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.6.13-3.1.el7.x86_64.rpm)
 - [docker-ce](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-20.10.19-3.el7.x86_64.rpm)
@@ -23,7 +25,7 @@ description: 在离线环境下, 如何使用Docker部署可道云网盘
 - [docker-ce-rootless-extras](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-rootless-extras-20.10.9-3.el7.x86_64.rpm)
 - [docker-scan-plugin](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-scan-plugin-0.23.0-3.el7.x86_64.rpm)
 
-把以上文件都上传到服务器A, 假设目录位于`docker`，执行安装命令
+将以上文件上传到服务器 A（假设放在 `docker` 目录），执行安装命令：
 
 ```bash
 [root@kod ~]# rpm -ivh docker/*.rpm
@@ -41,7 +43,7 @@ Docker version 20.10.19, build d85ef84
 
 ### 导入镜像
 
-在一台能联网、有Docker环境的服务器B上拉取镜像，并导出tar包
+在能联网、已安装 Docker 的服务器 B 上拉取镜像，并导出为 tar 包（便于拷贝到离线环境）：
 
 ```console
 $ docker pull kodcloud/kodbox
@@ -52,7 +54,7 @@ $ docker save -o redis.tar redis:alpine
 $ docker save -o mariadb.tar mariadb
 ```
 
-将tar包上传到离线服务器A上，然后执行导入命令
+将 tar 包上传到离线服务器 A，执行导入命令：
 
 ```console
 $ docker load -i kodbox.tar
@@ -60,23 +62,23 @@ $ docker load -i redis.tar
 $ docker load -i mariadb.tar
 ```
 
-导入完成后，`docker images`看到3个镜像，`kodbox、redis 和mariadb`
+导入完成后，执行 `docker images` 应能看到 `kodbox`、`redis` 和 `mariadb` 三个镜像。
 
-### http 方式快速启动
+### HTTP 方式快速启动
 
 > 注意
 >
-> 在离线服务器A上创建一个目录作为项目目录，后面所有命令都在这个目录下执行
+> 在离线服务器 A 上创建一个目录作为项目目录，后面所有命令都在这个目录下执行
 {: .important}
 
-- 创建文件.env来设置环境变量（必须修改等号右边的值，形式如 `MYSQL_USER=kodbox`，值不要包含&符号），这些在docker启动时会自动传入容器
+- 创建 `.env` 文件设置环境变量（必须修改等号右边的值，格式如 `MYSQL_USER=kodbox`，值不要包含 `&` 符号）。Docker 启动时会自动将这些变量传入容器：
 
   ```console
   $ mkdir /kodbox && cd /kodbox
   $ vim .env
   ```
 
- - 创建文件来设置数据库环境变量`vim db.env`
+- 创建 `db.env` 文件，设置数据库专用环境变量（执行 `vim db.env` 编辑）：
 
   ```bash
   MYSQL_PASSWORD=
@@ -84,7 +86,7 @@ $ docker load -i mariadb.tar
   MYSQL_USER=kodbox
   ```
 
-- 创建docker-compose.yml 文件，在其中配置映射端口、持久化目录
+- 创建 `docker-compose.yml` 文件，配置端口映射和数据持久化目录：
 
   ```console
   $ vim docker-compose.yml
@@ -129,7 +131,7 @@ $ docker load -i mariadb.tar
       restart: always
   ```
 
-进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
+进入项目目录，执行 `docker compose up -d` 启动服务。离线环境不会重新拉取镜像，直接使用已导入的本地镜像创建容器：
 
 ```console
 $ docker compose up -d
@@ -168,6 +170,6 @@ Removing network kodbox_default
 $ docker compose up -d
 ```
 
-然后访问KodBox安装向导，完成系统初始化
+然后访问 KodBox 安装向导，完成系统初始化。
 
 </div>

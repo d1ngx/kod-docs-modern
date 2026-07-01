@@ -1,14 +1,14 @@
 ---
 title: "Ubuntu 22.04 LTS系统中可道云网盘的安装示例"
 keywords: Ubuntu, Ubuntu 22.04 LTS
-description: Ubuntu 22.04 LTS系统中可道云网盘的安装示例
+description: 在 Ubuntu 22.04 LTS 上从零安装 Nginx、PHP、MySQL 与 kodbox 的分步教程
 ---
 
 <div id="ubuntu" markdown="1">
 
 ## 概述
 
-在**Ubuntu 22.04 LTS** 上部署**kodbox**，安装依赖软件环境比较简单，所有软件在默认源中已经包含。
+本文介绍如何在 **Ubuntu 22.04 LTS** 上部署 **kodbox**。Ubuntu 是常用的 Linux 发行版；LTS（长期支持版）意味着官方会提供较长时间的更新维护。该版本默认软件源已包含所需依赖，安装步骤相对简单。
 
 ### 软件版本
 
@@ -19,7 +19,7 @@ description: Ubuntu 22.04 LTS系统中可道云网盘的安装示例
 
 ### 安装依赖环境
 
-安装基础依赖环境
+以下命令会安装 Nginx（Web 服务器）、MySQL（数据库）、Redis（缓存）和 PHP（可道云运行环境）：
 
 ```console
 $ sudo apt update && sudo apt upgrade
@@ -29,22 +29,20 @@ $ sudo systemctl disable apache2.service
 $ sudo systemctl enable nginx php8.1-fpm mysql redis-server
 ```
 
-支持图片视频等文件生成封面缩略图
+以下扩展用于生成图片、视频等文件的封面缩略图：
 
 ```console
 $ sudo apt install imagemagick ffmpeg
 ```
 
-> 如果PDF文件没有生成缩略图，可以使用以下命令修改 imagemagick配置中关于pdf转换的限制
+> 如果 PDF 文件没有生成缩略图，可执行以下命令修改 ImageMagick 对 PDF 转换的限制：
 >
 > `sudo sed -i '/PDF/s/none/read \| write/g' /etc/ImageMagick-6/policy.xml`
 >
 
 ### NGINX
 
-`/etc/nginx/sites-enabled/default`配置调整
-
-需要注意的配置
+编辑 `/etc/nginx/sites-enabled/default`，调整以下关键配置：
 
 ```nginx
 listen 80;              ##访问端口
@@ -52,7 +50,7 @@ root /var/www/html;     #改成自己的站点目录
 server_name _;          #访问域名 '_'代表任何域名都能访问
 ```
 
-需要添加的配置，以解析PHP
+还需添加以下配置，使 Nginx 能正确解析 PHP 文件：
 
 ```nginx
 location ~ [^/]\.php(/|$) {
@@ -76,7 +74,7 @@ location ~ [^/]\.php(/|$) {
 
 ### PHP
 
-配置参数调整
+以下命令调整 PHP 运行参数（如上传大小、执行时间等），以满足可道云对大文件上传的需求：
 
 ```console
 $ PHP_INI=/etc/php/8.1/fpm/php.ini
@@ -103,28 +101,28 @@ $ sudo systemctl restart php8.1-fpm
 
 ### MySQL
 
-这里需要使用 MySQL 命令行界面创建`KodBox`所使用的数据库用户和数据库。首次登录时，`KodBox`将创建数据库表。
+MySQL 是关系型数据库，可道云用它存储用户、文件索引等数据。需要通过命令行创建 kodbox 使用的数据库和用户；首次访问安装向导时，可道云会自动创建数据表。
 
-要启动 MySQL 命令行模式，请使用以下命令：
+启动 MySQL 命令行（首次登录无需密码）：
 
 ```console
 $ sudo mysql
 ```
 
-然后会出现 **mysql [root]>** 窗口。首次登录建议先设置数据库root账号的密码
+出现 **mysql [root]>** 提示符后，建议先设置 root 账号密码：
 
 ```sql
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'xxxx';
 mysql> quit
 ```
 
-并执行数据库安全设置向导，根据提示步骤设置密码规则、删除匿名用户等
+然后执行数据库安全设置向导，按提示设置密码强度、删除匿名用户等：
 
 ```console
 $ sudo mysql_secure_installation
 ```
 
-再次启动 MySQL 命令行模式，输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
+再次进入 MySQL 命令行，创建 kodbox 数据库和用户（将 `username` 和 `password` 替换为实际值）：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -133,7 +131,7 @@ mysql> GRANT ALL PRIVILEGES ON kodbox.* TO 'username'@'localhost';
 mysql> FLUSH PRIVILEGES;
 ```
 
-可以通过输入以下命令退出窗口：
+输入 `quit` 退出 MySQL 命令行：
 
 ```sql
 mysql> quit
@@ -141,7 +139,7 @@ mysql> quit
 
 ### 安装 KodBox
 
-下载最新版本的kodbox安装包，解压到站点目录
+下载最新版 kodbox 安装包，解压到网站根目录：
 
 ```console
 $ sudo apt install -y unzip
@@ -153,7 +151,7 @@ $ sudo chmod -R 755 /var/www/html
 $ sudo systemctl restart nginx
 ```
 
-设置防火墙，更多防火墙设置[参考](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04)
+配置防火墙（UFW 是 Ubuntu 自带的防火墙工具），允许 SSH 和 HTTP 访问。更多设置[参考](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04)：
 
 ```console
 $ sudo ufw allow ssh
@@ -161,6 +159,6 @@ $ sudo ufw allow http
 $ sudo ufw enable
 ```
 
-然后在浏览器访问[安装向导](./start.md), 完成系统初始化步骤。
+然后在浏览器访问 [安装向导](./start.md)，完成系统初始化。
 
 </div>

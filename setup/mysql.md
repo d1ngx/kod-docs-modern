@@ -1,16 +1,16 @@
 ---
 title: "MYSQL的配置优化"
 keywords: nginx, php, MySQL, redis
-description: 可道云网盘的依赖环境优化
+description: MySQL 5.7/8.0 参考配置参数（进阶调优）
 ---
 
 <div id="others" markdown="1">
 
 ## MySQL
 
-`/etc/my.cnf`参考配置，最大内存占用`6G`左右，参考计算方法[MySQL最大内存占用计算](https://www.mysqlcalculator.com/)
+MySQL 是关系型数据库。以下为 `/etc/my.cnf` 参考配置，最大内存占用约 6GB。参数含义和计算方法可参考 [MySQL 最大内存占用计算](https://www.mysqlcalculator.com/)。
 
-`MySQL5.7`建议调整以下参数
+**MySQL 5.7** 建议调整以下参数：
 
 ```ini
 skip_name_resolve
@@ -36,7 +36,7 @@ innodb_log_file_size=2048M
 innodb_log_buffer_size=512M
 ```
 
-`MySQL8`建议调整以下参数
+**MySQL 8** 建议调整以下参数：
 
 ```ini
 skip_name_resolve

@@ -1,50 +1,53 @@
 ---
 title: "AI助手插件"
 keywords: 插件安装, AI,  aidoc
-description: 关于内AI助手插件安装、配置的相关说明
+description: AI 助手插件的安装、模型配置与 RAG（知识库检索）设置说明，适合初次配置的管理员
 ---
 
 <div id="aidoc" class="tab-pane fade in active" markdown="1">
 
 > **注意：**
 >
-> - 需要购买 pro 版本的 AI 插件，才能添加自定义模型。
+> - 需要购买 Pro 版本的 AI 插件，才能添加自定义模型。
 {: .important}
 
 # AI 智能助手
 
 ## 功能概述
 
-- **深度集成网盘**: 让AI能针对文件,文件夹内容做问答,整理等丰富功能;全面打通网盘文件增删改查等能力；
+- **深度集成网盘**：AI 可以直接读取网盘中的文件和文件夹内容，进行问答、整理等操作；同时支持在对话中完成文件的上传、删除、查询等网盘操作。
 
-- **自定义智能体**: 配置工具,知识库,对话上下文引用,模型等配置; 丰富不同场景的应用生态; 支持分组；
+- **自定义智能体**：可配置工具、知识库、对话上下文、模型等，适配不同业务场景；支持分组管理。
 
-- **AI输出渲染**: markdown实时增量渲染,支持图片,公式,代码块等,支持流程图,思维导图等图表渲染;支持部分代码在线预览运行；
+- **AI 输出渲染**：支持 Markdown 实时渲染，包括图片、公式、代码块，以及流程图、思维导图等图表；部分代码可在线预览运行。
 
-- **智能体一键分享**: 一键将智能体分享给外部用户使用,方便作为特定工具,智能客服等丰富应用场景；
+- **智能体一键分享**：可将配置好的智能体分享给外部用户使用，适合作为专用工具或智能客服等场景。
 
-- **会话与服务管理**: 管理用户对话,会话,模型服务; 支持将精选对话内容进行收藏,便于快捷查看; 收藏会话支持一键外链分享；
+- **会话与服务管理**：管理用户对话和模型服务；支持收藏精选对话，收藏内容可生成外链分享。
 
-- **模型与服务集成**: 接入多个模型(DeepSeek, Qwen,本地大模型等),统一调用和管理；
+- **模型与服务集成**：可接入 DeepSeek、Qwen、本地大模型等多种模型，统一管理和调用。
 
-- **安全与隔离机制**: 防止数据串用、越权操作，文件获取能力天然集成网盘可访问信逻辑,无需担心数据泄露；
+- **安全与隔离机制**：防止不同用户数据混用和越权操作；文件访问能力遵循网盘本身的权限逻辑，无需额外担心数据泄露。
 
 ...
 
 ## RAG 配置说明
 
+RAG（检索增强生成）让 AI 能够基于网盘中的文档内容回答问题。配置前需准备模型 API 和向量数据库。
 
--  模型服务名称: 自定义填写
--  API地址:
-    - 如硅基流动为 `https://api.siliconflow.cn/v1/chat/completions`
-    - 如阿里云为 `https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
--  API密钥: 如硅基流动获取 `https://cloud.siliconflow.cn/me/account/ak`
+- **模型服务名称**：自定义填写，便于识别
+- **API 地址**：
+    - 硅基流动示例：`https://api.siliconflow.cn/v1/chat/completions`
+    - 阿里云示例：`https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
+- **API 密钥**：在对应平台获取，如硅基流动：`https://cloud.siliconflow.cn/me/account/ak`
 
 ![-Aj.png](/admin/images/ai/-Aj.png)
 
 ### 向量数据库部署
 
-- [https://milvus.io/docs/zh 参考说明](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
+向量数据库用于存储文档的语义索引，是 RAG 功能的基础组件。部署参考：
+
+- [Milvus 官方安装文档](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
 
 ```console
 $ curl -SL https://static.box.kodcloud.com/plugins/teamos/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
@@ -62,45 +65,51 @@ Creating milvus-standalone ... done
 
 ### 向量/嵌入模型添加
 
-1. 模型广场搜索 `BAAI/bge-m3` 适用embedding嵌入模型；
-2. 添加模型
-	a. 模型ID `BAAI/bge-m3`
-    b. 模型名称： 自定义填写
-    c. 模型类型： 嵌入模型
+嵌入模型（Embedding）负责将文档内容转换为向量，供检索使用。
+
+1. 在模型广场搜索 `BAAI/bge-m3`（适用于文本嵌入）
+2. 添加模型：
+	a. 模型 ID：`BAAI/bge-m3`
+    b. 模型名称：自定义填写
+    c. 模型类型：嵌入模型
 
 ![20251209-152408-uo.png](/admin/images/ai/-uo.png)
-3. 保存后检测是否正常
+3. 保存后点击检测，确认连接正常
 
 ![20251209-152555-GR.png](/admin/images/ai/-GR.png)
 
 ### 图生文本模型添加
 
-1. 模型广场搜索 `Qwen/Qwen3-Omni-30B-A3B-Instruct` 适用于多模态；
-2. 添加模型
-	a. 模型ID `Qwen/Qwen3-Omni-30B-A3B-Instruct`
-    b. 模型名称： 自定义填写
-    c. 模型类型： 图片描述提取
+图生文本模型用于从图片中提取文字描述，支持对图片类文件的语义检索。
+
+1. 在模型广场搜索 `Qwen/Qwen3-Omni-30B-A3B-Instruct`（适用于多模态）
+2. 添加模型：
+	a. 模型 ID：`Qwen/Qwen3-Omni-30B-A3B-Instruct`
+    b. 模型名称：自定义填写
+    c. 模型类型：图片描述提取
 
 ![20251209-152738-KP.png](/admin/images/ai/-KP.png)
-3. 保存后检测是否正常
+3. 保存后点击检测，确认连接正常
 
 ![20251209-152823-an.png](/admin/images/ai/-an.png)
 
 ### RAG 配置项
 
-1. 启用RAG
+按以下顺序完成 RAG 配置：
+
+1. 启用 RAG
 
 ![20251209-152928-7s.png](/admin/images/ai/-7s.png)
-2.  配置向量数据库，并检测通过
+2. 配置向量数据库，并检测通过
 
 ![20251209-153027-IE.png](/admin/images/ai/-IE.png)
-3. 指定向量模型， 并检测通过
+3. 指定向量模型，并检测通过
 
 ![20251209-153104-Gu.png](/admin/images/ai/-Gu.png)
-4.  指定图片描述提取模型和 扫描文件夹
+4. 指定图片描述提取模型，并选择需要扫描的文件夹
 
 ![20251209-153221-29.png](/admin/images/ai/1-29.png)
-5.  保存设置，等待文件入库和向量化，或立即手动更新。
+5. 保存设置，等待文件自动入库和向量化，或点击立即手动更新
 
 ![20251209-153417-BC.png](/admin/images/ai/9BC.png)
 

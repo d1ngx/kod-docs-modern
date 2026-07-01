@@ -1,5 +1,6 @@
 ---
 title: "适用于DSM 7.1的KodBox套件"
+description: 在群晖 DSM 7.1 套件中心安装 KodBox，含存储、Redis 与 ffmpeg 配置
 keywords: 群晖, DSM7, nas, spk
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "RAID5扩容说明"
 keywords: RAID, RAID5, 扩容
-description: 如何将新增磁盘加入RAID5阵列
+description: 在 teamOS 终端中将新硬盘加入现有 RAID 5 并扩展文件系统（进阶操作）
 ---
 
 <div id="raid5expand" class="tab-pane fade in active" markdown="1">

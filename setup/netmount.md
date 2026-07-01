@@ -1,7 +1,7 @@
 ---
 title: "如何挂载网络文件系统到可道云"
 keywords: 网络挂载, smb, nfs
-description: 挂载网络文件系统到可道云
+description: 将 NFS/SMB 网络共享目录挂载到可道云服务器并添加为存储
 ---
 
 <div id="netmount" class="tab-pane fade in active" markdown="1">

@@ -1,16 +1,16 @@
 ---
 title: "XAMPP环境可道云网盘的安装示例"
 keywords: XAMPP, windows, apache, mariadb
-description: XAMPP环境可道云网盘的安装示例
+description: 在 Windows 上用 XAMPP 本地搭建 kodbox（适合学习与测试）
 ---
 
 <div id="xampp" class="tab-pane fade in active" markdown="1">
 
 ## 概述
 
-XAMPP 是一个完全免费、易于安装的 Apache 发行版，包含 MariaDB 和 PHP环境。
+XAMPP 是 Windows 集成环境，内置 Apache（Web 服务器）、MariaDB（兼容 MySQL 的数据库）和 PHP，适合本地学习与测试。
 
-从官网下载最新的[XAMPP for Windows](https://www.apachefriends.org/zh_cn/index.html)
+从官网下载最新 [XAMPP for Windows](https://www.apachefriends.org/zh_cn/index.html)：
 
 ![XAMPP for Windows](../images/xampp.png){:width="600px"}
 

@@ -1,12 +1,14 @@
 ---
 title: "OnlyOffice组件的安装"
 keywords: 在线预览, cad在线预览, 在线流程图, office在线编辑, psd在线预览
-description: 可道云企业网盘支持数百种常见办公文档格式的在线预览。
+description: Windows 上部署 OnlyOffice 在线编辑服务（企业版用户）
 ---
 
 <div id="office_win" class="tab-pane fade in active" markdown="1">
 
-## window 部署 office 服务器流程
+## 在 Windows 上部署 Office 在线编辑服务
+
+OnlyOffice 是在线文档编辑服务，可让用户在浏览器中直接编辑 Word、Excel、PPT 等文件。
 
 ### 环境要求
 
@@ -14,15 +16,15 @@ description: 可道云企业网盘支持数百种常见办公文档格式的在�
 - 服务器内存必须4G以上；
 - C盘剩余空间不少于20G；
 - 当前登录用户必须是管理员；
-- 由于DockerToolbox不再更新，如果无法安装，请更换linux操作系统
+- 由于 Docker Toolbox 已停止更新，若无法安装，建议改用 Linux 部署 OnlyOffice
 
 > 提示：
 >
-> 本节仅适用于以及购买可道云企业版授权并激活后的用户。免费用户请忽略本环节。
+> 本节仅适用于已经购买可道云企业版授权并激活后的用户。免费用户请忽略本环节。
 
 ### 一、下载相关资源
 
-#### 1、在桌面创建一个文件夹,重命名为`kod`【注: 必须在桌面】
+#### 1、在桌面创建一个文件夹,重命名为`kod`（注意：文件夹必须放在桌面，脚本路径依赖此位置）
 
 #### 2、下载下列内容到 kod 文件夹
 
@@ -71,7 +73,7 @@ Error creating machine: Error in driver during machine creation: This computer d
 
     重启电脑后按 F2 或 F10 进入 BIOS 界面(不同主板型号进入 BIOS 所需按键不同)。
     进入 BIOS 界面:Configuratio > Intel Virtualization Technology > Enabled。
-    注:主板不一样其 BISO 中显示关键词也不一样的，主要是找到 Virtual 或 Virtualization 将其设置为
+    注:主板不一样其 BIOS 中显示关键词也不一样的，主要是找到 Virtual 或 Virtualization 将其设置为
     Enabled。[详情](http://www.netinstructions.com/how-to-install-docker-on-windows-behind-a-proxy/)
 
 ##### 2. 映射绑定端口
@@ -119,9 +121,9 @@ office和可道云不在一台服务器：点击配置插件,将上面office所�
 
 ### 四、其他问题
 
-#### VirtulBox 无法打开，提示软件不安全
+#### VirtualBox 无法打开，提示软件不安全
 
-请到[官网下载](https://www.virtualbox.org/wiki/Downloads)最新版本VirtulBox安装
+请到[官网下载](https://www.virtualbox.org/wiki/Downloads)最新版本VirtualBox安装
 
 #### 如何查看容器状态？
 

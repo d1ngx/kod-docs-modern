@@ -1,23 +1,23 @@
 ---
 title: "Docker环境可道云网盘的安装示例"
 keywords: Docker, 容器
-description: Docker环境可道云网盘的安装示例
+description: 用 Docker Compose 在 Linux 上一键部署 kodbox（含 HTTPS、NFS 等进阶配置）
 ---
 
 <div id="docker" class="tab-pane fade in active" markdown="1">
 
 ## [安装 Docker](https://docs.docker.com/engine/install/)
 
-### 1.安装环境
+### 1. 安装环境
 
-安装并启动docker服务，新版本docker会自动安装`docker-compose-plugin`
+Docker 是一种容器化平台，可以把可道云及其依赖（数据库、Redis 等）打包成独立容器运行，互不干扰。请先安装并启动 Docker 服务；较新版本的 Docker 会自动附带 `docker-compose-plugin`（用于编排多个容器）。
 
 ```console
 $ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 $ systemctl enable docker && systemctl start docker
 ```
 
-docker compose 用法，在通过`docker compose up`启动后，可以使用`docker compose ls`查看配置文件位置
+`docker compose` 用于按配置文件一次性启动多个容器。执行 `docker compose up` 后，可用 `docker compose ls` 查看当前运行的 Compose 项目及其配置文件位置：
 
 ```console
 $ docker compose ls
@@ -31,7 +31,9 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 > - `curl -SL https://github.com/docker/compose/releases/download/v2.32.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose`
 > - `chmod +x /usr/local/bin/docker-compose`
 
-### 2.http 方式快速启动
+### 2. HTTP 方式快速启动
+
+以下步骤通过 HTTP（非加密）访问可道云，适合内网测试或后续再配置 HTTPS。
 
 > 注意：
 >
@@ -91,7 +93,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
       restart: always
   ```
 
-  若网络不佳，可切换为阿里云容器镜像地址
+  若拉取镜像较慢，可改用阿里云容器镜像地址：
 
   ```yaml
   services:
@@ -147,7 +149,7 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 >
 > `mkdir -p ./etc/mysql/conf.d && vim ./etc/mysql/conf.d/custom.cnf`
 
-进入项目目录，执行`docker compose up -d`启动命令，会自动拉取容器并运行
+进入项目目录，执行 `docker compose up -d` 启动服务（`-d` 表示后台运行）。Docker 会自动拉取镜像并创建容器：
 
 ```console
 $ docker compose up -d
@@ -157,7 +159,7 @@ Creating kodbox_db_1    ... done
 Creating kodbox_app_1   ... done
 ```
 
-列出docker容器，可以看到3个容器正在运行
+用 `docker ps` 列出正在运行的容器，正常情况下可以看到 3 个容器（应用、数据库、Redis）：
 
 ```console
 $ docker ps
@@ -167,7 +169,7 @@ f596f5b00305   kodcloud/kodbox   "/entrypoint.sh /usr…"   About a minute ago  
 e6296b23fb0a   redis:alpine      "docker-entrypoint.s…"   About a minute ago   Up About a minute   6379/tcp                       kodbox_redis_1
 ```
 
-如果需要停止服务
+如需停止并移除所有容器（数据仍保留在挂载目录中）：
 
 ```console
 $ docker compose down
@@ -180,7 +182,7 @@ Removing kodbox_redis_1 ... done
 Removing network kodbox_default
 ```
 
-由于数据库和kodbox已经挂载了持久化目录，需要时可以重新启动，不用担心数据丢失
+数据库和 kodbox 的数据已挂载到宿主机目录，停止后再次执行 `docker compose up -d` 即可恢复，数据不会丢失：
 
 ```console
 $ docker compose up -d
@@ -188,9 +190,13 @@ $ docker compose up -d
 
 根据`docker-compose.yml`文件中配置的映射端口，访问 [安装向导](./start.md) 进行系统初始化。
 
-### 3.配置 https 证书
+### 3. 配置 HTTPS 证书
+
+HTTPS 会对传输内容加密，生产环境建议启用。以下提供两种方式。
 
 #### 方式一：宿主机 Nginx 反向代理
+
+Nginx 是常用的 Web 服务器；反向代理指由 Nginx 接收外部 HTTPS 请求，再转发给 Docker 容器内的 HTTP 服务。
 
 ```nginx
 server {
@@ -231,9 +237,9 @@ server {
 }
 ```
 
-#### 方式二：配置证书到容器
+#### 方式二：将证书挂载到容器
 
-创建一个证书目录,把下载的nginx版ssl证书放入目录
+SSL 证书用于启用 HTTPS 加密访问。创建一个证书目录，把下载的 Nginx 版 SSL 证书放入其中：
 
 ```console
 $ mkdir /etc/kodbox/ssl
@@ -246,7 +252,7 @@ $ mv xxx.pem fullchain.pem
 $ mv xxx.key privkey.pem
 ```
 
-在http的docker-compose.yml增加证书目录映射`/etc/kodbox/ssl:/etc/nginx/ssl`，容器检测到证书文件存在时会自动启用https配置。
+在 HTTP 版 `docker-compose.yml` 中增加证书目录映射 `/etc/kodbox/ssl:/etc/nginx/ssl`；容器检测到证书文件后会自动启用 HTTPS 配置。
 
 ```console
 $ mkdir kodbox && cd kodbox

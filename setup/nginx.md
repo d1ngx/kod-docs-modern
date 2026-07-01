@@ -1,14 +1,14 @@
 ---
 title: "NGINX的配置优化"
 keywords: nginx, php, MySQL, redis
-description: 可道云网盘的依赖环境优化
+description: Nginx 参考配置与 PHP 对接说明（进阶调优）
 ---
 
 <div id="nginx" markdown="1">
 
 ## NGINX
 
-`/etc/nginx/nginx.conf`参考配置
+Nginx 是 Web 服务器，负责接收浏览器请求并转发给 PHP 处理。以下为 `/etc/nginx/nginx.conf` 参考配置（可根据服务器规格调整）：
 
 ```nginx
 user nginx;
@@ -126,10 +126,10 @@ http {
 
 > 注意:
 >
-> 其中的`fastcgi_pass unix:/var/run/php-fpm.sock;`指的是绑定PHP的进程文件，若该文件不存在，请检查php-fpm配置。
+> 其中的 `fastcgi_pass unix:/var/run/php-fpm.sock;` 指向 PHP-FPM 的进程通信文件。若该文件不存在，请检查 php-fpm 配置中的 `listen` 路径是否一致。
 {: .important}
 
-在调整nginx配置后，执行`nginx -t`检查语法，确定无误后重启服务
+修改配置后，先用 `nginx -t` 检查语法是否正确，确认无误再重启服务：
 
 ```console
 $ nginx -t

@@ -1,14 +1,14 @@
 ---
 title: "5 可道云数据迁移"
 keywords: 迁移,可道云
-description: 如何迁移teamOS系统数据
+description: 将 teamOS 可道云站点迁移到新机器：换盘、挂载与数据库还原步骤
 ---
 
 <div id="migrateamos" class="tab-pane fade in active" markdown="1">
 
 ## 1. 迁移说明
 
-可道云站点的数据有2部分，数据库和物理存储。
+可道云站点数据分两部分：数据库（用户、文件索引等）和物理文件（实际文件内容）。
 
 - 数据库在后台存储/文件-备份管理，通常会自动备份。
 - 物理存储一般是独立硬盘。

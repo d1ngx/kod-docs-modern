@@ -1,7 +1,7 @@
 ---
 title: "1 使用U盘制作ISO镜像启动盘"
 keywords: U盘, ISO, 启动盘
-description: 在本地电脑上通过rufus制作ISO镜像启动盘
+description: 在 Windows 上用 Rufus 将 teamOS ISO 写入 U 盘（约 5–10 分钟）
 ---
 
 <div id="setup" class="tab-pane fade in active" markdown="1">

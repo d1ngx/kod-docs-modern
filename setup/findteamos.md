@@ -1,16 +1,16 @@
 ---
 title: "3 发现teamOS"
 keywords: 发现 teamOS
-description: 安装teamOS 后, 系统会自动以dhcp形式获取IP, 此时利用可道云客户端可以搜索到teamOS服务器地址。
+description: 安装 teamOS 后，用 PC 客户端或手机 App 在局域网内自动发现服务器并初始化
 ---
 
 <div id="setup" class="tab-pane fade in active" markdown="1">
 
 ## 1 使用要求
 
-- 系统镜像版本 teamOS-22.03.e13.iso或以上
-- PC客户端版本 0.5.4或以上,[下载地址](https://kodcloud.com/download/)
-- 手机APP端最新版本,[下载地址](https://kodcloud.com/download/)
+- 系统镜像：teamOS-22.03.e13.iso 或以上
+- PC 客户端：0.5.4 或以上，[下载地址](https://kodcloud.com/download/)
+- 手机 App：最新版本，[下载地址](https://kodcloud.com/download/)
 
 ## 2 发现步骤
 
@@ -18,7 +18,7 @@ description: 安装teamOS 后, 系统会自动以dhcp形式获取IP, 此时利�
 
 > 提示：
 >
-> - 当teamOS安装完成后，可以利用客户端的发现功能找到站点。
+> - teamOS 安装完成后，可通过客户端的「发现站点」功能在局域网内自动找到服务器。
 
 1. 在PC端图标右键可以找到**切换/发现站点**,或者打开PC端,在首页点击**发现站点**
 

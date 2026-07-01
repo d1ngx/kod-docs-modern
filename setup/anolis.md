@@ -1,7 +1,7 @@
 ---
 title: "Anolis OS系统中可道云网盘的安装示例"
 keywords: Anolis OS, 龙蜥
-description: Anolis OS系统中可道云网盘的安装示例
+description: 在 Anolis OS 8.8 上从零安装 Nginx、PHP、MySQL 与 kodbox 的分步教程
 ---
 
 ### 概述
@@ -41,7 +41,7 @@ $ systemctl enable nginx php-fpm mysqld redis
 $ systemctl start nginx php-fpm mysqld redis
 ```
 
-支持图片视频等文件生成封面缩略图，需要安装`ImageMagick`和`ffmpeg`。
+要生成图片、视频封面缩略图，需安装 ImageMagick（图像处理）和 ffmpeg（音视频处理）：
 
 > 提示：
 >
@@ -128,7 +128,7 @@ $ systemctl restart php-fpm
 $ mysql_secure_installation
 ```
 
-启动 MySQL 命令行模式，输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
+进入 MySQL 命令行，创建 kodbox 数据库和用户（将 `username` 和 `password` 替换为实际值）：
 
 ```sql
 mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -139,7 +139,7 @@ mysql> FLUSH PRIVILEGES;
 
 ### Redis
 
-由于系统默认不包含`php-redis`扩展，这里需要手动编译，执行
+系统默认未包含 php-redis 扩展（用于连接 Redis 缓存），需手动编译安装：
 
 ```console
 $ dnf install git php-devel make -y
@@ -155,7 +155,7 @@ $ systemctl restart php-fpm
 
 #### 安装 KodBox
 
-下载最新版本的kodbox安装包，解压到站点目录
+下载最新版 kodbox 安装包，解压到网站根目录：
 
 ```console
 $ dnf install -y unzip
