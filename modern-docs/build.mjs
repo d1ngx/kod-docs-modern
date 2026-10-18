@@ -47,6 +47,19 @@ for (const file of sources) {
   const url = '/' + file.replace(/index\.md$/, '').replace(/\.md$/, '/') ;
   const toc = [], ids = new Map();
   const tokens = md.parse(body, {});
+  // Indented image lines are parsed as code. Promote image-only code blocks back to images.
+  const imageOnly = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;
+  for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i].type !== 'code_block') continue;
+    const lines = tokens[i].content.split('\n').map(line => line.trim()).filter(Boolean);
+    if (!lines.length || lines.some(line => !imageOnly.test(line))) continue;
+    const replacement = lines.flatMap(line => {
+      const [, alt, src] = line.match(imageOnly);
+      return md.parse(`![${alt}](${src})`, {});
+    });
+    tokens.splice(i, 1, ...replacement);
+    i += replacement.length - 1;
+  }
   // Preserve legacy important callouts as semantic blockquote classes.
   for(let j=0;j<tokens.length;j++) {
     if(tokens[j].type==='blockquote_open') tokens[j].attrSet('class','callout-note');

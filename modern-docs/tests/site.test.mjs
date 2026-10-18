@@ -83,6 +83,9 @@ test('legacy rendering, homepage images and publication exclusions',async t=>{
   for(const asset of ['xp','laptop','view','share','admin']) assert.equal((await fetch(service.url+`/assets/images/${asset}.svg`)).status,200);
   const setup=await page('/setup/');assert.doesNotMatch(setup,/start row|component-container|&lt;div/);
   const guide=await page('/guide/2.3/');assert.match(guide,/<li><strong>地址<\/strong>/);assert.doesNotMatch(guide,/<pre>[\s\S]*?\*\*地址/);
+  const startPage=await page('/setup/start/');assert.match(startPage,/src="\/setup\/images\/db_mysql\.png"/);assert.match(startPage,/src="\/setup\/images\/add_stg\.png"/);assert.match(startPage,/src="\/setup\/images\/encrypt_dt\.png"/);assert.doesNotMatch(startPage,/!\[db_mysql\]/);
+  const officeWin=await page('/setup/office_win/');assert.match(officeWin,/src="\/setup\/images\/docker_ps\.png"/);assert.doesNotMatch(officeWin,/!\[容器状态\]/);
+  const xampp=await page('/setup/xampp/');assert.match(xampp,/src="\/setup\/images\/xmp_cp\.png"/);assert.match(xampp,/src="\/setup\/images\/swh_rds\.png"/);assert.doesNotMatch(xampp,/!\[xmp_cp\]|!\[swh_rds\]/);
   const user=await page('/user/');assert.match(user,/<blockquote class="callout-note">/);assert.match(user,/<blockquote class="callout-warning">/);
   const sitemap=await page('/sitemap.xml'),llms=await page('/llms.txt');
   for(const slug of ['5.2','5.3','check','configuration','oss']){

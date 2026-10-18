@@ -38,7 +38,7 @@ XAMPP 是 Windows 集成环境，内置 Apache（Web 服务器）、MariaDB（�
     - 输入`mysqladmin -u root password`回车
     - 重复输入密码2次 [参考](https://kinsta.com/knowledgebase/xampp-mysql-password/)
 
-    ![xmp_cp](../images/xmp_cp.png){:width="800px"}
+![xmp_cp](../images/xmp_cp.png){:width="800px"}
 
 #### 1.3 开启相关 PHP 扩展
 
@@ -91,6 +91,6 @@ XAMPP 是 Windows 集成环境，内置 Apache（Web 服务器）、MariaDB（�
     - 选择redis进行检测
     - 检测通过后可以执行切换，切换后会自动跳转到登录页面
 
-    ![swh_rds](../images/swh_rds.png){:width="550px"}
+![swh_rds](../images/swh_rds.png){:width="550px"}
 
 </div>

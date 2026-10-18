@@ -39,7 +39,7 @@ description: 浏览器安装向导分步说明：环境检测、数据库配置�
 
 系统缓存推荐选择 **Redis**（一种内存缓存服务，可加快访问速度）。使用前需已安装并启动 Redis 服务，并确保 PHP 扩展 `php-redis` 已安装。
 
-    ![db_mysql](../images/db_mysql.png){:width="650px"}
+![db_mysql](../images/db_mysql.png){:width="650px"}
 
 然后设置所需管理员的账号和密码即可完成安装。
 
@@ -49,7 +49,7 @@ description: 浏览器安装向导分步说明：环境检测、数据库配置�
 
 这样的需求可以在后台**存储管理**中，添加一个新的存储，并通过指定**存储目录**、**设为默认**来实现。
 
-    ![add_stg](../images/add_stg.png){:width="750px"}
+![add_stg](../images/add_stg.png){:width="750px"}
 
 站点下的 data 目录也可以整体迁移至其他位置，比如移动到`/data/`，然后需要在config文件夹下新建`define.php` 并新增一行
 
@@ -65,6 +65,6 @@ description: 浏览器安装向导分步说明：环境检测、数据库配置�
 
 在后台**系统设置** - **安全设置**中，建议将**文件存储加密**调整为**全部加密**。
 
-    ![encrypt_dt](../images/encrypt_dt.png){:width="850px"}
+![encrypt_dt](../images/encrypt_dt.png){:width="850px"}
 
 </div>

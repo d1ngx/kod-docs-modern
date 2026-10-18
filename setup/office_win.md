@@ -129,7 +129,7 @@ office和可道云不在一台服务器：点击配置插件,将上面office所�
 
 可以在桌面上运行Docker Quickstart Terminal,然后执行 `docker ps`查看
 
-    ![容器状态](/setup/images/docker_ps.png){:width="650px"}
+![容器状态](/setup/images/docker_ps.png){:width="650px"}
 
 #### 如何配置 https 访问
 
