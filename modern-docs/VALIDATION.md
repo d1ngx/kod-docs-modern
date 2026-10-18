@@ -106,3 +106,10 @@
 - 新仓库为 https://github.com/d1ngx/kod-docs-modern（私有）；默认 Git 编辑、反馈、仓库及 Actions 入口同步更新为 GitHub。
 - GitHub Actions 构建测试并上传静态包与服务端内容包，不因普通内容提交构建运行镜像。
 - 清理后 133 篇文档正常构建，服务端与静态内容本地引用 0 缺失，8 组测试通过（含首页和页脚模板同步）。
+### GitHub 远端验收与历史归档清理
+
+- main 已成功推送到 d1ngx/kod-docs-modern，仓库为私有，默认分支 main。临时传输分支已删除。
+- 初次大包传输发现历史包含生成归档 site.tgz/site.tar。新仓库历史排除这两条路径，源代码提交保留；清理前后最新源码树完全一致。本地 codex/pre-github-clean 分支保留原始历史，原 GitLab 远端作为 upstream 保留。
+- 清理资源的本地备份位于仓库父目录 kod-docs-cleanup-backup-20261018-115938，不提交依赖、密钥、构建产物或工具缓存。
+- GitHub Actions 的 push 与 workflow_dispatch 均出现 startup_failure / BuildFailed，jobs=0，无构建日志；没有据此声称远端 CI 通过。权限已启用，工作流能被 API 正确识别，平台启动原因尚未确定。
+- 已验证 Node 24 对应 Action 标签，并将上传产物 Action 更新为 v7；产物缺失时明确报错。当前可靠验收依据为本机 8 组测试及已校验的部署包。

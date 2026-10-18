@@ -17,12 +17,14 @@ jobs:
       - run: pnpm test
       - run: pnpm package:static
       - run: node modern-docs/check.mjs --static
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
+          if-no-files-found: error
           name: kod-docs-static
           path: modern-docs/releases/kod-docs-static.zip
       - run: pnpm package:content
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
+          if-no-files-found: error
           name: kod-docs-content
           path: modern-docs/releases/kod-docs-content.zip

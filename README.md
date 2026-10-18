@@ -2,7 +2,7 @@
 
 可道云中文帮助文档源码。
 
-仓库：[d1ngx/kod-docs-modern](https://github.com/d1ngx/kod-docs-modern) · [构建与发布包](https://github.com/d1ngx/kod-docs-modern/actions)
+仓库：[d1ngx/kod-docs-modern](https://github.com/d1ngx/kod-docs-modern) · [CI 构建记录](https://github.com/d1ngx/kod-docs-modern/actions)
 
 文档内容来自 [原 kod-docs](https://gitlab.com/d1ng/kod-docs)，保留原有内容与许可证。新版仅保留 Node 文档站使用的模板与资产。
 
