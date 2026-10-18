@@ -1,0 +1,12 @@
+.git
+node_modules
+modern-docs/dist
+modern-docs/test-results
+_site
+.env
+*.tar
+*.zip
+*.log
+
+modern-docs/static-dist
+modern-docs/releases

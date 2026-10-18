@@ -134,7 +134,7 @@ office和可道云不在一台服务器：点击配置插件,将上面office所�
 #### 如何配置 https 访问
 
 - 若全站采用https访问office，需要配置nginx反向代理来实现https转http
-- 具体实现: [参考这里](/others/office_https.md)
+- 具体实现: [参考 OnlyOffice HTTPS 配置](/setup/office/#如何配置-https-访问)
 
 #### 如何自启动 office 服务，避免每次开启后需要手动启动
 

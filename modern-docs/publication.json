@@ -1,0 +1,9 @@
+{
+  "excluded": {
+    "setup/5.2.md": "旧版 CentOS 7 安装内容，待复核",
+    "setup/5.3.md": "旧版系统设置内容，待复核",
+    "setup/check.md": "未完成空页",
+    "setup/configuration.md": "配置索引待内容审核",
+    "setup/oss.md": "未完成空页"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "kod-docs-modern",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "build": "node modern-docs/build.mjs",
+    "start": "node modern-docs/server.mjs",
+    "dev": "node modern-docs/build.mjs && node --watch modern-docs/server.mjs",
+    "test": "node --test modern-docs/tests/*.test.mjs",
+    "check": "node modern-docs/check.mjs",
+    "build:static": "node modern-docs/build.mjs --static",
+    "package:static": "node modern-docs/build.mjs --static && node modern-docs/package-static.mjs",
+    "package:content": "node modern-docs/build.mjs && node modern-docs/check.mjs && node modern-docs/package-static.mjs --content"
+  },
+  "dependencies": {
+    "highlight.js": "11.12.0",
+    "markdown-it": "15.0.2",
+    "sanitize-html": "2.18.1",
+    "yaml": "2.9.1"
+  }
+}

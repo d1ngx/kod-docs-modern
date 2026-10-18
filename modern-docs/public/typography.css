@@ -1,0 +1,35 @@
+/* Local Chinese fonts; font names changed for subset distributions. */
+@font-face{font-family:'Kod Docs Sans';src:url('/ui/vendor/KodDocsSans.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:'Kod Docs Mono';src:url('/ui/vendor/KodDocsMono.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+:root{font-family:'Kod Docs Sans','PingFang SC','Microsoft YaHei',system-ui,sans-serif;font-weight:400;line-height:1.65}
+article{font-size:16px;line-height:1.65;letter-spacing:0}
+code,pre,article pre code{font-family:'Kod Docs Mono','Sarasa Mono SC','Noto Sans Mono CJK SC',Consolas,'Microsoft YaHei',monospace;font-variant-ligatures:none}
+article pre{font-size:14px;line-height:1.75}
+.doc-title,article h1,article h2,article h3,article h4,.home-hero h1,.legacy-home h2,.legacy-home h5,.legacy-home h6,.sidebar-heading,.sidebar a[aria-current],article strong{font-weight:600;letter-spacing:0}
+.sidebar a,.sidebar summary{line-height:1.45;padding-top:7px;padding-bottom:7px;min-height:34px}.sidebar summary{font-weight:500}.sidebar a[aria-current]{font-weight:600}
+article p{margin-bottom:16px}
+article ul,article ol{margin:12px 0 18px}
+article li{margin:5px 0}
+article h2,article h3,article h4{margin-top:24px}
+.legacy-home p,.legacy-footer li{line-height:1.8}.legacy-home .card h5{font-weight:600}.legacy-home .nav-tabs .active button{font-weight:600}
+@media(max-width:767px){article{font-size:16px;line-height:1.65}.doc-title{font-size:27px}.top-nav>a{font-size:13px}}
+
+/* Shared blue text for sidebar navigation and Markdown inline code. */
+:root { --docs-accent-text: #1282d7; }
+:root[data-theme="dark"] { --docs-accent-text: #8acfff; }
+.sidebar a, .sidebar summary, .sidebar-heading,
+.sidebar a[aria-current], .sidebar details:has(a[aria-current]) > summary,
+article :not(pre) > code { color: var(--docs-accent-text); }
+
+/* All Markdown content tables: blue header and alternating white/light-blue rows. */
+article table {
+  --table-heading: #d5eaff;
+  --table-stripe: #eef6ff;
+}
+article table thead { background: var(--table-heading); }
+article table tbody tr:nth-child(odd) { background: var(--bg); }
+article table tbody tr:nth-child(even) { background: var(--table-stripe); }
+:root[data-theme="dark"] article table {
+  --table-heading: #203e5c;
+  --table-stripe: #172a3d;
+}

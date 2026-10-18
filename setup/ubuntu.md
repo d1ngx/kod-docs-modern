@@ -70,7 +70,7 @@ location ~ [^/]\.php(/|$) {
 }
 ```
 
-[配置优化参考](./configuration.md)
+[Nginx 配置说明](/setup/nginx/)
 
 ### PHP
 
