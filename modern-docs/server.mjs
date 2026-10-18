@@ -3,7 +3,7 @@ import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { timingSafeEqual } from 'node:crypto';
-import { search } from './public/search.mjs';
+import { search } from './public/search.js';
 
 const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 const documents = JSON.parse(await readFile(path.join(dir,'search-index.json'),'utf8'));

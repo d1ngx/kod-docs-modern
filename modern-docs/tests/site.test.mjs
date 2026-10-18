@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import http from 'node:http';
-import { search, terms } from '../public/search.mjs';
+import { search, terms } from '../public/search.js';
 const settings=JSON.parse(await readFile(new URL('../site.config.json',import.meta.url),'utf8'));
 const editPrefix=settings.repository+(settings.gitProvider==='gitlab'?'/-/edit/':'/edit/')+settings.branch+'/';
 const index=JSON.parse(await readFile(new URL('../dist/search-index.json',import.meta.url),'utf8'));
@@ -26,11 +26,11 @@ test('all generated pages, assets, search and API validation',async t=>{
   const service=await serve();t.after(service.stop);
   for(const doc of index){const r=await fetch(service.url+doc.url);assert.equal(r.status,200,doc.url);const html=await r.text();assert.ok(html.includes('编辑此页'));assert.ok(html.includes(editPrefix));}
   const home=await fetch(service.url+'/').then(r=>r.text());assert.match(home,/您想了解什么/);assert.match(home,/id="hero-form"/);assert.doesNotMatch(home,/class="sidebar"/);
-  const article=await fetch(service.url+'/setup/docker/').then(r=>r.text());assert.match(article,/<h2 id=/);assert.match(article,/<pre><code/);assert.doesNotMatch(article,/markdown="1"|\{: \.important/);
+  const article=await fetch(service.url+'/setup/docker/').then(r=>r.text());assert.match(article,/<h2 id=/);assert.match(article,/<pre><code/);assert.doesNotMatch(article,/markdown="1"|\{: \.important|更多文档/);assert.match(article,/src="\/ui\/app\.js"/);
   assert.equal((await fetch(service.url+'/setup/docker',{redirect:'manual'})).status,308);
   assert.equal((await fetch(service.url+'/not-a-real-page/')).status,404);
   const image=await fetch(service.url+'/user/images/1.1-1.png');assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),'image/png');
-  assert.equal((await fetch(service.url+'/ui/app.mjs')).headers.get('content-type'),'text/javascript; charset=utf-8');
+  assert.equal((await fetch(service.url+'/ui/app.js')).headers.get('content-type'),'text/javascript; charset=utf-8');
   const markdown=await fetch(service.url+'/markdown/setup/docker.md');assert.match(markdown.headers.get('content-type'),/text\/plain/);assert.match(await markdown.text(),/docker compose/);
   for(const font of ['KodDocsSans','KodDocsMono']) {
     const response=await fetch(service.url+`/ui/vendor/${font}.woff2`);

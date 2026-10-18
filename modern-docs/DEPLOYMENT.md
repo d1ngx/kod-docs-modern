@@ -66,7 +66,7 @@ pnpm package:static
 - 首页、任意文档、图片及字体均能加载；刷新深层路径正常。
 - 搜索“权限”可出现结果；AI 面板显示文档检索模式并列出来源。
 - `/setup/check/` 等停发页面应返回 404。
-- 若脚本无法运行，检查 `/ui/app.mjs` 是否返回 JavaScript，而非 404/HTML。
+- 若脚本无法运行，检查 `/ui/app.js` 是否返回 JavaScript，而非 404/HTML。
 
 ## 二、启用模型生成回答（使用源码部署）
 
@@ -194,7 +194,7 @@ DOCS_CONTENT_DIR=/srv/kod-docs/releases/your-release
 | Markdown、菜单、前端样式/脚本 | 构建或上传服务端内容包，然后重启容器 |
 | 模型地址、模型 ID、密钥、认证设置 | 修改 .env，使用 --no-build --pull never --force-recreate |
 | DOCS_CONTENT_DIR 挂载路径 | 修改 .env，使用 --no-build --pull never --force-recreate |
-| server.mjs、后端 search.mjs 或运行依赖 | 重建运行镜像，再创建容器 |
+| server.mjs、后端 search.js 或运行依赖 | 重建运行镜像，再创建容器 |
 
 镜像仅承担 Node 与后端程序；站点内容可单独更新。需要回到完全由镜像提供内容的方式，可移除 Compose 的 volumes 挂载后重新创建容器。
 
