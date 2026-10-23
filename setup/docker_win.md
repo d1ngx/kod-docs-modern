@@ -70,20 +70,29 @@ Docker Desktop 是 Windows 上的 Docker 图形化工具，可在本地运行 Li
 4. 打开 PowerShell 终端，进入项目目录，执行 `docker compose up -d` 启动服务（`-d` 表示后台运行）。Docker 会自动拉取镜像并创建容器：
 
     ```powershell
-    PS D:\> cd D:/kodbox/
-    PS D:\kodbox> docker compose up -d
+    cd D:/kodbox/
+    docker compose up -d
+    ```
+
+    示例输出：
+
+    ```text
     [+] Running 4/4
     - Network kodbox_default    Created                                                                               0.1s
     - Container kodbox-redis-1  Started                                                                               5.5s
     - Container kodbox-db-1     Started                                                                               5.6s
     - Container kodbox-app-1    Started                                                                               1.6s
-    PS D:\kodbox>
     ```
 
     用 `docker ps` 查看正在运行的容器，正常情况下可以看到 3 个容器：
 
     ```powershell
-    PS D:\kodbox> docker ps
+    docker ps
+    ```
+
+    示例输出：
+
+    ```text
     CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                   NAMES
     b68969faf44e   kodcloud/kodbox   "/entrypoint.sh /usr…"   6 minutes ago   Up 6 minutes   443/tcp, 0.0.0.0:80->80/tcp, 9000/tcp   kodbox-app-1
     b56ad3c7248e   mariadb           "docker-entrypoint.s…"   6 minutes ago   Up 6 minutes   3306/tcp                                kodbox-db-1
@@ -93,7 +102,12 @@ Docker Desktop 是 Windows 上的 Docker 图形化工具，可在本地运行 Li
     如需停止并移除所有容器（数据仍保留在挂载目录中）：
 
     ```powershell
-    PS D:\kodbox> docker compose down
+    docker compose down
+    ```
+
+    示例输出：
+
+    ```text
     [+] Running 4/4
     - Container kodbox-app-1    Removed                                                                                                                                              1.1s
     - Container kodbox-redis-1  Removed                                                                                                                                              0.5s
@@ -104,7 +118,7 @@ Docker Desktop 是 Windows 上的 Docker 图形化工具，可在本地运行 Li
     数据库和 kodbox 的数据已挂载到本地目录，再次执行 `docker compose up` 即可恢复，数据不会丢失：
 
     ```powershell
-    PS D:\kodbox> docker compose up
+    docker compose up
     ```
 
 5. 根据 `docker-compose.yml` 中配置的映射端口，访问 [安装向导](./start.md) 完成系统初始化。

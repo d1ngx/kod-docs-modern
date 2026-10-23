@@ -10,8 +10,13 @@ Loongnix操作系统是龙芯开源社区推出的Linux操作系统。 [了解�
 
 #### 查看系统版本
 
-```console
-$ cat /etc/os-release
+```bash
+cat /etc/os-release
+```
+
+示例输出：
+
+```text
 NAME="Loongnix-Server Linux"
 VERSION="8"
 ID="loongnix-server"
@@ -38,19 +43,19 @@ CENTOS_MANTISBT_PROJECT_VERSION="8"
 
 安装基础依赖环境
 
-```console
-$ dnf module enable nginx:1.16 php:8.0 redis:6
-$ dnf install nginx php php-fpm php-gd php-json php-mbstring php-mysqlnd php-xml php-intl mysql-server redis
-$ systemctl enable nginx php-fpm mysqld redis
-$ systemctl start nginx php-fpm mysqld redis
+```bash
+dnf module enable nginx:1.16 php:8.0 redis:6
+dnf install nginx php php-fpm php-gd php-json php-mbstring php-mysqlnd php-xml php-intl mysql-server redis
+systemctl enable nginx php-fpm mysqld redis
+systemctl start nginx php-fpm mysqld redis
 ```
 
 支持图片视频等文件生成封面缩略图
 
-```console
-$ dnf install ImageMagick
-$ dnf config-manager --set-enabled plus
-$ dnf install ffmpeg
+```bash
+dnf install ImageMagick
+dnf config-manager --set-enabled plus
+dnf install ffmpeg
 ```
 
 ### NGINX
@@ -89,10 +94,10 @@ location ~ [^/]\.php(/|$) {
 
 配置参数调整
 
-```console
-$ PHP_INI=/etc/php.ini
-$ PHP_FPM=/etc/php-fpm.d/www.conf
-$ sed -i \
+```bash
+PHP_INI=/etc/php.ini
+PHP_FPM=/etc/php-fpm.d/www.conf
+sed -i \
    -e "s/max_execution_time = .*/max_execution_time = 3600/g" \
    -e "s/max_input_time = .*/max_input_time = 3600/g" \
    -e "s/memory_limit = .*/memory_limit = 512M/g" \
@@ -100,7 +105,7 @@ $ sed -i \
    -e "s/upload_max_filesize = .*/upload_max_filesize = 512M/g" \
    ${PHP_INI}
 
-$ sed -i \
+sed -i \
    -e "s/pm.max_children = .*/pm.max_children = 100/g" \
    -e "s/pm.start_servers = .*/pm.start_servers = 10/g" \
    -e "s/pm.min_spare_servers = .*/pm.min_spare_servers = 10/g" \
@@ -113,7 +118,7 @@ $ sed -i \
    -e "s/;listen.group = nobody/listen.group = nginx/g" \
    ${PHP_FPM}
 
-$ systemctl restart php-fpm
+systemctl restart php-fpm
 ```
 
 ### MySQL
@@ -122,54 +127,64 @@ $ systemctl restart php-fpm
 
 要启动 MySQL 命令行模式，请使用以下命令：
 
-```console
-$ sudo mysql
+```bash
+sudo mysql
 ```
 
 输入以下行，将`username`和`password`替换为适当的值，并使用 Enter 键确认：
 
 ```sql
-mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-mysql> CREATE DATABASE IF NOT EXISTS kodbox CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-mysql> GRANT ALL PRIVILEGES ON kodbox.* TO 'username'@'localhost';
-mysql> FLUSH PRIVILEGES;
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+CREATE DATABASE IF NOT EXISTS kodbox CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON kodbox.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 ### Redis
 
 系统默认未包含 php-redis 扩展（用于连接 Redis 缓存），需手动编译安装：
 
-```console
-$ dnf install git php-devel make -y
-$ git clone https://github.com/phpredis/phpredis.git
-$ cd phpredis
-$ phpize
-$ ./configure
-$ make && make install
+```bash
+dnf install git php-devel make -y
+git clone https://github.com/phpredis/phpredis.git
+cd phpredis
+phpize
+./configure
+make && make install
+```
+
+示例输出：
+
+```text
 Installing shared extensions:     /usr/lib64/php/modules/
-$ echo "extension=redis.so" > /etc/php.d/20-redis.ini
-$ systemctl restart php-fpm
+```
+
+继续执行：
+
+```bash
+echo "extension=redis.so" > /etc/php.d/20-redis.ini
+systemctl restart php-fpm
 ```
 
 #### 安装 KodBox
 
 下载最新版 kodbox 安装包，解压到网站根目录：
 
-```console
-$ dnf install -y unzip
-$ cd /var/www/html/
-$ curl -L "https://api.kodcloud.com/?app/version&download=server.link" -o kodbox.zip
-$ unzip kodbox.zip && rm -f kodbox.zip
-$ chown -R nginx:nginx /var/www/html
-$ chmod -R 755 /var/www/html
-$ systemctl restart nginx
+```bash
+dnf install -y unzip
+cd /var/www/html/
+curl -L "https://api.kodcloud.com/?app/version&download=server.link" -o kodbox.zip
+unzip kodbox.zip && rm -f kodbox.zip
+chown -R nginx:nginx /var/www/html
+chmod -R 755 /var/www/html
+systemctl restart nginx
 ```
 
 设置防火墙
 
-```console
-$ firewall-cmd --zone=public --add-port=80/tcp --permanent
-$ firewall-cmd --reload
+```bash
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
 ```
 
 然后在浏览器访问[安装向导](./start.md), 完成系统初始化步骤。

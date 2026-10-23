@@ -131,11 +131,21 @@ http {
 
 修改配置后，先用 `nginx -t` 检查语法是否正确，确认无误再重启服务：
 
-```console
-$ nginx -t
+```bash
+nginx -t
+```
+
+示例输出：
+
+```text
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
-$ systemctl restart nginx
+```
+
+继续执行：
+
+```bash
+systemctl restart nginx
 ```
 
 </div>

@@ -21,32 +21,37 @@ description: 将 NFS/SMB 网络共享目录挂载到可道云服务器并添加�
 
 在可道云**服务器 B** 上需要完成 NFS 挂载，首先安装客户端。
 
-```console
-$ yum install nfs-utils rpcbind
+```bash
+yum install nfs-utils rpcbind
 ```
 
 查看 NFS 服务端共享的目录
 
-```console
-$ showmount -e 192.168.1.100
+```bash
+showmount -e 192.168.1.100
+```
+
+示例输出：
+
+```text
 Export list for 192.168.1.100:
 /share 192.168.1.101
 ```
 
 执行挂载命令
 
-```console
-$ mkdir /data
-$ mount -o nolock 192.168.1.100:/share /data
+```bash
+mkdir /data
+mount -o nolock 192.168.1.100:/share /data
 ```
 
 设置开机自动挂载，并验证无误。
 
-```console
-$ cp /etc/fstab /etc/fstab.bak
-$ echo "192.168.1.100:/share /data nfs nolock 0 0" >> /etc/fstab
-$ systemctl daemon-reload
-$ umount /data && mount -a
+```bash
+cp /etc/fstab /etc/fstab.bak
+echo "192.168.1.100:/share /data nfs nolock 0 0" >> /etc/fstab
+systemctl daemon-reload
+umount /data && mount -a
 ```
 
 > **提示**：
@@ -98,9 +103,9 @@ $ umount /data && mount -a
 
 其他选项保持默认即可，然后在可道云**服务器 B** 上完成 NFS 挂载，执行挂载命令同上。
 
-```console
-$ mkdir /data
-$ mount -o nolock 192.168.1.231:/volume1/web /data
+```bash
+mkdir /data
+mount -o nolock 192.168.1.231:/volume1/web /data
 ```
 
 挂载后，浏览器里只有可道云管理员可见，但可以通过内部协作分享的方式分享给其他用户。
@@ -115,9 +120,9 @@ $ mount -o nolock 192.168.1.231:/volume1/web /data
 
 然后在可道云**服务器 B** 上完成 SMB 挂载，在终端执行挂载命令：
 
-```console
-$ mkdir /data
-$ mount -t cifs -o username=test,password=123456,file_mode=0777,dir_mode=0777,_netdev,x-systemd.automount //192.168.1.100/share /data
+```bash
+mkdir /data
+mount -t cifs -o username=test,password=123456,file_mode=0777,dir_mode=0777,_netdev,x-systemd.automount //192.168.1.100/share /data
 ```
 
 设置开机自动挂载，并验证无误。
@@ -127,11 +132,11 @@ $ mount -t cifs -o username=test,password=123456,file_mode=0777,dir_mode=0777,_n
 > - `file_mode=0777` 权限过于开放，生产环境建议设为 755，并指定拥有者为 nginx。
 > - 在**服务器 B** 执行 `id nginx`，假设得到 `uid=997(nginx) gid=996(nginx)`
 
-```console
-$ cp /etc/fstab /etc/fstab.bak
-$ echo "//192.168.1.100/share /data cifs username=test,password=123456,file_mode=0755,dir_mode=0755,uid=997,gid=996,_netdev,x-systemd.automount 0 0" >> /etc/fstab
-$ systemctl daemon-reload
-$ umount /data && mount -a
+```bash
+cp /etc/fstab /etc/fstab.bak
+echo "//192.168.1.100/share /data cifs username=test,password=123456,file_mode=0755,dir_mode=0755,uid=997,gid=996,_netdev,x-systemd.automount 0 0" >> /etc/fstab
+systemctl daemon-reload
+umount /data && mount -a
 ```
 
 在网页登录可道云管理员，在文件路径输入挂载的 `/data` 目录并回车，可以看到 SMB 目录已经共享成功。同样，浏览器里只有可道云管理员可见，但可以通过内部协作分享的方式分享给其他用户。

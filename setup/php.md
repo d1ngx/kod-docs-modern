@@ -12,8 +12,8 @@ PHP 是可道云的运行语言。以下配置用于优化上传体验和并发�
 
 开启 pathinfo 支持（WebDAV 协议传输需要）：
 
-```console
-$ echo "cgi.fix_pathinfo=1" >> /etc/php.ini
+```bash
+echo "cgi.fix_pathinfo=1" >> /etc/php.ini
 ```
 
 建议调整 `/etc/php.ini` 中的以下参数，提升大文件上传和处理体验：
@@ -45,10 +45,20 @@ pm.max_requests = 500
 
 修改 php-fpm 配置后，用 `php-fpm -t` 检查语法，确认无误再重启服务：
 
-```console
-$ php-fpm -t
+```bash
+php-fpm -t
+```
+
+示例输出：
+
+```text
 [22-Sep-2022 18:12:21] NOTICE: configuration file /etc/php-fpm.conf test is successful
-$ systemctl restart php-fpm
+```
+
+继续执行：
+
+```bash
+systemctl restart php-fpm
 ```
 
 </div>

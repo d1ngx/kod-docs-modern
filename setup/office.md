@@ -22,9 +22,9 @@ OnlyOffice 是在线文档编辑服务，可让用户在浏览器中直接编辑
 
 Docker 是容器运行平台。请先安装并启动 Docker 服务：
 
-```console
-$ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-$ systemctl enable docker && systemctl start docker
+```bash
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+systemctl enable docker && systemctl start docker
 ```
 
 ## 2. 在线部署方式
@@ -33,14 +33,14 @@ $ systemctl enable docker && systemctl start docker
 
 以下命令会拉取并运行 OnlyOffice 容器，映射到本机 8001 端口：
 
-```console
-$ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
+```bash
+docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:7.4.1.1
 ```
 
 若网络不佳，可切换阿里云容器镜像地址
 
-```console
-$ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:7.4.1.1
+```bash
+docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangzhou.aliyuncs.com/kodcloud/kodoffice:7.4.1.1
 ```
 
 - OnlyOffice 缓存目录为 `/var/lib/onlyoffice`；若编辑文件较多，建议挂载到宿主机以节省容器空间。
@@ -51,13 +51,13 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always registry.cn-hangz
 >
 > - kodoffice版本增加了多种中文字体 并且兼容插件检测；
 > - 部署onlyoffice官方社区版（包含arm版）：
-```console
-$ docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
+```bash
+docker run -itd -p 8001:80 -e JWT_ENABLED=false -e ALLOW_PRIVATE_IP_ADDRESS=true \
 --name onlyoffice --restart always onlyoffice/documentserver
 ```
 > - 部署龙芯版（loongarch64架构，如使用3A5000、3A6000的CPU）：
-```console
-$ docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:loongarch-7.4.1.3
+```bash
+docker run -itd -p 8001:80 --name kodoffice --restart always kodcloud/kodoffice:loongarch-7.4.1.3
 ```
 
 ### 2. 以 HTTPS 方式启动
@@ -68,8 +68,8 @@ HTTPS 会对传输加密，生产环境建议使用。需准备已有 SSL 证书
 - `/data/certs/onlyoffice.crt`
 - 确认`/data/certs`目录有证书存在（证书名称必须为`onlyoffice`），在执行下方命令启动
 
-```console
-$ docker run -itd --name kodoffice -p 8443:443 \
+```bash
+docker run -itd --name kodoffice -p 8443:443 \
 -v /data/certs:/var/www/onlyoffice/Data/certs \
 kodcloud/kodoffice:7.4.1.1
 ```
@@ -126,8 +126,13 @@ kodcloud/kodoffice:7.4.1.1
 ### 限制访问域名
 
 配置网盘地址白名单，不允许其他站点调用onlyoffice.
-```console
-$ docker exec -it kodoffice vim /var/www/onlyoffice/documentserver/web-apps/kod/allowhost.js
+```bash
+docker exec -it kodoffice vim /var/www/onlyoffice/documentserver/web-apps/kod/allowhost.js
+```
+
+编辑文件，将允许访问的网盘域名填入以下配置：
+
+```javascript
 window.kod.allowHost = [
         // 'kodcloud.com','*.kod.com',
         /*allowHostAdd*/
@@ -201,29 +206,29 @@ window.kod.allowHost = [
 > 浏览器会有警告，但继续访问仍可以使用。
 
 1. 生成证书
-    ```console
-    $ sudo mkdir /etc/nginx/ssl
-    $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx-selfsigned.key -out /etc/nginx/ssl/nginx-selfsigned.crt
+    ```bash
+    sudo mkdir /etc/nginx/ssl
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx-selfsigned.key -out /etc/nginx/ssl/nginx-selfsigned.crt
     ```
 2. 更新证书到nginx反代配置
 > 提示：
 >
 > 将onlyoffice服务地址（`https://[server]:[port]/web/`）配置到插件后，需单独访问一次onlyoffice服务地址，浏览器允许继续访问才可正常使用。
 
-    ```nginx
-        ssl_certificate    /etc/nginx/ssl/nginx-selfsigned.crt;
-        ssl_certificate_key     /etc/nginx/ssl/nginx-selfsigned.key;
-    ```
+```nginx
+    ssl_certificate    /etc/nginx/ssl/nginx-selfsigned.crt;
+    ssl_certificate_key     /etc/nginx/ssl/nginx-selfsigned.key;
+```
 3. 修改容器配置，允许不安全访问
 > 提示：
 >
 > 如果网盘站点使用了不安全证书，则需要进行以下配置。
 
-    ```console
-    $ docker exec -it kodoffice bash
-    $ sed -i.bak '/rejectUnauthorized/ s/true/false/g' /etc/onlyoffice/documentserver/default.json
-    $ bash documentserver-update-securelink.sh
-    ```
+```bash
+docker exec -it kodoffice bash
+sed -i.bak '/rejectUnauthorized/ s/true/false/g' /etc/onlyoffice/documentserver/default.json
+bash documentserver-update-securelink.sh
+```
 
 ### 重启系统后如何自启动
 
@@ -232,8 +237,8 @@ window.kod.allowHost = [
 ### 自定义域名解析
 
 重新运行容器，加上参数解析指定域名（示例） `--add-host test1.com:192.168.3.4`(或者指定dns如`--dns 192.168.1.1`)
-```console
-$ docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.com:192.168.3.4 kodcloud/kodoffice:7.4.1.1
+```bash
+docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.com:192.168.3.4 kodcloud/kodoffice:7.4.1.1
 ```
 
 ### 修改`docker0`网口默认网段
@@ -251,7 +256,7 @@ $ docker run -itd -p 8001:80 --name kodoffice --restart always --add-host test1.
 }
 ```
 
-```console
-$ systemctl restart docker
+```bash
+systemctl restart docker
 ```
 <div>

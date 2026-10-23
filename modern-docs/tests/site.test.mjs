@@ -7,6 +7,19 @@ import { search, terms } from '../public/search.js';
 const settings=JSON.parse(await readFile(new URL('../site.config.json',import.meta.url),'utf8'));
 const editPrefix=settings.repository+(settings.gitProvider==='gitlab'?'/-/edit/':'/edit/')+settings.branch+'/';
 const index=JSON.parse(await readFile(new URL('../dist/search-index.json',import.meta.url),'utf8'));
+test('published code blocks contain no terminal prompts and preserve shell variables',async()=>{
+  for(const doc of index){
+    const html=await readFile(new URL(`../dist${doc.url}index.html`,import.meta.url),'utf8');
+    for(const block of html.matchAll(/<pre\b[^>]*>([\s\S]*?)<\/pre>/g)){
+      const text=block[1].replace(/<[^>]+>/g,'').replace(/&gt;/g,'>');
+      assert.doesNotMatch(text,/^\s*(?:\$\s|PS [A-Za-z]:\\[^>\n]*>|mysql>|\[[^\]\n]+@[^\]\n]+\][#$])/m,doc.url);
+      assert.ok(!text.includes('```'),`Literal code fence: ${doc.url}`);
+    }
+  }
+  const source=await readFile(new URL('../../setup/ubuntu.md',import.meta.url),'utf8');
+  assert.ok(source.includes('${PHP_INI}'));
+  assert.ok(source.includes('${PHP_FPM}'));
+});
 async function serve(env={}){
   let port;
   const child=spawn(process.execPath,['modern-docs/server.mjs'],{env:{...process.env,AI_BASE_URL:'',AI_MODEL:'',DOCS_AUTH_USER:'',DOCS_AUTH_PASSWORD:'',PORT:'0',HOST:'127.0.0.1',...env},stdio:['ignore','pipe','pipe']});

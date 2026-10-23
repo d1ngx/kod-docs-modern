@@ -34,9 +34,9 @@ description: 可道云网站文件与 MySQL 数据库的备份与恢复方法
 
 登录Linux备份服务器，也需要安装rsync, 然后执行同步命令，将服务器站点目录同步到本地`/backup/`:
 
-```console
-$ mkdir /backup/
-$ rsync -av root@172.28.10.10:/var/www/html /backup/
+```bash
+mkdir /backup/
+rsync -av root@172.28.10.10:/var/www/html /backup/
 ```
 
 #### 1.2 备份到 Windows
@@ -92,12 +92,12 @@ mysqldump --single-transaction -h [server] -u [username] -p[password] [db_name] 
 下面的步骤就是创建数据库和用户，然后导入数据库备份:
 
 ```sql
-mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-mysql> CREATE DATABASE IF NOT EXISTS kodbox CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-mysql> GRANT ALL PRIVILEGES ON kodbox.* TO 'username'@'localhost';
-mysql> FLUSH PRIVILEGES;
-mysql> use kodbox;
-mysql> source /backup/kodbox_sqlbkp_xxx.bak;
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+CREATE DATABASE IF NOT EXISTS kodbox CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON kodbox.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+use kodbox;
+source /backup/kodbox_sqlbkp_xxx.bak;
 ```
 
 数据库恢复后，站点即可正常访问了。

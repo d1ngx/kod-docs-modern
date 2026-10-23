@@ -33,8 +33,8 @@ description: 如何将其他系统的现有数据导入到可道云
 
 在 **服务器 A** 执行同步命令：
 
-```console
-$ rsync -avP /data/* --chown=nginx:nginx root@192.168.1.101:/data
+```bash
+rsync -avP /data/* --chown=nginx:nginx root@192.168.1.101:/data
 ```
 
 将 **服务器 A** 的 `/data` 目录同步到 **服务器 B** 的 `/data` 目录。
@@ -75,8 +75,8 @@ $ rsync -avP /data/* --chown=nginx:nginx root@192.168.1.101:/data
 
 通过 `ssh` 登录 NAS，然后执行同步命令（需要注意命令加了 `sudo`，回车后要输一次管理员密码）：
 
-```console
-$ sudo rsync -avP /volume1/web/data/* --chown=nginx:nginx root@192.168.1.101:/data
+```bash
+sudo rsync -avP /volume1/web/data/* --chown=nginx:nginx root@192.168.1.101:/data
 ```
 
 将 **服务器 A** 的 `/volume1/web/data` 目录同步到 **服务器 B** 的 `/data` 目录。
@@ -87,9 +87,9 @@ $ sudo rsync -avP /volume1/web/data/* --chown=nginx:nginx root@192.168.1.101:/da
 
 当前所有数据已经迁移到可道云服务器的 `/data` 目录，要让网页能读写这些文件，需将目录所有者改为 nginx（可道云 Web 服务运行用户）。
 
-```console
-$ chown -R nginx:nginx /data/
-$ chmod -R 755 /data/
+```bash
+chown -R nginx:nginx /data/
+chmod -R 755 /data/
 ```
 
 ![nginx_priv](../images/nginx_priv.png){:width="450px"}

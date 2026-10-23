@@ -15,8 +15,8 @@ description: 使用 Docker 部署 imaginary 服务，加速 kodbox 文件封面�
 
 ## 使用 Docker 安装 imaginary
 
-```console
-$ docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always --tmpfs /tmp:size=1024m \
+```bash
+docker run -itd -p 9000:9000 --name imaginary -m 4g --cpus=4 --restart always --tmpfs /tmp:size=1024m \
   registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary \
   -enable-url-source \
   -concurrency 15 \

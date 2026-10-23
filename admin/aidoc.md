@@ -49,15 +49,20 @@ RAG（检索增强生成）让 AI 能够基于网盘中的文档内容回答问�
 
 - [Milvus 官方安装文档](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
 
-```console
-$ curl -SL https://static.box.kodcloud.com/plugins/teamos/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-$ chmod +x /usr/local/bin/docker-compose
+```bash
+curl -SL https://static.box.kodcloud.com/plugins/teamos/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 
-$ mkdir milvus && cd milvus
-$ wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
+mkdir milvus && cd milvus
+wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
 
-$ docker-compose up -d
+docker-compose up -d
 
+```
+
+示例输出：
+
+```text
 Creating milvus-etcd  ... done
 Creating milvus-minio ... done
 Creating milvus-standalone ... done

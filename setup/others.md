@@ -39,35 +39,35 @@ KodBox 支持 PSD、AI 等设计文件的在线预览，以及 PDF、视频文�
 
 在 CentOS 7.9 上，安装方式为：
 
-```console
-$ yum install ImageMagick
-$ yum install epel-release
-$ yum install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
-$ yum install ffmpeg
+```bash
+yum install ImageMagick
+yum install epel-release
+yum install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+yum install ffmpeg
 ```
 
 对于 HEIC 格式（iPhone 常用照片格式）的在线预览，需手动编译 ImageMagick 并启用 libheif 支持：
 
-```console
-$ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-$ yum remove ImageMagick -y
-$ yum install gcc gcc-c++ autoconf automake libtool
-$ yum install -y fftw fftw-devel fftw-devel bzip2-devel freetype-devel libjpeg-devel libpng-devel libtiff-devel giflib-devel zlib-devel ghostscript-devel djvulibre-devel libwmf-devel jasper-devel  libX11-devel libXext-devel libXt-devel lcms-devel libxml2-devel librsvg2-devel OpenEXR-devel openjpeg openjpeg-devel  openjpeg2 openjpeg2-devel openjpeg2-libs  gcc gcc-c++  make automake  libtool   libtool-ltdl-devel lcms2  lcms2-devel LibRaw LibRaw-devel
+```bash
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+yum remove ImageMagick -y
+yum install gcc gcc-c++ autoconf automake libtool
+yum install -y fftw fftw-devel fftw-devel bzip2-devel freetype-devel libjpeg-devel libpng-devel libtiff-devel giflib-devel zlib-devel ghostscript-devel djvulibre-devel libwmf-devel jasper-devel  libX11-devel libXext-devel libXt-devel lcms-devel libxml2-devel librsvg2-devel OpenEXR-devel openjpeg openjpeg-devel  openjpeg2 openjpeg2-devel openjpeg2-libs  gcc gcc-c++  make automake  libtool   libtool-ltdl-devel lcms2  lcms2-devel LibRaw LibRaw-devel
 
-$ cd /usr/src/
-$ git clone https://github.com/strukturag/libde265.git
-$ git clone https://github.com/strukturag/libheif.git
-$ git clone --depth 1 --branch 7.1.0-46 https://github.com/ImageMagick/ImageMagick.git
-$ cd libde265/
-$ ./autogen.sh && ./configure && make && make install
-$ cd /usr/src/libheif/
-$ ./autogen.sh && ./configure && make && make install
-$ cd /usr/src/ImageMagick
-$ ./configure
-$ make -j 8
-$ make install
-$ ldconfig /usr/local/lib
-$ identify --version
+cd /usr/src/
+git clone https://github.com/strukturag/libde265.git
+git clone https://github.com/strukturag/libheif.git
+git clone --depth 1 --branch 7.1.0-46 https://github.com/ImageMagick/ImageMagick.git
+cd libde265/
+./autogen.sh && ./configure && make && make install
+cd /usr/src/libheif/
+./autogen.sh && ./configure && make && make install
+cd /usr/src/ImageMagick
+./configure
+make -j 8
+make install
+ldconfig /usr/local/lib
+identify --version
 ```
 
 </div>

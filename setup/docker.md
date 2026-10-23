@@ -12,15 +12,20 @@ description: 用 Docker Compose 在 Linux 上一键部署 kodbox（含 HTTPS、N
 
 Docker 是一种容器化平台，可以把可道云及其依赖（数据库、Redis 等）打包成独立容器运行，互不干扰。请先安装并启动 Docker 服务；较新版本的 Docker 会自动附带 `docker-compose-plugin`（用于编排多个容器）。
 
-```console
-$ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-$ systemctl enable docker && systemctl start docker
+```bash
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+systemctl enable docker && systemctl start docker
 ```
 
 `docker compose` 用于按配置文件一次性启动多个容器。执行 `docker compose up` 后，可用 `docker compose ls` 查看当前运行的 Compose 项目及其配置文件位置：
 
-```console
-$ docker compose ls
+```bash
+docker compose ls
+```
+
+示例输出：
+
+```text
 NAME                STATUS              CONFIG FILES
 docker-compose      running(3)          /kodbox/docker-compose.yaml
 ```
@@ -52,8 +57,8 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 
 - 创建 compose.yml 文件，在其中配置映射端口、持久化目录
 
-  ```console
-  $ vim compose.yml
+  ```bash
+  vim compose.yml
   ```
 
   ```yaml
@@ -151,8 +156,13 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
 
 进入项目目录，执行 `docker compose up -d` 启动服务（`-d` 表示后台运行）。Docker 会自动拉取镜像并创建容器：
 
-```console
-$ docker compose up -d
+```bash
+docker compose up -d
+```
+
+示例输出：
+
+```text
 Creating network "kodbox_default" with the default driver
 Creating kodbox_redis_1 ... done
 Creating kodbox_db_1    ... done
@@ -161,8 +171,13 @@ Creating kodbox_app_1   ... done
 
 用 `docker ps` 列出正在运行的容器，正常情况下可以看到 3 个容器（应用、数据库、Redis）：
 
-```console
-$ docker ps
+```bash
+docker ps
+```
+
+示例输出：
+
+```text
 CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                          NAMES
 f596f5b00305   kodcloud/kodbox   "/entrypoint.sh /usr…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, 9000/tcp   kodbox_app_1
 5f94f6d1aabb   mariadb           "docker-entrypoint.s…"   About a minute ago   Up About a minute   3306/tcp                       kodbox_db_1
@@ -171,8 +186,13 @@ e6296b23fb0a   redis:alpine      "docker-entrypoint.s…"   About a minute ago  
 
 如需停止并移除所有容器（数据仍保留在挂载目录中）：
 
-```console
-$ docker compose down
+```bash
+docker compose down
+```
+
+示例输出：
+
+```text
 Stopping kodbox_app_1   ... done
 Stopping kodbox_db_1    ... done
 Stopping kodbox_redis_1 ... done
@@ -184,8 +204,8 @@ Removing network kodbox_default
 
 数据库和 kodbox 的数据已挂载到宿主机目录，停止后再次执行 `docker compose up -d` 即可恢复，数据不会丢失：
 
-```console
-$ docker compose up -d
+```bash
+docker compose up -d
 ```
 
 根据`docker-compose.yml`文件中配置的映射端口，访问 [安装向导](./start.md) 进行系统初始化。
@@ -241,22 +261,22 @@ server {
 
 SSL 证书用于启用 HTTPS 加密访问。创建一个证书目录，把下载的 Nginx 版 SSL 证书放入其中：
 
-```console
-$ mkdir /etc/kodbox/ssl
+```bash
+mkdir /etc/kodbox/ssl
 ```
 
 将证书重命名
 
-```console
-$ mv xxx.pem fullchain.pem
-$ mv xxx.key privkey.pem
+```bash
+mv xxx.pem fullchain.pem
+mv xxx.key privkey.pem
 ```
 
 在 HTTP 版 `docker-compose.yml` 中增加证书目录映射 `/etc/kodbox/ssl:/etc/nginx/ssl`；容器检测到证书文件后会自动启用 HTTPS 配置。
 
-```console
-$ mkdir kodbox && cd kodbox
-$ vim docker-compose.yaml
+```bash
+mkdir kodbox && cd kodbox
+vim docker-compose.yaml
 ```
 
 ```yaml
@@ -508,8 +528,8 @@ volumes:
 
 - 创建 compose.yml 文件，在其中配置映射端口、持久化目录
 
-  ```console
-  $ vim compose.yml
+  ```bash
+  vim compose.yml
   ```
 
   ```yaml
