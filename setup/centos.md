@@ -22,7 +22,7 @@ description: 在 CentOS 7.9 上从零安装 Nginx、PHP、MySQL 与 kodbox 的�
 
 ### NGINX
 
-Nginx 是高性能 Web 服务器。请参考 [nginx 官网教程](http://nginx.org/en/linux_packages.html#RHEL-CentOS) 添加稳定版 yum 源并安装：
+Nginx 是高性能 Web 服务器。请参考 [nginx 官网教程](https://nginx.org/en/linux_packages.html#RHEL-CentOS) 添加稳定版 yum 源并安装：
 
 ```bash
 yum -y install yum-utils vim
@@ -32,7 +32,7 @@ vim /etc/yum.repos.d/nginx.repo
 ```repo
 [nginx-stable]
 name=nginx stable repo
-baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+baseurl=https://nginx.org/packages/centos/$releasever/$basearch/
 gpgcheck=1
 enabled=1
 gpgkey=https://nginx.org/keys/nginx_signing.key

@@ -11,6 +11,15 @@ export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const staticMode = process.argv.includes('--static');
 const out = path.join(root, staticMode ? 'modern-docs/static-dist' : 'modern-docs/dist');
 const config = JSON.parse(await readFile(path.join(root, 'modern-docs/site.config.json'), 'utf8'));
+const siteUrl = process.env.DOCS_SITE_URL ?? config.siteUrl;
+let siteOrigin = '';
+if (siteUrl) {
+  const parsed = new URL(siteUrl);
+  if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || parsed.pathname !== '/' || parsed.search || parsed.hash) {
+    throw Error('DOCS_SITE_URL 必须是站点根地址，例如 https://docs.example.com');
+  }
+  siteOrigin = parsed.origin;
+}
 const publication = JSON.parse(await readFile(path.join(root,'modern-docs/publication.json'),'utf8'));
 const skipped = [];
 const nav = YAML.parse(await readFile(path.join(root, '_data/toc.yaml'), 'utf8'));
@@ -140,7 +149,8 @@ for (const doc of docs) {
 await writeFile(path.join(out,'search-index.json'),JSON.stringify(docs.map(({url,title,description,text,section})=>({url,title,description,text,section}))));
 await writeFile(path.join(out,'404.html'),theme.notFound());
 await writeFile(path.join(out,'llms.txt'),`# ${config.title}\n\n${docs.map(d=>`- [${d.title}](${d.url}): ${d.description}`).join('\n')}\n`);
-await writeFile(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${['/',...docs.map(d=>d.url)].map(url=>`<url><loc>${escape(config.siteUrl.replace(/\/$/,'')+url)}</loc></url>`).join('')}</urlset>`);
+await writeFile(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${siteOrigin ? ['/',...docs.map(d=>d.url)].map(url=>`<url><loc>${escape(siteOrigin+url)}</loc></url>`).join('') : ''}</urlset>`);
+if (!siteOrigin) console.log('未设置 DOCS_SITE_URL：sitemap.xml 不列出地址，避免发布 localhost 链接。');
 console.log(`Built ${docs.length} documents → ${path.relative(root,out)}`);
 
 await mkdir(path.join(root,'modern-docs/test-results'),{recursive:true});

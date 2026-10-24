@@ -6,7 +6,7 @@ description: 在 Loongnix-Server Linux 8.4 上从零安装 Nginx、PHP、MySQL �
 
 ### 概述
 
-Loongnix操作系统是龙芯开源社区推出的Linux操作系统。 [了解更多](http://www.loongnix.cn/zh/)
+Loongnix操作系统是龙芯开源社区推出的Linux操作系统。 [了解更多](https://www.loongnix.cn/zh/)
 
 #### 查看系统版本
 
@@ -26,7 +26,7 @@ PLATFORM_ID="platform:lns8"
 PRETTY_NAME="Loongnix-Server Linux 8"
 ANSI_COLOR="0;31"
 CPE_NAME="cpe:/o:loongnix-server:loongnix-server:8"
-HOME_URL="http://www.loongnix.cn/"
+HOME_URL="https://www.loongnix.cn/"
 BUG_REPORT_URL="http://bugs.loongnix.cn/"
 CENTOS_MANTISBT_PROJECT="Loongnix-server-8"
 CENTOS_MANTISBT_PROJECT_VERSION="8"

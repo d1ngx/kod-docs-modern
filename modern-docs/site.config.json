@@ -6,7 +6,7 @@
   "branch": "main",
   "gitProvider": "github",
   "sourcePrefix": "",
-  "siteUrl": "http://localhost:8088",
+  "siteUrl": "",
   "hiddenNavigationSections": [
     "guide"
   ],

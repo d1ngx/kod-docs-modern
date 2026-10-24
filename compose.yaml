@@ -19,6 +19,7 @@ services:
       AI_API_KEY: ${AI_API_KEY:-}
       DOCS_AUTH_USER: ${DOCS_AUTH_USER:-}
       DOCS_AUTH_PASSWORD: ${DOCS_AUTH_PASSWORD:-}
+      DOCS_TRUSTED_PROXIES: ${DOCS_TRUSTED_PROXIES:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     read_only: true

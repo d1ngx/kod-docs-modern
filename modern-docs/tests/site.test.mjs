@@ -22,7 +22,7 @@ test('published code blocks contain no terminal prompts and preserve shell varia
 });
 async function serve(env={}){
   let port;
-  const child=spawn(process.execPath,['modern-docs/server.mjs'],{env:{...process.env,AI_BASE_URL:'',AI_MODEL:'',DOCS_AUTH_USER:'',DOCS_AUTH_PASSWORD:'',PORT:'0',HOST:'127.0.0.1',...env},stdio:['ignore','pipe','pipe']});
+const child=spawn(process.execPath,['modern-docs/server.mjs'],{env:{...process.env,AI_BASE_URL:'',AI_MODEL:'',DOCS_AUTH_USER:'',DOCS_AUTH_PASSWORD:'',DOCS_TRUSTED_PROXIES:'',PORT:'0',HOST:'127.0.0.1',...env},stdio:['ignore','pipe','pipe']});
   let stderr='';child.stderr.on('data',data=>stderr+=data);
   await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Server startup timeout')),10000);child.stdout.once('data',data=>{port=Number(String(data).match(/localhost:(\d+)/)[1]);clearTimeout(timer);resolve();});child.once('exit',code=>{clearTimeout(timer);reject(Error(`Server exited ${code}: ${stderr}`));});});
   return {url:`http://127.0.0.1:${port}`,stop:()=>child.kill()};
@@ -85,6 +85,17 @@ test('AI endpoint rate limits repeated requests',async t=>{
   const service=await serve();t.after(service.stop);let response;
   for(let n=0;n<13;n++)response=await fetch(service.url+'/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:'Docker'})});
   assert.equal(response.status,429);assert.equal(response.headers.get('Retry-After'),'60');
+});
+
+test('proxy clients have independent AI quotas; untrusted forwarded headers cannot bypass limits',async t=>{
+  const service=await serve({DOCS_TRUSTED_PROXIES:'127.0.0.1'});t.after(service.stop);
+  const post=(url,ip)=>fetch(url+'/api/ask',{method:'POST',headers:{'Content-Type':'application/json','X-Real-IP':ip},body:JSON.stringify({question:'Docker'})});
+  for(let n=0;n<12;n++)assert.equal((await post(service.url,'10.0.0.1')).status,200);
+  assert.equal((await post(service.url,'10.0.0.1')).status,429);
+  assert.equal((await post(service.url,'10.0.0.2')).status,200);
+  const direct=await serve();t.after(direct.stop);
+  for(let n=0;n<12;n++)assert.equal((await post(direct.url,`10.0.0.${n+1}`)).status,200);
+  assert.equal((await post(direct.url,'10.0.0.99')).status,429);
 });
 
 test('legacy rendering, homepage images and publication exclusions',async t=>{

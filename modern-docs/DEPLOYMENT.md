@@ -111,6 +111,7 @@ location / {
     proxy_pass http://127.0.0.1:8088;
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
     proxy_read_timeout 70s;
 }
 ```
@@ -230,3 +231,24 @@ docker compose up -d --no-build --pull never
 ```
 
 每步成功后再继续；首次应用新 Compose 挂载时，最后一步加 `--force-recreate`。
+
+## 站点域名与代理限流
+
+构建前配置真实域名，站点地图不再默认发布 localhost 地址。PowerShell：
+
+```powershell
+$env:DOCS_SITE_URL = "https://docs.example.com"
+.\build.cmd static
+```
+
+Linux：
+
+```sh
+DOCS_SITE_URL=https://docs.example.com pnpm package:static
+```
+
+也可设置 `modern-docs/site.config.json` 的 `siteUrl`。构建脚本不会自动加载 `.env`；仅写入 `.env` 不会影响本地构建。不配置时 sitemap.xml 保持空列表。地址须为域名根路径。
+
+使用 Nginx 代理 AI 服务时，设置 `proxy_set_header X-Real-IP $remote_addr;`，覆盖客户端传入值。服务端 `DOCS_TRUSTED_PROXIES` 只填写实际代理连接到 Node 的 IP，多个以逗号分隔，不支持通配符或网段。Node 与 Nginx 同机直连可用 `127.0.0.1,::1`；Docker 中须填写实际连接来源地址，不能直接照搬回环地址。默认不信任转发头，避免伪造 IP 绕过限流。设置后重新创建容器。限流按客户端 IP 计算，同一出口 IP 仍共用额度。
+
+静态版入口标记为“文档检索”，不提供模型生成回答。复制按钮支持 Clipboard API，并在普通 HTTP 内网环境尝试浏览器兼容复制；若浏览器策略仍禁止复制，会提示手动选择。

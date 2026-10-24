@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { timingSafeEqual } from 'node:crypto';
 import { search } from './public/search.js';
+import { clientIP } from './client-ip.mjs';
 
 const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 const documents = JSON.parse(await readFile(path.join(dir,'search-index.json'),'utf8'));
@@ -49,7 +50,7 @@ const server=http.createServer(async(req,res)=>{
       if(req.method!=='POST'){res.setHeader('Allow','POST');json(res,405,{error:'请使用 POST 请求。'});return;}
       if(req.headers.origin&&new URL(req.headers.origin).host!==req.headers.host){json(res,403,{error:'不允许跨站请求。'});return;}
       if(!req.headers['content-type']?.startsWith('application/json')){json(res,415,{error:'请提交 JSON 数据。'});return;}
-      const ip=req.socket.remoteAddress, now=Date.now();
+      const ip=clientIP(req), now=Date.now();
       for(const [key,value] of limits)if(value.until<now)limits.delete(key);
       const quota=limits.get(ip)||{count:0,until:now+60000};quota.count++;limits.set(ip,quota);
       if(quota.count>12){res.setHeader('Retry-After','60');json(res,429,{error:'请求较频繁，请一分钟后重试。'});return;}

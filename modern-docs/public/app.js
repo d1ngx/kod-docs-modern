@@ -1,4 +1,5 @@
 import { search } from './search.js';
+import { writeClipboard } from './clipboard.js';
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const safe = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -105,7 +106,7 @@ if(activePage&&$('#sidebar').clientHeight){const sidebar=$('#sidebar'),bounds=ac
 
 async function copyText(button,text,label='已复制'){
   const before=button.innerHTML;
-  try{await navigator.clipboard.writeText(text);button.textContent=label;}catch{button.textContent='请手动选择复制';}
+  try{await writeClipboard(text);button.textContent=label;}catch{button.textContent='请手动选择复制';}
   setTimeout(()=>button.innerHTML=before,1800);
 }
 $$('article pre').forEach(pre=>{
@@ -146,7 +147,7 @@ $('#ai-form').addEventListener('submit',async event=>{
     }
     if(generation!==answerGeneration)return;
     answer.querySelector('.ai-status')?.remove();
-    if(result.mode==='retrieval'){const notice=document.createElement('p');notice.className='muted';notice.textContent='当前为文档检索模式。连接模型后可生成 AI 回答。';answer.append(notice);}
+    if(result.mode==='retrieval'){const notice=document.createElement('p');notice.className='muted';notice.textContent=document.documentElement.dataset.deployment==='static'?'当前为纯静态文档检索，以下为相关片段。模型回答需要部署服务端。':'当前为文档检索模式。连接模型后可生成 AI 回答。';answer.append(notice);}
     const content=document.createElement('div');content.className='answer-text';content.textContent=result.answer;answer.append(content);
     if(result.sources.length){const sources=document.createElement('div');sources.className='sources';sources.innerHTML='<b>参考文档</b>'+result.sources.map((source,i)=>`<a href="${safe(source.url)}">[${i+1}] ${safe(source.title)} ↗</a>`).join('');answer.append(sources);}
     const copy=document.createElement('button');copy.className='answer-copy';copy.innerHTML=copyIcon+' 复制回答';copy.addEventListener('click',()=>copyText(copy,result.answer));answer.append(copy);
