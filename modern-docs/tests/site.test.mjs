@@ -7,6 +7,14 @@ import { search, terms } from '../public/search.js';
 const settings=JSON.parse(await readFile(new URL('../site.config.json',import.meta.url),'utf8'));
 const editPrefix=settings.repository+(settings.gitProvider==='gitlab'?'/-/edit/':'/edit/')+settings.branch+'/';
 const index=JSON.parse(await readFile(new URL('../dist/search-index.json',import.meta.url),'utf8'));
+test('published Markdown tables do not fall back to plain paragraphs',async()=>{
+  for(const doc of index){
+    const html=await readFile(new URL(`../dist${doc.url}index.html`,import.meta.url),'utf8');
+    for(const paragraph of html.matchAll(/<p>([\s\S]*?)<\/p>/g)){
+      assert.doesNotMatch(paragraph[1],/\|\s*:?-+:?\s*\|/,`${doc.url}: unrendered table delimiter`);
+    }
+  }
+});
 test('published code blocks contain no terminal prompts and preserve shell variables',async()=>{
   for(const doc of index){
     const html=await readFile(new URL(`../dist${doc.url}index.html`,import.meta.url),'utf8');

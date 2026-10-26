@@ -113,3 +113,15 @@
 - 清理资源的本地备份位于仓库父目录 kod-docs-cleanup-backup-20261018-115938，不提交依赖、密钥、构建产物或工具缓存。
 - GitHub Actions 的 push 与 workflow_dispatch 均出现 startup_failure / BuildFailed，jobs=0，无构建日志；没有据此声称远端 CI 通过。权限已启用，工作流能被 API 正确识别，平台启动原因尚未确定。
 - 已验证 Node 24 对应 Action 标签，并将上传产物 Action 更新为 v7；产物缺失时明确报错。当前可靠验收依据为本机 8 组测试及已校验的部署包。
+
+### 2026-10-26 表格渲染修复与静态包构建
+
+- `/setup/1/` 的“4 推荐配置”表头为 5 列，分隔行只有 4 列；补齐分隔列，恢复表格渲染。
+- 全站排查发现 `/start/2/` 的“工程图件”表头为 2 列，分隔行有 3 列；删除多余分隔列。两处均在本地浏览器确认渲染为表格。
+- 新增全站回归测试，检查发布页面的普通段落中是否残留 Markdown 表格分隔行，防止同类问题再次出现。
+- 执行 `npm run package:static`，生成 133 篇文档，输出目录为 `modern-docs/static-dist/`，发布包为 `modern-docs/releases/kod-docs-static.zip`（854 个文件，50,179,846 bytes）。
+- ZIP 完整性校验通过，并直接读取包内 HTML，确认推荐配置为 5 列、工程图件为 2 列。
+- `npm test`：15 项测试全部通过；`npm run check` 和 `node modern-docs/check.mjs --static`：服务端、静态版各 133 篇文档，本地内容引用均为 0 缺失。
+- 本次实际构建环境为 Node.js v22.22.0；项目声明的运行版本仍为 Node.js >=24。本轮没有重新验收 Node.js 24 环境。
+- 本地预览使用 `http://127.0.0.1:18080/setup/1/`；8080 的环回地址已有其他服务占用。
+- 未设置 `DOCS_SITE_URL`，构建按既有逻辑生成不列出站点地址的 sitemap.xml；本轮仅构建本地产物，未执行部署或推送。
