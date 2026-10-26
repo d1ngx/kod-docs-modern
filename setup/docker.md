@@ -535,7 +535,7 @@ volumes:
   ```yaml
   services:
     db:
-      image: lcr.loongnix.cn/library/mariadb:10.5.18
+      image: lcr.loongnix.cn/library/mariadb:13.1.1
       command: --transaction-isolation=READ-COMMITTED
       restart: always
       volumes:
@@ -569,7 +569,7 @@ volumes:
         - redis
 
     redis:
-      image: lcr.loongnix.cn/library/redis:8.2.2-alpine3.21
+      image: lcr.loongnix.cn/library/redis:8.8.1-alpine
       restart: always
   ```
 
