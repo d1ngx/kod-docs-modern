@@ -47,7 +47,7 @@ test('all generated pages, assets, search and API validation',async t=>{
   const service=await serve();t.after(service.stop);
   for(const doc of index){const r=await fetch(service.url+doc.url);assert.equal(r.status,200,doc.url);const html=await r.text();assert.ok(html.includes('编辑此页'));assert.ok(html.includes(editPrefix));}
   const home=await fetch(service.url+'/').then(r=>r.text());assert.match(home,/您想了解什么/);assert.match(home,/id="hero-form"/);assert.doesNotMatch(home,/class="sidebar"/);
-  const article=await fetch(service.url+'/setup/docker/').then(r=>r.text());assert.match(article,/<h2 id=/);assert.match(article,/<pre><code/);assert.doesNotMatch(article,/markdown="1"|\{: \.important|更多文档/);assert.match(article,/src="\/ui\/app\.js"/);
+  const article=await fetch(service.url+'/setup/docker/').then(r=>r.text());assert.match(article,/<h2 id=/);assert.match(article,/<pre><code/);assert.doesNotMatch(article,/markdown="1"|\{: \.important|更多文档/);assert.match(article,/src="\/ui\/app\.js"/);assert.match(article,/<a class="h3" href="#4其他问题" title="4\.其他问题">4\.其他问题<\/a><a class="h4" href="#自定义容器网络及-ip-段" title="自定义容器网络及 IP 段">自定义容器网络及 IP 段<\/a>/);
   assert.equal((await fetch(service.url+'/setup/docker',{redirect:'manual'})).status,308);
   assert.equal((await fetch(service.url+'/not-a-real-page/')).status,404);
   const image=await fetch(service.url+'/user/images/1.1-1.png');assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),'image/png');

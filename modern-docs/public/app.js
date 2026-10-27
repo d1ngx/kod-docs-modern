@@ -122,7 +122,7 @@ const tocLinks=$$('.toc a');
 if(tocLinks.length)tocLinks[0].classList.add('active');
 const observer=new IntersectionObserver(entries=>{
   for(const entry of entries){if(!entry.isIntersecting)continue;tocLinks.forEach(link=>link.classList.toggle('active',link.getAttribute('href')==='#'+entry.target.id));}
-},{rootMargin:'-80px 0px -65% 0px'});$$('article h2,article h3').forEach(heading=>observer.observe(heading));
+},{rootMargin:'-80px 0px -65% 0px'});$$('article h2,article h3,article h4').forEach(heading=>observer.observe(heading));
 
 let asking=false, askController, answerGeneration=0;
 function updateSend(){ $('#ai-submit').disabled=asking||!$('#ai-question').value.trim(); }

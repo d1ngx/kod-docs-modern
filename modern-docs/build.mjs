@@ -88,7 +88,7 @@ for (const file of sources) {
       const base = title.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-') || 'section';
       const n = ids.get(base) || 0; ids.set(base, n+1);
       const id = base + (n ? `-${n}` : ''); token.attrSet('id', id);
-      if (['h2','h3'].includes(token.tag)) toc.push({ title, id, level: token.tag });
+      if (['h2','h3','h4'].includes(token.tag)) toc.push({ title, id, level: token.tag });
     }
     for (const child of token.children || []) {
       for (const key of ['href', 'src']) {
