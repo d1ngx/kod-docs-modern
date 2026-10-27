@@ -440,21 +440,13 @@ volumes:
 ```bash
 
 # Variables that will need to be changed:
-
 #     <PUID> - User id for folder/file permissions
-
 #     <PGID> - Group id for folder/file permissions
-
 #     <PATH_TO_CONFIG> - Path where Unmanic will store config files
-
 #     <PATH_TO_ENCODE_CACHE> - Cache path for in-progress encoding tasks
-
 #     <REMOTE_IP> - Remote IP address of CIFS mount
-
 #     <PATH_TO_LIBRARY> - Path in remote machine to be mounted as your library
-
 #     <USERNAME> - Remote mount username
-
 #     <PASSWORD> - Remote mount password
 ```
 
