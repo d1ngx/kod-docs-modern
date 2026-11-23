@@ -17,7 +17,7 @@ description: 通过宝塔面板一键部署 kodbox，含 LNMP 环境、Redis 缓
 若首次未安装，也可在「应用商店」中搜索并安装：
 
 - **nginx** 1.22
-- **php** 8.0
+- **php** 8.4（软件源没有 8.4 时选 8.3；分支说明见 [依赖环境](/setup/environment/#php-branches)）
 - **MySQL** 8.0
 - **redis** 7.0
 
@@ -33,7 +33,7 @@ description: 通过宝塔面板一键部署 kodbox，含 LNMP 环境、Redis 缓
     - **域名**: 填写访问域名，没有的话可以填写服务器IP
     - **根目录**: 可道云站点的安装目录
     - **数据库**: 宝塔会自动创建数据库账号密码，并在提交时自动初始化KodBox数据库
-    - **PHP版本**: PHP7.0+版本即可，推荐8.0
+    - **PHP版本**: PHP 7.0 及以上可运行。请选仍在官方维护的版本，优先 8.4，其次 8.3。见 [PHP 分支](/setup/environment/#php-branches)
 
     ![部署信息](/setup/images/2/2.png){:width="400px"}
 

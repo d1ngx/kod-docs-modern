@@ -1,28 +1,39 @@
-
 horizontalnav:
 - title: 首页
   path: /
   node: home
-- title: 入门
+- title: 起步与选型
   path: /start/
   node: start
-- title: 安装
+- title: 规划与部署
   path: /setup/
   node: setup
-- title: 用户手册
-  path: /user/
-  node: user
-- title: 管理员手册
+- title: 核心概念
+  path: /concepts/
+  node: concepts
+- title: 存储与管理
   path: /admin/
   node: admin
-  # TODO unify navbbar links: homepage currently has a custom "articles" link
+- title: 运维与排错
+  path: /operations/
+  node: operations
+- title: 用户指南
+  path: /user/
+  node: user
+- title: 参考与开发
+  path: /reference/
+  node: reference
   hide_home: true
 
 home: {}
-  
+
 start:
-- title: 前言
+- title: 产品介绍与适用边界
   path: /start/
+- title: 5 分钟快速上手体验
+  path: /start/quickstart/
+- title: 版本与授权对比
+  path: /start/editions/
 - sectiontitle: 常见问题
   section:
     - title: 开始
@@ -72,210 +83,219 @@ start:
   - path: /start/articles/3/
     title: 文件编辑锁的使用
 
-
 setup:
-- title: 导览
+- title: 安装部署总览
   path: /setup/
-- title: 1 硬件环境及需求
+- title: 规划部署（架构与数据库选型）
+  path: /setup/planning/
+- title: 硬件环境及需求
   path: /setup/1/
-- sectiontitle: 2 TeamOS安装(推荐)
+- sectiontitle: 容器与 NAS 部署（推荐）
   section:
-    - title: 2.0 概览
-      path: /setup/2.0/
-    - title: 2.1 制作U盘启动盘
-      path: /setup/rufus/
-    - title: 2.2 系统安装
-      path: /setup/teamos/
-    - title: 2.3 发现teamOS
-      path: /setup/findteamos/
-    - title: 2.4 系统初始配置
-      path: /setup/teamos2/
-    - title: 2.5 可道云数据迁移
-      path: /setup/migrateamos/
-    - sectiontitle: 2.6 其他
-      section:
-      - title: RAID5扩容说明
-        path: /setup/raid_expand/ 
-- sectiontitle: 3 其他系统安装
-  section:
-    - sectiontitle: 3.1 Linux系统安装
-      section:
-        - title: 依赖环境说明
-          path: /setup/environment/
-        - title: 安装向导
-          path: /setup/start/
-        - sectiontitle: 配置优化
-          section:
-            - title: NGINX
-              path: /setup/nginx/
-            - title: PHP
-              path: /setup/php/
-            - title: MySQL
-              path: /setup/mysql/
-            - title: 其他
-              path: /setup/others/
-        - sectiontitle: 最佳实践
-          section:
-            - title: 迁移数据到可道云
-              path: /setup/migratokod/
-            - title: 挂载网络文件系统到可道云
-              path: /setup/netmount/        
-            - title: 使用Docker离线部署
-              path: /setup/dockerOffline/
-            - title: 可道云数据备份和恢复
-              path: /setup/backup/
-            - title: MySQL主从双机部署方案
-              path: /setup/mysqlrep/
-        - sectiontitle: 在指定发行版上的安装示例
-          section:
-            - title: Anolis OS 8.8
-              path: /setup/anolis/
-            - title: Loongnix-Server Linux release 8.4
-              path: /setup/loongnix/
-            - title: Kylin Linux Advanced Server release V10
-              path: /setup/kylin/
-            - title: OpenEuler 22.03 LTS
-              path: /setup/openeuler/
-            - title: Ubuntu 22.04 LTS
-              path: /setup/ubuntu/
-            - title: CentOS 7.9
-              path: /setup/centos/
-        - title: 使用Docker安装示例
-          path: /setup/docker/
-        - title: 使用宝塔面板安装示例
-          path: /setup/bt/
-        - sectiontitle: 支持组件安装部署
-          section:
-            - title: OnlyOffice组件
-              path: /setup/office/
-            - title: 封面生成组件
-              path: /setup/thumbnail/
-            
-    - sectiontitle: 3.2 Windows系统安装
-      section:
-        - title: 使用宝塔面板安装示例
-          path: /setup/bt_win/
-        - title: 使用Docker安装示例
-          path: /setup/docker_win/
-        - title: 使用XAMPP安装示例
-          path: /setup/xampp/
-        - sectiontitle: 支持组件安装部署
-          section:
-            - title: OnlyOffice组件
-              path: /setup/office_win/
-            - title: 封面生成组件
-              path: /setup/psd_win/
-    - sectiontitle: 3.3 群晖Synology NAS
-      section:
-        - title: 适用于DSM 7.1的KodBox套件
-          path: /setup/dsm7/
-        - title: 通过Docker安装
-          path: /setup/dsm7_docker/
-    - title: 3.4 爱快iKuai
+    - title: Docker Compose 部署示例
+      path: /setup/docker/
+    - title: Docker 与 NAS 宿主机目录权限指南
+      path: /setup/nas-permissions/
+    - title: 群晖 DSM Docker 安装
+      path: /setup/dsm7_docker/
+    - title: 群晖 DSM 7 套件安装
+      path: /setup/dsm7/
+    - title: Docker 离线部署
+      path: /setup/dockerOffline/
+    - title: 爱快 iKuai 部署
       path: /setup/ikuai/
+- sectiontitle: 上线必做与核心组件
+  section:
+    - title: HTTPS 反向代理与非标准端口配置
+      path: /setup/reverse-proxy/
+    - title: OnlyOffice 部署、安全集成与排错
+      path: /setup/office/
+- sectiontitle: TeamOS 一体化安装
+  section:
+    - title: 概览
+      path: /setup/2.0/
+    - title: 制作 U 盘启动盘
+      path: /setup/rufus/
+    - title: 系统安装
+      path: /setup/teamos/
+    - title: 发现 teamOS
+      path: /setup/findteamos/
+    - title: 系统初始配置
+      path: /setup/teamos2/
+    - title: 可道云数据迁移到 teamOS
+      path: /setup/migrateamos/
+    - title: RAID5 扩容说明
+      path: /setup/raid_expand/
+- sectiontitle: Linux 环境部署（LNMP / 宝塔）
+  section:
+    - title: Linux 依赖环境与 PHP 分支说明
+      path: /setup/environment/
+    - title: 浏览器安装向导
+      path: /setup/start/
+    - title: Linux 宝塔面板安装
+      path: /setup/bt/
+    - sectiontitle: 指定 Linux 发行版安装示例
+      section:
+        - title: Ubuntu 22.04 LTS
+          path: /setup/ubuntu/
+        - title: OpenEuler 22.03 LTS
+          path: /setup/openeuler/
+        - title: Anolis OS 8.8
+          path: /setup/anolis/
+        - title: Kylin Linux V10
+          path: /setup/kylin/
+        - title: Loongnix-Server 8.4
+          path: /setup/loongnix/
+        - title: CentOS 7.9
+          path: /setup/centos/
+    - sectiontitle: 传统环境配置优化
+      section:
+        - title: NGINX 配置优化
+          path: /setup/nginx/
+        - title: PHP 配置优化
+          path: /setup/php/
+        - title: MySQL 配置优化
+          path: /setup/mysql/
+        - title: 其他环境调优
+          path: /setup/others/
+    - sectiontitle: 历史运维与迁移示例
+      section:
+        - title: 迁移数据到可道云
+          path: /setup/migratokod/
+        - title: 挂载网络文件系统到可道云
+          path: /setup/netmount/
+        - title: 可道云数据备份和恢复
+          path: /setup/backup/
+        - title: MySQL 主从双机部署方案
+          path: /setup/mysqlrep/
+
+concepts:
+- title: 核心概念导览
+  path: /concepts/
+- title: 虚拟文件系统与存储托管原理
+  path: /concepts/storage-architecture/
+- title: 组织架构与细粒度权限模型
+  path: /concepts/permissions-model/
+- title: 插件机制与多端同步架构
+  path: /concepts/plugins-and-sync/
 
 guide:
 - title: 导览
   path: /guide/
-- sectiontitle: 1 开机引导
+- sectiontitle: 开机引导
   section:
-    - title: 1.1 存储设置
+    - title: 存储设置
       path: /guide/1.1/
-    - title: 1.2 系统设置
-      path: /guide/1.2/ 
-        
-- sectiontitle: 2 硬件管理
+    - title: 系统设置
+      path: /guide/1.2/
+- sectiontitle: 硬件管理
   section:
-    - title: 2.1 概述
+    - title: 概述
       path: /guide/2.1/
-    - title: 2.2 磁盘RAID阵列
+    - title: 磁盘RAID阵列
       path: /guide/2.2/
-    - title: 2.3 网络设置
+    - title: 网络设置
       path: /guide/2.3/
-    - title: 2.4 挂载NFS存储
+    - title: 挂载NFS存储
       path: /guide/2.4/
-
-- sectiontitle: 3 其他
+- sectiontitle: 其他
   section:
-    - title: 3.1 常见问题
+    - title: 常见问题
       path: /guide/3.1/
-    - title: 3.2 使用环境
+    - title: 使用环境
       path: /guide/3.2/
 
 admin:
-- title: 前言
+- title: 任务索引
   path: /admin/
 - sectiontitle: 1 系统管理
   section:
   - path: /admin/1.1/
-    title: 1.1 概览
+    title: 概览
   - path: /admin/1.2/
-    title: 1.2 基础设置
+    title: 基础设置
   - path: /admin/1.3/
-    title: 1.3 授权激活与企业形象自定义
+    title: 授权激活与企业形象自定义
   - path: /admin/1.4/
-    title: 1.4 菜单管理
+    title: 菜单管理
   - path: /admin/1.5/
-    title: 1.5 通知管理
+    title: 通知管理
 - sectiontitle: 2 系统权限
   section:
   - path: /admin/2.1/
-    title: 2.1 权限设定
+    title: 权限设定
   - path: /admin/2.2/
-    title: 2.2 角色权限
+    title: 角色权限
   - path: /admin/2.3/
-    title: 2.3 文档权限
+    title: 文档权限
 - sectiontitle: 3 部门与用户
   section:
   - path: /admin/3.1/
-    title: 3.1 概览
+    title: 部门与用户概览
   - path: /admin/3.2/
-    title: 3.2 部门管理
+    title: 部门管理
   - path: /admin/3.3/
-    title: 3.3 用户管理
+    title: 用户管理
 - sectiontitle: 4 存储与备份
   section:
   - path: /admin/4.1/
-    title: 4.1 存储管理
+    title: 存储管理
   - path: /admin/4.2/
-    title: 4.2 数据备份与恢复
+    title: 数据备份与恢复
   - path: /admin/4.3/
-    title: 4.3 系统回收站
+    title: 系统回收站
+  - path: /admin/storage-matrix/
+    title: 存储策略选型总表
+  - path: /admin/storage-s3/
+    title: 对象存储实战（OSS/COS/R2/MinIO/S3）
 - sectiontitle: 5 插件与应用
   section:
   - path: /admin/5.1/
-    title: 5.1 插件列表
+    title: 插件列表
   - path: /admin/5.2/
-    title: 5.2 插件配置说明
-  - sectiontitle: 5.3 第三方账户认证同步集成
+    title: 插件配置说明
+  - path: /admin/webdav/
+    title: WebDAV 服务端与外部挂载指南
+  - path: /admin/samba/
+    title: Samba 插件
+  - path: /admin/docsearch/
+    title: 全文搜索插件
+  - path: /admin/aidoc/
+    title: AI 助手、多模态与 aiRag 语义检索
+  - path: /admin/docnet/
+    title: 内网穿透插件
+  - path: /admin/fileapl/
+    title: 文档审批插件
+  - path: /admin/stoimport/
+    title: 数据导入插件
+  - sectiontitle: 企业认证与第三方集成
     section:
     - path: /admin/ldap/
-      title: AD域账户认证
+      title: AD 域账户认证
     - path: /admin/dingtalk/
-      title: 钉钉
+      title: 钉钉集成
     - path: /admin/weixin/
-      title: 企业微信
-  - path: /admin/webdav/
-    title: 5.4 WebDAV插件
-  - path: /admin/docnet/
-    title: 5.5 内网穿透插件
-  - path: /admin/fileapl/
-    title: 5.6 文档审批插件
-  - sectiontitle: 5.7 其他插件
-    section:
-    - path: /admin/samba/
-      title: Samba插件
-    - path: /admin/docsearch/
-      title: 全文搜索插件
-    - path: /admin/stoimport/
-      title: 数据导入插件
-    - path: /admin/aidoc/
-      title: AI助手插件
+      title: 企业微信集成
+- sectiontitle: 6 安全审计
+  section:
+  - path: /admin/6/
+    title: 安全审计（日志/水印/登录管控）
+  - path: /admin/security-hardening/
+    title: 系统安全加固与 2FA 指南
+- path: /admin/7/
+  title: 7 系统运维
 
-- title: 6 安全审计
-  path: /admin/6/
-- title: 7 系统运维
-  path: /admin/7/
+operations:
+- title: 运维升级与排错导览
+  path: /operations/
+- title: 数据备份、容灾与迁移 SOP
+  path: /operations/backup-migration/
+- title: 版本升级与变更注意
+  path: /operations/upgrade/
+- title: 告警与报错字典（按原文索引）
+  path: /operations/error-dictionary/
+- title: 分层排错手册（日志与清单）
+  path: /operations/troubleshooting/
 
 user:
 - title: 概览
@@ -285,69 +305,72 @@ user:
 - sectiontitle: 2 操作界面引导
   section:
   - path: /user/2.1/
-    title: 2.1 菜单栏
+    title: 菜单栏
   - path: /user/2.2/
-    title: 2.2 左侧目录窗口（导航窗格）
+    title: 左侧目录窗口（导航窗格）
   - path: /user/2.3/
-    title: 2.3 右侧文件窗口
+    title: 右侧文件窗口
 - sectiontitle: 3 文件操作
   section:
   - path: /user/3.1/
-    title: 3.1 选择与操作
+    title: 选择与操作
   - path: /user/3.2/
-    title: 3.2 上传下载
+    title: 上传下载
   - path: /user/3.3/
-    title: 3.3 增删改查
+    title: 增删改查
   - path: /user/3.4/
-    title: 3.4 效率提升
+    title: 效率提升
   - path: /user/3.5/
-    title: 3.5 分享与协作
+    title: 分享与协作
   - path: /user/3.6/
-    title: 3.6 文件预览
-
+    title: 文件预览
 - sectiontitle: 4 权限设置
   section:
   - path: /user/4.1/
-    title: 4.1 系统权限说明
+    title: 系统权限说明
   - path: /user/4.2/
-    title: 4.2 文档权限
+    title: 文档权限
   - path: /user/4.3/
-    title: 4.3 文档权限设置与应用
-
+    title: 文档权限设置与应用
 - title: 5 个性化设置
   path: /user/5/
-
-
-- sectiontitle: 6 PC客户端
+- sectiontitle: 6 PC 客户端
   section:
   - path: /user/PC/6.1/
-    title: 6.1 安装
+    title: 安装
   - path: /user/PC/6.2/
-    title: 6.2 登录
+    title: 登录
   - path: /user/PC/6.3/
-    title: 6.3 文件同步
+    title: 文件同步
   - path: /user/PC/6.4/
-    title: 6.4 本地打开
+    title: 本地打开
   - path: /user/PC/6.5/
-    title: 6.5 下载位置
-
-
-- sectiontitle: 7 移动端APP
+    title: 下载位置
+  - path: /user/PC/windows-troubleshooting/
+    title: Windows 客户端白屏或闪退
+- sectiontitle: 7 移动端 App
   section:
   - path: /user/app/7.1/
-    title: 7.1 APP下载与安装
+    title: APP 下载与安装
   - path: /user/app/7.2/
-    title: 7.2 地址输入&系统登录
+    title: 地址输入与系统登录
   - path: /user/app/7.3/
-    title: 7.3 注册
+    title: 注册
   - path: /user/app/7.4/
-    title: 7.4 忘记密码
+    title: 忘记密码
   - path: /user/app/7.5/
-    title: 7.5 文件管理
+    title: 文件管理
   - path: /user/app/7.6/
-    title: 7.6 文件传输
+    title: 文件传输
   - path: /user/app/7.7/
-    title: 7.7 个人信息
+    title: 个人信息
 
-
-
+reference:
+- title: 技术参考与开发文档
+  path: /reference/
+- title: 网络端口与反向代理配置总表
+  path: /reference/ports-and-proxy/
+- title: 大文件上传与服务端调优
+  path: /reference/performance-tuning/
+- title: 版本更新日志归档（v1.69–v1.70.x）
+  path: /reference/changelog/

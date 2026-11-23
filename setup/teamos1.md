@@ -1,5 +1,5 @@
 ---
-title: "4 可道云系统设置"
+title: "可道云系统设置"
 keywords: kodbox
 description: teamOS 首次配置：管理员账号、手动创建 RAID/单盘存储池、固定 IP 与授权激活
 ---

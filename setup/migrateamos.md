@@ -1,5 +1,5 @@
 ---
-title: "5 可道云数据迁移"
+title: "可道云数据迁移"
 keywords: 迁移,可道云
 description: 将 teamOS 可道云站点迁移到新机器：换盘、挂载与数据库还原步骤
 ---

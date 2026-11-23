@@ -1,5 +1,5 @@
 ---
-title: "2 操作系统安装"
+title: "操作系统安装"
 keywords: 系统安装
 description: 使用 U 盘安装 teamOS（基于 openEuler）的分步说明
 ---

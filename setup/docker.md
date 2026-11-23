@@ -1,8 +1,13 @@
 ---
 title: "Docker环境可道云网盘的安装示例"
-keywords: Docker, 容器
-description: 用 Docker Compose 在 Linux 上一键部署 kodbox（含 HTTPS、NFS 等进阶配置）
+type: how-to
+edition: ["开源版", "企业版"]
+minVersion: "1.70"
+keywords: ["Docker", "容器", "Docker Compose", "MariaDB", "Redis", "kodcloud/kodbox", "NFS", "CIFS"]
+description: "用 Docker Compose 在 Linux 上部署 KodBox（含 MariaDB、Redis、HTTPS、NFS/CIFS 与龙芯架构配置）。"
 ---
+
+本指南提供 Linux 环境下使用 Docker Compose 部署 KodBox 的完整参考模板。如果你是首次搭建或计划用于生产环境，请先阅读 [1. 规划部署](/setup/planning/)；群晖、铁威马、Unraid 等 NAS 用户请配合 [Docker 与 NAS 宿主机目录权限指南](/setup/nas-permissions/)；需要配置非标端口或 CDN 反代请参见 [HTTPS 反向代理与非标准端口配置](/setup/reverse-proxy/)。
 
 <div id="docker" class="tab-pane fade in active" markdown="1">
 
@@ -135,19 +140,6 @@ docker-compose      running(3)          /kodbox/docker-compose.yaml
     redis:
       image: registry.cn-hangzhou.aliyuncs.com/kodcloud/redis:alpine
       restart: always
-
-    imaginary:
-      image: registry.cn-hangzhou.aliyuncs.com/kodcloud/imaginary
-      restart: always
-      command: >
-        -enable-url-source
-        -concurrency 10
-        -max-allowed-resolution 500
-      deploy:
-        resources:
-          limits:
-            memory: 8g
-            cpus: '4.0'
   ```
 
 > 增加自定义mysql配置：

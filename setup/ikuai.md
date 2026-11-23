@@ -1,5 +1,5 @@
 ---
-title: "4.2 iKuai上使用Docker部署kodbox私有企业网盘"
+title: "iKuai上使用Docker部署kodbox私有企业网盘"
 keywords: docker部署, 企业网盘本地部署, 部署教程
 description: 在爱快路由器 Docker 中部署 kodbox 的图文步骤
 ---

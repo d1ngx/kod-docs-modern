@@ -30,7 +30,7 @@ post_max_size = 512M
 upload_max_filesize = 512M
 ```
 
-php-fpm 是 PHP 的进程管理器，配置文件通常位于 `/etc/php/7.4/fpm/` 或 `/etc/php-fpm.d/`。
+php-fpm 是 PHP 的进程管理器。Debian/Ubuntu 上配置目录通常是 `/etc/php/8.4/fpm/` 或 `/etc/php/8.3/fpm/`，RHEL 系通常是 `/etc/php-fpm.d/`。版本选择见 [PHP 分支](/setup/environment/#php-branches)。
 
 以下参数控制 php-fpm 进程数量，建议根据服务器内存适当调整，参考[计算 PHP 内存消耗](https://spot13.com/pmcalculator/)：
 

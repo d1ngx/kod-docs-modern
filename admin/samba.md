@@ -1,15 +1,18 @@
 ---
 title: "Samba插件"
-keywords: samba, SMB, 网络共享
-description: Samba 局域网共享插件的安装与配置说明，在局域网内共享文件
+type: how-to
+edition: ["teamOS", "企业版"]
+minVersion: "1.70"
+keywords: ["samba", "SMB", "网络共享", ".recycle", "回收站"]
+description: "Samba 局域网共享插件的安装与配置说明（含 v1.70 共享目录独立 .recycle 回收站变更）。"
 ---
 
 <div id="samba" class="tab-pane fade in active" markdown="1">
 
 ## 环境要求
 
-- 此 Samba 插件仅适用于安装了基于 openEuler 的 TeamOS 系统（默认已包含）。
-- [TeamOS 系统安装参考](https://bbs.kodcloud.com/d/3789)
+- 此 Samba 插件主要面向基于 openEuler 的 TeamOS 系统（默认已包含）。
+- **v1.70 行为变更**：Samba 插件已将原有的全局回收站重构为**各共享目录内独立的 `.recycle` 回收站目录**，避免不同共享目录权限交叉与误清理。
 
 ## 插件介绍
 

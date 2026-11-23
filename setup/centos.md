@@ -6,7 +6,7 @@ description: 在 CentOS 7.9 上从零安装 Nginx、PHP、MySQL 与 kodbox 的�
 
 > 重要：
 >
-> CentOS 7 已停止官方维护，新项目建议选用 Ubuntu 22.04、openEuler 或 teamOS。
+> CentOS 7 已停止官方维护，新项目建议选用 Ubuntu 26.04、openEuler 或 teamOS。
 {: .important}
 
 ## 概述
@@ -78,6 +78,8 @@ location ~ [^/]\.php(/|$) {
 [Nginx 配置说明](/setup/nginx/)
 
 ### PHP
+
+下面安装的是 PHP 7.4。该分支已停止官方支持，且 CentOS 7 本身已结束维护，只适合对照旧环境。新部署请换用仍在维护的系统，并安装 PHP 8.3 或 8.4，见 [PHP 分支](/setup/environment/#php-branches)。
 
 [安装参考](https://computingforgeeks.com/how-to-install-php-7-4-on-centos-7/)
 

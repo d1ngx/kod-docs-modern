@@ -1,121 +1,132 @@
 ---
-title: "AI助手插件"
-keywords: 插件安装, AI,  aidoc
-description: AI 助手插件的安装、模型配置与 RAG（知识库检索）设置说明，适合初次配置的管理员
+title: "AI 助手、多模态模型与 aiRag 智能语义检索"
+type: how-to
+edition: ["开源版", "企业版"]
+minVersion: "1.70"
+keywords: ["AI 助手", "aidoc", "aiRag", "RAG", "语义检索", "多模态", "ASR", "TTS", "文生图", "文生视频", "3D 生成", "豆包", "火山引擎", "Milvus", "全文检索对比"]
+description: "全面配置 KodBox v1.69–v1.70 AI 助手：覆盖统一多模态模型接入（文本/ASR/TTS/图像/视频/3D）、基础/全文/aiRag 三类检索对比，以及权限隔离的知识库向量检索部署。"
 ---
 
 <div id="aidoc" class="tab-pane fade in active" markdown="1">
 
-> **注意：**
+KodBox v1.69–v1.70.03 已将 AI 助手插件升级为**多模态创作 + 权限隔离知识库（`aiRag`）**一体化引擎。本指南分为「模型接入与多模态配置」「三类检索体系对比」「向量数据库与 `aiRag` 实战配置」三部分，帮助管理员快速上线企业级 AI 协同能力。
+
+> **授权说明**
 >
-> - 需要购买 Pro 版本的 AI 插件，才能添加自定义模型。
+> AI 助手插件内置基础体验能力；如需接入自定义大模型、配置多模态创作接口或企业私有化向量知识库，需开通对应 **AI Pro 商业插件授权**（详见 [版本与授权对比](/start/editions/)）。
 {: .important}
 
-# AI 智能助手
+## 一、核心能力与 v1.70 多模态模型接入
 
-## 功能概述
+### 1. 支持的模型模态全览（v1.70+）
 
-- **深度集成网盘**：AI 可以直接读取网盘中的文件和文件夹内容，进行问答、整理等操作；同时支持在对话中完成文件的上传、删除、查询等网盘操作。
+新版 AI 助手引入了统一的模型参数配置与多模态调用框架，管理员可在插件后台按能力类型统一纳管不同厂商 API（兼容 OpenAI 协议、硅基流动、阿里云百炼、火山引擎豆包及本地 Ollama/vLLM）：
 
-- **自定义智能体**：可配置工具、知识库、对话上下文、模型等，适配不同业务场景；支持分组管理。
+| 能力类别 | 典型任务场景 | 模型配置要点 |
+| --- | --- | --- |
+| **文本对话与网盘代理** | 读取网盘文件问答、文档总结、对话式文件整理/检索、自定义智能体分享 | 填写标准 `/v1/chat/completions` 基地址与模型 ID（如 DeepSeek、Qwen 等） |
+| **ASR 语音转写** | 将网盘中的会议录音、访谈音频自动转为文字纪要 | 绑定语音识别模型端点，支持常见音频格式直转 |
+| **TTS 语音合成** | 将文档摘要或对话结果合成为自然语音朗读 | 配置语音合成模型及音色参数 |
+| **图像生成与编辑** | 文生图、图生图、局部图像编辑 | 适配支持 `images/generations` 与图像编辑接口的模型 |
+| **视频生成** | 文生视频、首尾帧控制视频生成 | 配置异步任务轮询类视频模型接口与超时参数 |
+| **3D 生成** | 基于文本或参考图生成 3D 资产模型 | 配置支持 3D 生成能力的专用多模态服务商接口 |
 
-- **AI 输出渲染**：支持 Markdown 实时渲染，包括图片、公式、代码块，以及流程图、思维导图等图表；部分代码可在线预览运行。
+### 2. 常见模型服务商 API 适配示例
 
-- **智能体一键分享**：可将配置好的智能体分享给外部用户使用，适合作为专用工具或智能客服等场景。
+在 **后台管理 → 插件中心 → AI 助手 → 模型服务** 中新增服务商：
 
-- **会话与服务管理**：管理用户对话和模型服务；支持收藏精选对话，收藏内容可生成外链分享。
-
-- **模型与服务集成**：可接入 DeepSeek、Qwen、本地大模型等多种模型，统一管理和调用。
-
-- **安全与隔离机制**：防止不同用户数据混用和越权操作；文件访问能力遵循网盘本身的权限逻辑，无需额外担心数据泄露。
-
-...
-
-## RAG 配置说明
-
-RAG（检索增强生成）让 AI 能够基于网盘中的文档内容回答问题。配置前需准备模型 API 和向量数据库。
-
-- **模型服务名称**：自定义填写，便于识别
-- **API 地址**：
-    - 硅基流动示例：`https://api.siliconflow.cn/v1/chat/completions`
-    - 阿里云示例：`https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
-- **API 密钥**：在对应平台获取，如硅基流动：`https://cloud.siliconflow.cn/me/account/ak`
+- **硅基流动（SiliconFlow）**：
+  - API 地址：`https://api.siliconflow.cn/v1/chat/completions`
+  - API 密钥：在硅基流动控制台 [API 密钥页](https://cloud.siliconflow.cn/me/account/ak) 创建。
+- **阿里云百炼（DashScope 兼容模式）**：
+  - API 地址：`https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions`
+- **火山引擎 / 豆包（Ark）**：
+  - 支持接入豆包大语言模型及多模态生成接口。填写火山方舟提供的兼容 OpenAI 接入点（`https://ark.cn-beijing.volces.com/api/v3/chat/completions` 或对应多模态端点），**模型 ID 需填写你在方舟控制台创建的推理接入点 ID（Endpoint ID，如 `ep-xxxxxxxx`）或对应官方模型标识**，并使用方舟 API Key 鉴权。
+- **内网私有化模型（Ollama / vLLM）**：
+  - 填写内网可达地址（Docker 同机部署时避免填 `localhost`，应使用宿主机内网 IP 或 Docker 网络服务名）。
 
 ![-Aj.png](/admin/images/ai/-Aj.png)
 
-### 向量数据库部署
+## 二、三大检索体系对比：文件名检索 vs 全文检索 vs `aiRag` 语义检索
 
-向量数据库用于存储文档的语义索引，是 RAG 功能的基础组件。部署参考：
+KodBox 当前提供三层互补的文档检索能力，管理员可按团队需求与算力成本合理组合，不必盲目全开：
 
-- [Milvus 官方安装文档](https://milvus.io/docs/zh/install_standalone-docker-compose.md)
+| 对比维度 | 基础检索（内置免费） | 全文检索插件（`docsearch`，企业版） | AI 智能语义检索（`aiRag`，v1.70+） |
+| --- | --- | --- | --- |
+| **检索方式** | 文件名、拼音、标签、路径、纯文本（`.txt`）匹配 | 精确关键词倒排索引（MySQL Fulltext + ngram） | 语义向量相似度检索 + 图片内容理解 + AI 归纳问答 |
+| **覆盖格式** | 文件元数据 + 纯文本 | PDF、Word、Excel、PPT 等办公文档文字 | 文档正文 + 多模态模型提取的图片描述 |
+| **前置依赖** | 无额外依赖 | 需安装 **Java 11+** 及 MySQL InnoDB 全文索引 | 需部署 **Milvus 向量数据库** + 嵌入模型（Embedding）+（可选）图生文模型 |
+| **典型提问示例** | 搜「2026年Q3财报」 | 搜包含精确字样「违约金比例 5%」的所有合同 | 问「去年华东区代理协议里的付款周期和违约条款怎么规定的？」 |
+| **权限隔离** | 遵循网盘文档权限 | 遵循网盘文档权限 | **v1.70.03 优化 RAG 文件权限隔离**：严格按当前用户实时文档权限过滤向量召回，杜绝跨部门越权泄密 |
+
+如需配置传统关键词全文检索，请参见 [全文搜索插件配置](/admin/docsearch/)。
+
+## 三、部署向量数据库与配置 `aiRag` 语义检索
+
+### 1. 部署 Milvus 单机版向量数据库
+
+向量数据库用于持久化文档切片的语义向量。以下使用官方 Compose 编排启动（也可参考 [Milvus 官方文档](https://milvus.io/docs/zh/install_standalone-docker-compose.md)）：
 
 ```bash
-curl -SL https://static.box.kodcloud.com/plugins/teamos/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-
-mkdir milvus && cd milvus
+mkdir -p /opt/milvus && cd /opt/milvus
 wget http://static.box.kodcloud.com/update/milvus-standalone-docker-compose.yml -O docker-compose.yml
-
-docker-compose up -d
-
+docker compose up -d
 ```
 
-示例输出：
+正常启动后可见三个容器：`milvus-etcd`、`milvus-minio`、`milvus-standalone`（默认 API 端口 `19530`）。
 
-```text
-Creating milvus-etcd  ... done
-Creating milvus-minio ... done
-Creating milvus-standalone ... done
-```
+### 2. 添加向量/嵌入模型（Embedding）
 
-### 向量/嵌入模型添加
+嵌入模型负责将文档正文转换为高维向量：
 
-嵌入模型（Embedding）负责将文档内容转换为向量，供检索使用。
-
-1. 在模型广场搜索 `BAAI/bge-m3`（适用于文本嵌入）
+1. 在已配置的模型服务中选择或搜索 `BAAI/bge-m3`（中英文长文本表现优秀）。
 2. 添加模型：
-	a. 模型 ID：`BAAI/bge-m3`
-    b. 模型名称：自定义填写
-    c. 模型类型：嵌入模型
+   - **模型 ID**：`BAAI/bge-m3`
+   - **模型名称**：自定义便于识别的名称
+   - **模型类型**：选择 **嵌入模型**
+3. 保存后点击「检测」，确认返回连接正常。
 
 ![20251209-152408-uo.png](/admin/images/ai/-uo.png)
-3. 保存后点击检测，确认连接正常
 
 ![20251209-152555-GR.png](/admin/images/ai/-GR.png)
 
-### 图生文本模型添加
+### 3. 添加图生文本模型（可选，用于图片语义检索）
 
-图生文本模型用于从图片中提取文字描述，支持对图片类文件的语义检索。
+若希望 AI 能通过语义检索找到网盘中的扫描件、海报、产品图：
 
-1. 在模型广场搜索 `Qwen/Qwen3-Omni-30B-A3B-Instruct`（适用于多模态）
-2. 添加模型：
-	a. 模型 ID：`Qwen/Qwen3-Omni-30B-A3B-Instruct`
-    b. 模型名称：自定义填写
-    c. 模型类型：图片描述提取
+1. 搜索多模态视觉模型（如 `Qwen/Qwen3-Omni-30B-A3B-Instruct` 或同等视觉理解模型）。
+2. 添加模型，**模型类型**选择 **图片描述提取**。
+3. 保存并点击检测通过。
 
 ![20251209-152738-KP.png](/admin/images/ai/-KP.png)
-3. 保存后点击检测，确认连接正常
 
 ![20251209-152823-an.png](/admin/images/ai/-an.png)
 
-### RAG 配置项
+### 4. 按顺序启用并完成 RAG 配置
 
-按以下顺序完成 RAG 配置：
+1. 在 AI 助手插件设置中开启 **启用 RAG**。
+   ![20251209-152928-7s.png](/admin/images/ai/-7s.png)
+2. 填入 **Milvus 向量数据库地址**（如 `http://<宿主机IP>:19530`）并点击检测通过。
+   ![20251209-153027-IE.png](/admin/images/ai/-IE.png)
+3. 指定已验证通过的 **嵌入模型**。
+   ![20251209-153104-Gu.png](/admin/images/ai/-Gu.png)
+4. （可选）指定 **图片描述提取模型**，并勾选需要纳入知识库扫描的文件夹范围。
+   ![20251209-153221-29.png](/admin/images/ai/1-29.png)
+5. 保存设置，等待计划任务自动入库向量化，或点击 **立即手动更新** 触发首次索引构建。
+   ![20251209-153417-BC.png](/admin/images/ai/9BC.png)
 
-1. 启用 RAG
+## 四、验证配置是否生效（Success Check）
 
-![20251209-152928-7s.png](/admin/images/ai/-7s.png)
-2. 配置向量数据库，并检测通过
+完成配置后，请务必同时验证**问答可用性**与**权限隔离性**：
 
-![20251209-153027-IE.png](/admin/images/ai/-IE.png)
-3. 指定向量模型，并检测通过
+1. **功能验证**：在已纳入索引的目录中放入一份测试 PDF/Word 文档，待向量化完成后在 AI 助手中提问该文档的语义问题，确认回答准确并附带对应网盘文件来源。
+2. **多模态验证**：按已配置的多模态能力测试一次文生图或音频转写，确认接口返回正常、生成结果可保存至网盘。
+3. **权限隔离验证（v1.70.03+ 必测）**：使用**无权访问该测试目录**的普通测试账号登录，向 AI 助手提相同问题，确认系统不会召回或泄露无权限文件内容。
 
-![20251209-153104-Gu.png](/admin/images/ai/-Gu.png)
-4. 指定图片描述提取模型，并选择需要扫描的文件夹
+## 相关延伸
 
-![20251209-153221-29.png](/admin/images/ai/1-29.png)
-5. 保存设置，等待文件自动入库和向量化，或点击立即手动更新
-
-![20251209-153417-BC.png](/admin/images/ai/9BC.png)
+- 传统关键词全文检索：[全文搜索插件配置](/admin/docsearch/)
+- 权限模型详解：[组织架构与细粒度权限模型](/concepts/permissions-model/)
+- 端口放行参考：[网络端口与反向代理配置总表](/reference/ports-and-proxy/)
 
 </div>

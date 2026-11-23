@@ -13,7 +13,7 @@ description: 在 Ubuntu 22.04 LTS 上从零安装 Nginx、PHP、MySQL 与 kodbox
 ### 软件版本
 
 - **nginx** 1.18
-- **php** 8.1
+- **php** 8.1（Ubuntu 22.04 软件源默认版本。该分支已停止官方支持，下面步骤按默认包编写，便于对照。生产环境请改用 PHP 8.3 或 8.4，见 [PHP 分支](/setup/environment/#php-branches)）
 - **MySQL** 8.0
 - **redis** 6.0
 

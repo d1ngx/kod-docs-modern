@@ -1,5 +1,5 @@
 ---
-title: "3 发现teamOS"
+title: "发现teamOS"
 keywords: 发现 teamOS
 description: 安装 teamOS 后，用 PC 客户端或手机 App 在局域网内自动发现服务器并初始化
 ---
