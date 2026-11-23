@@ -15,7 +15,8 @@
     "check": "node modern-docs/check.mjs",
     "build:static": "node modern-docs/build.mjs --static",
     "package:static": "node modern-docs/build.mjs --static && node modern-docs/package-static.mjs",
-    "package:content": "node modern-docs/build.mjs && node modern-docs/check.mjs && node modern-docs/package-static.mjs --content"
+    "package:content": "node modern-docs/build.mjs && node modern-docs/check.mjs && node modern-docs/package-static.mjs --content",
+    "eval:ask": "node scripts/eval-ask.mjs"
   },
   "dependencies": {
     "highlight.js": "11.12.0",

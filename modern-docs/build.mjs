@@ -33,9 +33,15 @@ const md = new MarkdownIt({ html: true, linkify: true, highlight(code, lang) {
   return lang && hljs.getLanguage(lang) ? hljs.highlight(code, { language: lang }).value : escape(code);
 }});
 function cleanLegacy(body) {
-  // Remove Jekyll/Kramdown wrappers so Markdown inside HTML blocks is parsed.
-  return body.replace(/<!--[\s\S]*?-->/g, '').replace(/\{:\s*\.important\s*\}/g, '<!--docs-important-->').replace(/<\/?div\b[^>]*>/gi, '').replace(/\{:[^}\n]*\}/g, '')
-    .replace(/\{%[\s\S]*?%\}/g, '').replace(/\{\{[\s\S]*?\}\}/g, '');
+  // Remove Jekyll/Kramdown wrappers so Markdown inside HTML blocks is parsed, while keeping custom heading IDs.
+  return body
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/^(#{1,6}[ \t]+[^\n]+?)[ \t]*\{:[ \t]*#([\w-]+)[ \t]*\}[ \t]*$/gm, '$1<!--docs-id:$2-->')
+    .replace(/\{:\s*\.important\s*\}/g, '<!--docs-important-->')
+    .replace(/<\/?div\b[^>]*>/gi, '')
+    .replace(/\{:[^}\n]*\}/g, '')
+    .replace(/\{%[\s\S]*?%\}/g, '')
+    .replace(/\{\{[\s\S]*?\}\}/g, '');
 }
 async function files(dir) {
   const entries = await readdir(path.join(root, dir), { withFileTypes: true });
@@ -84,11 +90,27 @@ for (const file of sources) {
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
     if (token.type === 'heading_open') {
-      const title = tokens[i+1].children?.filter(t => t.type === 'text' || t.type === 'code_inline').map(t => t.content).join('') || tokens[i+1].content;
-      const base = title.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-') || 'section';
+      let customId = '';
+      for (const child of tokens[i+1].children || []) {
+        const idMatch = child.type === 'html_inline' && child.content.match(/^<!--docs-id:([\w-]+)-->$/);
+        if (idMatch) {
+          customId = idMatch[1];
+          child.content = '';
+        }
+      }
+      const title = (tokens[i+1].children?.filter(t => t.type === 'text' || t.type === 'code_inline').map(t => t.content).join('') || tokens[i+1].content).trim();
+      const base = customId || title.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-') || 'section';
       const n = ids.get(base) || 0; ids.set(base, n+1);
       const id = base + (n ? `-${n}` : ''); token.attrSet('id', id);
-      if (['h2','h3','h4'].includes(token.tag)) toc.push({ title, id, level: token.tag });
+      // Older manuals repeat the former chapter number in every subsection.
+      // Keep the original ID for inbound links, while the heading level carries the hierarchy.
+      const firstText = tokens[i + 1].children?.[0];
+      const legacyPrefix = /^(?:admin|user|guide)\//.test(file) && firstText?.type === 'text'
+        ? firstText.content.match(/^\d+(?:\.\d+)+\.?[ \t]+/u)?.[0]
+        : undefined;
+      if (legacyPrefix) firstText.content = firstText.content.slice(legacyPrefix.length);
+      const displayTitle = legacyPrefix ? title.slice(legacyPrefix.length) : title;
+      if (['h2','h3','h4'].includes(token.tag)) toc.push({ title: displayTitle, id, level: token.tag });
     }
     for (const child of token.children || []) {
       for (const key of ['href', 'src']) {
@@ -114,7 +136,14 @@ for (const file of sources) {
     transformTags: { img: sanitize.simpleTransform('img', { loading:'lazy' }) }
   });
   const text = md.utils.unescapeAll(sanitize(html, { allowedTags: [], allowedAttributes: {} })).replace(/\s+/g, ' ').trim();
-  docs.push({ file, url, title: meta.title || path.basename(file, '.md'), description: meta.description || '', section: file.split('/')[0], toc, html, text, markdown: raw, redirects: [meta.redirect_from].flat().filter(Boolean) });
+  const keywords = (Array.isArray(meta.keywords) ? meta.keywords : String(meta.keywords || '').split(/[,，]/))
+    .map(k => String(k).trim()).filter(Boolean);
+  const type = typeof meta.type === 'string' ? meta.type.trim() : '';
+  const edition = (Array.isArray(meta.edition) ? meta.edition : meta.edition ? [meta.edition] : [])
+    .map(v => String(v).trim()).filter(Boolean);
+  const minVersion = meta.minVersion ? String(meta.minVersion).trim() : '';
+  const stability = typeof meta.stability === 'string' ? meta.stability.trim() : '';
+  docs.push({ file, url, title: meta.title || path.basename(file, '.md'), description: meta.description || '', section: file.split('/')[0], type, edition, minVersion, stability, keywords, toc, html, text, markdown: raw, redirects: [meta.redirect_from].flat().filter(Boolean) });
 }
 const byUrl = new Map(docs.map(d => [d.url,d]));
 const flatten = items => (items || []).flatMap(item => item.section ? flatten(item.section) : [item.path?.trim()]);
@@ -141,12 +170,12 @@ for (const doc of docs) {
   await mkdir(path.dirname(markdownFile),{recursive:true});
   await writeFile(markdownFile,doc.markdown);
   for (const redirect of doc.redirects) {
-    if (!/^\/[\w/-]+\/$/.test(redirect) || redirect.includes('..')) continue;
+    if (!/^\/[\w./-]+\/$/.test(redirect) || redirect.includes('..')) continue;
     const dest=path.join(out,redirect);await mkdir(dest,{recursive:true});
     await writeFile(path.join(dest,'index.html'),`<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${escape(doc.url)}"><a href="${doc.url}">文档已迁移</a>`);
   }
 }
-await writeFile(path.join(out,'search-index.json'),JSON.stringify(docs.map(({url,title,description,text,section})=>({url,title,description,text,section}))));
+await writeFile(path.join(out,'search-index.json'),JSON.stringify(docs.map(({url,title,description,text,section,type,edition,minVersion,stability,keywords})=>({url,title,description,text,section,type,edition,minVersion,stability,keywords}))));
 await writeFile(path.join(out,'404.html'),theme.notFound());
 await writeFile(path.join(out,'llms.txt'),`# ${config.title}\n\n${docs.map(d=>`- [${d.title}](${d.url}): ${d.description}`).join('\n')}\n`);
 await writeFile(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${siteOrigin ? ['/',...docs.map(d=>d.url)].map(url=>`<url><loc>${escape(siteOrigin+url)}</loc></url>`).join('') : ''}</urlset>`);

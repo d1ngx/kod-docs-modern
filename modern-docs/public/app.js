@@ -4,7 +4,7 @@ const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const safe = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const copyIcon = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="1"/><path d="M16 8V3H3v13h5"/></svg>';
-const sections = { start:'快速入门', setup:'安装部署', user:'用户手册', admin:'管理员手册', guide:'TeamOS 指南' };
+const sections = Object.fromEntries([...document.querySelectorAll('#search-section option')].filter(option => option.value).map(option => [option.value, option.textContent]));
 let docsPromise;
 const getDocs = () => docsPromise ||= fetch('/search-index.json').then(r=>{if(!r.ok)throw Error('搜索索引加载失败');return r.json();}).catch(e=>{docsPromise=null;throw e;});
 function show(id) {
@@ -58,7 +58,7 @@ async function runSearch() {
     const category=$('#search-section').value;
     const results=search(category?documents.filter(doc=>doc.section===category):documents,query,40);
     $('#search-status').textContent=results.length?`${results.length} 条结果`:'没有匹配结果';
-    $('#search-results').innerHTML=results.length?results.map(doc=>`<a class="search-result" href="${safe(doc.url)}"><small>${safe(sections[doc.section])} / ${safe(doc.title)}</small><strong>${highlight(doc.title,query)}</strong><p>${highlight(doc.excerpt,query)}</p></a>`).join(''):'<p class="search-empty">没有找到相关文档，请试试其他关键词。</p>';
+    $('#search-results').innerHTML=results.length?results.map(doc=>`<a class="search-result" href="${safe(doc.url)}"><small>${safe(sections[doc.section] || doc.section)} / ${safe(doc.title)}</small><strong>${highlight(doc.title,query)}</strong><p>${highlight(doc.excerpt,query)}</p></a>`).join(''):'<p class="search-empty">没有找到相关文档，请试试其他关键词。</p>';
   }catch(error){if(revision===searchRevision)$('#search-status').textContent=error.message;}
 }
 $('#search-input').addEventListener('input',runSearch);$('#search-section').addEventListener('change',runSearch);

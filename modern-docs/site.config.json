@@ -11,10 +11,13 @@
     "guide"
   ],
   "sections": {
-    "start": "快速入门",
-    "setup": "安装部署",
-    "user": "用户手册",
+    "start": "起步与选型",
+    "setup": "规划与部署",
+    "concepts": "核心概念",
     "admin": "管理员手册",
+    "operations": "运维与排错",
+    "user": "用户手册",
+    "reference": "参考与开发",
     "guide": "TeamOS 指南"
   }
 }

@@ -9,8 +9,11 @@ COPY _layouts ./_layouts
 COPY _includes ./_includes
 COPY start ./start
 COPY setup ./setup
+COPY concepts ./concepts
 COPY user ./user
 COPY admin ./admin
+COPY operations ./operations
+COPY reference ./reference
 COPY guide ./guide
 COPY assets ./assets
 COPY favicon.ico ./

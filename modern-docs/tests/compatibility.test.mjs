@@ -46,3 +46,22 @@ test('Docker runtime COPY sources exist',async()=>{
     await access(new URL('../../'+match[1],import.meta.url));
   }
 });
+
+test('Diátaxis metadata badges, custom heading IDs and error-string retrieval work',async()=>{
+  const { search } = await import('../public/search.js');
+  const index = JSON.parse(await readFile(new URL('../dist/search-index.json',import.meta.url),'utf8'));
+  const officeHtml = await readFile(new URL('../dist/setup/office/index.html',import.meta.url),'utf8');
+  assert.match(officeHtml, /id="https"/);
+  assert.match(officeHtml, /id="office-subpath"/);
+  assert.match(officeHtml, /class="doc-badges"/);
+  assert.match(officeHtml, /实战指南/);
+  assert.match(officeHtml, /v1\.70\+/);
+  const windowsHtml = await readFile(new URL('../dist/user/PC/windows-troubleshooting/index.html',import.meta.url),'utf8');
+  assert.match(windowsHtml, /Windows 客户端白屏或闪退/);
+  assert.ok(search(index, 'database is locked', 3).some(d => d.url === '/operations/error-dictionary/' || d.url === '/setup/planning/'));
+  assert.ok(search(index, '文档安全令牌的格式不正确', 3).some(d => d.url === '/setup/office/' || d.url === '/operations/error-dictionary/'));
+  assert.ok(search(index, 'Cloudflare R2 CORS', 3).some(d => d.url === '/admin/storage-s3/'));
+  for (const section of ['concepts', 'operations', 'reference']) {
+    assert.ok(index.some(d => d.section === section), `Missing section: ${section}`);
+  }
+});

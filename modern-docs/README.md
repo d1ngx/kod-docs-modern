@@ -178,7 +178,7 @@ python -m http.server 8088 --directory modern-docs/static-dist
 
 ## 内容发布控制
 
-`modern-docs/publication.json` 记录暂不发布的页面及原因。目前排除 `setup/5.2.md`、`setup/5.3.md`、`setup/check.md`、`setup/configuration.md`、`setup/oss.md`。原稿保留供复核；排除页不会生成 HTML、原始 Markdown、搜索索引、站点地图或相邻页面入口。其旧 URL 返回 404，部署更新时须清理旧发布目录，推荐整目录切换。
+`modern-docs/publication.json` 记录暂不发布的页面及原因。当前没有排除项。排除页不会生成 HTML、原始 Markdown、搜索索引、站点地图或相邻页面入口，其旧 URL 返回 404。部署更新时须清理旧发布目录，推荐整目录切换。
 
 Markdown front matter 可设置 `draft: true` 或 `published: false`，空正文也不会发布。构建结果记录在 `modern-docs/test-results/publication-report.json`。复核完成后移除排除项再重新打包。
 

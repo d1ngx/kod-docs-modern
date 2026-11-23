@@ -116,9 +116,25 @@ test('legacy rendering, homepage images and publication exclusions',async t=>{
   const setup=await page('/setup/');assert.doesNotMatch(setup,/start row|component-container|&lt;div/);
   const guide=await page('/guide/2.3/');assert.match(guide,/<li><strong>地址<\/strong>/);assert.doesNotMatch(guide,/<pre>[\s\S]*?\*\*地址/);
   const startPage=await page('/setup/start/');assert.match(startPage,/src="\/setup\/images\/db_mysql\.png"/);assert.match(startPage,/src="\/setup\/images\/add_stg\.png"/);assert.match(startPage,/src="\/setup\/images\/encrypt_dt\.png"/);assert.doesNotMatch(startPage,/!\[db_mysql\]/);
-  const officeWin=await page('/setup/office_win/');assert.match(officeWin,/src="\/setup\/images\/docker_ps\.png"/);assert.doesNotMatch(officeWin,/!\[容器状态\]/);
-  const xampp=await page('/setup/xampp/');assert.match(xampp,/src="\/setup\/images\/xmp_cp\.png"/);assert.match(xampp,/src="\/setup\/images\/swh_rds\.png"/);assert.doesNotMatch(xampp,/!\[xmp_cp\]|!\[swh_rds\]/);
-  const user=await page('/user/');assert.match(user,/<blockquote class="callout-note">/);assert.match(user,/<blockquote class="callout-warning">/);
+  const header = home.match(/<nav class="top-nav"[^>]*>(.*?)<\/nav>/)[1];
+  assert.deepEqual([...header.matchAll(/href="([^"]+)">([^<]+)/g)].map(match => match.slice(1)), [
+    ['/', '首页'], ['/start/', '快速入门'], ['/setup/', '安装部署'],
+    ['/user/', '用户手册'], ['/admin/', '管理员手册'],
+    ['https://doc.kodcloud.com/v2/', '开发'], ['https://kodcloud.com/', '官网'],
+  ]);
+  const login = await page('/user/1/');
+  assert.match(login, /<h2 id="11-登录">登录<\/h2>/);
+  assert.match(login, /href="#11-登录" title="登录">登录<\/a>/);
+  for (const section of ['admin', 'user']) {
+    const overview = await page(`/${section}/`);
+    assert.doesNotMatch(overview.match(/<article>([\s\S]*?)<\/article>/)[1], /<img\b|配图说明/);
+  }
+  const plugins = await page('/admin/5.1/');
+  assert.match(plugins, /<h1 class="doc-title">插件列表<\/h1>/);
+  for (const slug of ['docker_win', 'bt_win', 'xampp', 'office_win', 'thumbnail', 'psd_win']) {
+    assert.match(await page(`/setup/${slug}/`), /http-equiv="refresh"/);
+    assert.ok(!index.some(d => d.url === `/setup/${slug}/`));
+  }
   const sitemap=await page('/sitemap.xml'),llms=await page('/llms.txt');
   for(const slug of ['5.2','5.3','check','configuration','oss']){
     const url=`/setup/${slug}/`;
@@ -143,4 +159,9 @@ test('homepage stays in sync with the original landing template',async()=>{
   assert.equal(changed.match(download)?.[1],'https://example.invalid/new-download');
   assert.equal((changed.match(/class="topic-image"/g)||[]).length,5);
   assert.doesNotMatch(changed,/onclick=|\{%/);
+  assert.match(home,/href="\/user\/3\.5\/#352-外链分享"/);
+  assert.match(home,/href="\/admin\/dingtalk\/"/);
+  const app=await readFile(new URL('../public/app.js',import.meta.url),'utf8');
+  assert.match(app,/#search-section option/);
+  assert.doesNotMatch(app,/快速入门/);
 });

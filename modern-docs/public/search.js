@@ -11,16 +11,21 @@ export function search(documents, query, limit = 20) {
   if (!tokens.length) return [];
   return documents.map(doc => {
     const title = doc.title.toLocaleLowerCase();
+    const desc = (doc.description || '').toLocaleLowerCase();
+    const keywords = (doc.keywords || []).map(k => String(k).toLocaleLowerCase());
     const body = (doc.text || '').toLocaleLowerCase();
     let score = 0;
     for (const term of tokens) {
       if (doc.url.split('/').filter(Boolean).at(-1)?.toLocaleLowerCase() === term) score += 16;
       if (title.includes(term)) score += term === tokens[0] ? 30 : 12;
-      if ((doc.description || '').toLocaleLowerCase().includes(term)) score += 6;
+      if (keywords.includes(term)) score += term === tokens[0] ? 24 : 14;
+      else if (keywords.some(k => k.includes(term))) score += 6;
+      if (desc.includes(term)) score += 6;
       let position = -1, count = 0;
       while ((position = body.indexOf(term, position + 1)) !== -1 && count < 8) count++;
-      score += count * (term === tokens[0] ? 4 : 1);
+      score += count * (term === tokens[0] ? 5 : 1);
     }
+    if (tokens[0].length >= 6 && body.includes(tokens[0])) score += 16;
     const first = tokens.map(t => body.indexOf(t)).filter(p => p >= 0).sort((a,b) => a-b)[0] || 0;
     return { ...doc, score, excerpt: (doc.text || '').slice(Math.max(0, first - 65), first + 170) };
   }).filter(doc => doc.score > 0).sort((a,b) => b.score - a.score || a.url.localeCompare(b.url)).slice(0, limit);

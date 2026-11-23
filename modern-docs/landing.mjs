@@ -11,8 +11,8 @@ export function renderLanding(source, banner) {
   html=html.replace(/<button type="button" class="btn btn-default dropdown-toggle"[\s\S]*?<\/button>/g,'<span class="client-label">选择客户端</span>');
   // Actual images work under the site's Content Security Policy; inline backgrounds do not.
   html=html.replace(/<div\s+class="image"\s+style="background-image:\s*url\(([^)]+)\);"\s*>\s*<\/div>/g,'<img class="topic-image" src="$1" alt="" width="120" height="100">');
-  // Legacy fragments differ from Markdown-generated heading IDs. Keep the valid article target.
-  html=html.replace(/href="(\/[^"#]*)(#[^"]*)?"/g,(_,pathname)=>`href="${pathname.replace(/\/{2,}/g,'/')}"`);
+  // Keep heading anchors. Paths are normalized; fragments must match generated heading IDs.
+  html=html.replace(/href="(\/[^"#]*)(#[^"]*)?"/g,(_,pathname,hash='')=>`href="${pathname.replace(/\/{2,}/g,'/')}${hash}"`);
   return html;
 }
 

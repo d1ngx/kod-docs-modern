@@ -46,5 +46,16 @@ article blockquote.callout-warning strong{color:#b4232c}
  .document-page .top-nav{flex:0 1 auto;max-width:none;justify-self:auto}
  .document-page .header-actions{margin-left:auto}
 }
-/* Sidebar labels stay fully readable. Long titles wrap onto the next line. */
-.sidebar a,.sidebar summary>span{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+/* Sidebar and on-this-page labels stay fully readable. Long titles wrap onto the next line. */
+.sidebar a,.sidebar summary>span,.toc>a{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+/* Document metadata badges (Diátaxis type, edition, minVersion, stability). */
+.doc-badges{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 14px}
+.doc-badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:500;line-height:1.5;border:1px solid var(--border);background:var(--surface);color:var(--body)}
+.doc-badge-type{background:#eef6ff;border-color:#bfdbfe;color:#1d4ed8}
+.doc-badge-pro{background:#fef3c7;border-color:#fde68a;color:#92400e}
+.doc-badge-version{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+.doc-badge-experimental{background:#f5f3ff;border-color:#ddd6fe;color:#5b21b6}
+:root[data-theme=dark] .doc-badge-type{background:#172554;border-color:#1e40af;color:#93c5fd}
+:root[data-theme=dark] .doc-badge-pro{background:#451a03;border-color:#92400e;color:#fcd34d}
+:root[data-theme=dark] .doc-badge-version{background:#064e3b;border-color:#065f46;color:#6ee7b7}
+:root[data-theme=dark] .doc-badge-experimental{background:#2e1065;border-color:#5b21b6;color:#c4b5fd}

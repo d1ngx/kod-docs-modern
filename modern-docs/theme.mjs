@@ -35,7 +35,19 @@ export const icon = name => name === 'ai' ? gordon : `<svg class="icon" width="2
 export function createTheme({ config, docs, nav, escape: e, editLink }) {
   const byUrl = new Map(docs.map(doc => [doc.url, doc]));
   const aiLabel = config.staticMode ? '文档检索' : 'AI 助手';
-  const suggestions = ['如何开始使用可道云？', '如何使用 Docker 部署？', '如何共享文件并协作？', '怎样配置部门与权限？', '如何备份与恢复数据？'];
+  const suggestions = ['如何规划并用 Docker 部署可道云？', 'OnlyOffice 提示文档安全令牌格式不正确怎么办？', 'SQLite 报错 database is locked 怎么解决？', '如何备份和迁移可道云数据与数据库？'];
+  const typeLabels = { tutorial: '新手教程', 'how-to': '实战指南', explanation: '核心原理', reference: '技术参考' };
+  function renderBadges(doc) {
+    const badges = [];
+    if (doc.type && typeLabels[doc.type]) badges.push(`<span class="doc-badge doc-badge-type doc-badge-${e(doc.type)}">${typeLabels[doc.type]}</span>`);
+    for (const ed of doc.edition || []) badges.push(`<span class="doc-badge doc-badge-edition${ed.includes('企业') ? ' doc-badge-pro' : ''}">${e(ed)}</span>`);
+    if (doc.minVersion) {
+      const label = /^v/i.test(doc.minVersion) ? doc.minVersion : `v${doc.minVersion}`;
+      badges.push(`<span class="doc-badge doc-badge-version">${e(label.endsWith('+') ? label : label + '+')}</span>`);
+    }
+    if (doc.stability === 'experimental') badges.push('<span class="doc-badge doc-badge-experimental">实验性扩展</span>');
+    return badges.length ? `<div class="doc-badges" aria-label="文档标签">${badges.join('')}</div>` : '';
+  }
   const issueLink = doc => config.repository.replace(/\/$/, '') + (config.gitProvider === 'gitlab' ? '/-/issues/new' : '/issues/new') + '?title=' + encodeURIComponent(`文档反馈：${doc?.title || '可道云文档'}`);
   function tree(items = [], current = '') {
     return items.filter(item=>!item.section || flatten(item.section).some(url=>byUrl.has(url))).map(item => item.section
@@ -43,7 +55,17 @@ export function createTheme({ config, docs, nav, escape: e, editLink }) {
       : byUrl.has(item.path?.trim()) ? `<a ${item.path.trim() === current ? 'aria-current="page" id="sidebar-current-page"' : ''} href="${e(item.path.trim())}" title="${e(item.title)}">${e(item.title)}</a>` : '').join('');
   }
   const flatten = items => (items || []).flatMap(item => item.section ? flatten(item.section) : [item.path?.trim()]);
-  const topNav = section => Object.entries(config.sections).filter(([key]) => !config.hiddenNavigationSections?.includes(key)).map(([key, title]) => `<a ${key === section ? 'aria-current="page"' : ''} href="/${key}/">${e(title)}</a>`).join('');
+  const visibleSections = Object.keys(config.sections).filter(key => !config.hiddenNavigationSections?.includes(key));
+  const sectionLinks = section => visibleSections.map(key => `<a ${key === section ? 'aria-current="page"' : ''} href="/${key}/">${e(config.sections[key])}</a>`).join('');
+  const headerNavigation = [
+    ['首页', '/'],
+    ['快速入门', '/start/'],
+    ['安装部署', '/setup/'],
+    ['用户手册', '/user/'],
+    ['管理员手册', '/admin/'],
+    ['开发', 'https://doc.kodcloud.com/v2/'],
+    ['官网', 'https://kodcloud.com/'],
+  ];
   const pills = (list, className = '') => list.map(question => `<button class="${className}" data-question="${e(question)}">${e(question)}</button>`).join('');
   function dialogs() {
     return `<dialog id="search-dialog" aria-label="搜索文档">
@@ -58,10 +80,10 @@ export function createTheme({ config, docs, nav, escape: e, editLink }) {
   }
   function shell(title, content, doc, isHome = false) {
     const section = doc?.section;
-    const sidebar = doc ? `<aside class="sidebar" id="sidebar" aria-label="文档目录"><button id="menu-close">${icon('arrow')} 返回</button><nav class="mobile-sections" aria-label="文档分类">${topNav(section)}</nav><div class="sidebar-heading">${e(config.sections[section])}</div><nav aria-label="${e(config.sections[section])}">${tree(nav[section],doc.url)}</nav></aside>` : '';
+    const sidebar = doc ? `<aside class="sidebar" id="sidebar" aria-label="文档目录"><button id="menu-close">${icon('arrow')} 返回</button><nav class="mobile-sections" aria-label="文档分类">${sectionLinks(section)}</nav><div class="sidebar-heading">${e(config.sections[section])}</div><nav aria-label="${e(config.sections[section])}">${tree(nav[section],doc.url)}</nav></aside>` : '';
     return `<!doctype html><html lang="zh-CN" data-deployment="${config.staticMode ? 'static' : 'server'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${e(doc?.description || config.description)}"><title>${e(title)} · ${e(config.title)}</title><link rel="icon" href="/favicon.ico"><link rel="preload" href="/ui/vendor/KodDocsSans.woff2" as="font" type="font/woff2" crossorigin><script src="/ui/theme.js"></script><link rel="stylesheet" href="/ui/style.css"><link rel="stylesheet" href="/ui/kodcloud.css"><link rel="stylesheet" href="/ui/typography.css"><script src="/ui/app.js" type="module"></script></head><body class="${isHome ? 'home-page' : 'document-page'}" ${doc ? `data-markdown="/markdown/${e(doc.file)}"` : ''}>
       <a class="skip" href="#main">跳转到内容</a><div class="announcement" id="announcement"><a href="/start/"><span class="announcement-new">✦ 新体验</span> 探索可道云文档，快速找到您的答案 <span aria-hidden="true">→</span></a><button id="announcement-close" aria-label="关闭公告">${icon('close')}</button></div>
-      <header class="site-header"><div class="header-left">${doc ? `<button id="menu-toggle" aria-label="打开文档目录" aria-expanded="false" aria-controls="sidebar">${icon('menu')}</button>` : ''}<a class="brand" href="/" aria-label="可道云文档首页"><img src="/assets/images/docs-logo.png" width="160" height="28" alt="Kodcloud docs"></a></div><nav class="top-nav" aria-label="主导航"><a href="/" ${isHome ? 'aria-current="page"' : ''}>首页</a>${topNav(section)}<a href="https://doc.kodcloud.com/v2/">开发</a><a href="https://kodcloud.com/">官网</a></nav><div class="header-actions"><button data-ai aria-label="${aiLabel}">${icon('ai')}<span>${aiLabel}</span></button><button data-search aria-label="搜索文档">${icon('search')}<span>搜索</span></button><button id="theme-toggle" aria-label="切换主题" title="主题：跟随系统"><span class="theme-sun">${icon('sun')}</span><span class="theme-moon">${icon('moon')}</span><span class="theme-system">${icon('system')}</span></button></div></header>
+      <header class="site-header"><div class="header-left">${doc ? `<button id="menu-toggle" aria-label="打开文档目录" aria-expanded="false" aria-controls="sidebar">${icon('menu')}</button>` : ''}<a class="brand" href="/" aria-label="可道云文档首页"><img src="/assets/images/docs-logo.png" width="160" height="28" alt="Kodcloud docs"></a></div><nav class="top-nav" aria-label="主导航">${headerNavigation.map(([title, url]) => `<a ${url === (doc ? `/${section}/` : '/') ? 'aria-current="page"' : ''} href="${e(url)}">${e(title)}</a>`).join('')}</nav><div class="header-actions"><button data-ai aria-label="${aiLabel}">${icon('ai')}<span>${aiLabel}</span></button><button data-search aria-label="搜索文档">${icon('search')}<span>搜索</span></button><button id="theme-toggle" aria-label="切换主题" title="主题：跟随系统"><span class="theme-sun">${icon('sun')}</span><span class="theme-moon">${icon('moon')}</span><span class="theme-system">${icon('system')}</span></button></div></header>
       ${doc ? `<button class="sidebar-backdrop" aria-label="关闭文档目录" tabindex="-1" hidden></button><div class="doc-layout">${sidebar}<div class="doc-content">${content}</div></div>` : content}
       <footer class="site-footer legacy-footer">${footerContent}<div class="footer-maintain"><a href="${e(config.repository)}">文档仓库</a> · <a href="${e(issueLink(doc))}">反馈文档问题</a> · <a href="/llms.txt">llms.txt</a></div></footer>${dialogs()}</body></html>`;
   }
@@ -72,7 +94,7 @@ export function createTheme({ config, docs, nav, escape: e, editLink }) {
   function article(doc) {
     const siblings = docs.filter(d=>d.section===doc.section), index = siblings.indexOf(doc);
     const neighbor = (other,label) => other ? `<a href="${other.url}"><small>${label}</small><span>${e(other.title)} ${icon('arrow')}</span></a>` : '<span></span>';
-    const content = `<main id="main"><nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span>/</span><a href="/${doc.section}/">${e(config.sections[doc.section])}</a>${doc.url!==`/${doc.section}/`?`<span>/</span><span>${e(doc.title)}</span>`:''}</nav><h1 class="doc-title">${e(doc.title)}</h1><div class="page-tools"><button data-ai>${icon('ai')} ${aiLabel}</button><button data-copy-markdown>${icon('copy')} <span>复制 Markdown</span></button><a href="/markdown/${e(doc.file)}" target="_blank">${icon('external')} 查看 Markdown</a></div>${doc.description?`<p class="doc-description">${e(doc.description)}</p>`:''}<article>${doc.html}</article><div class="mobile-edit"><a href="${e(editLink(doc.file))}" target="_blank" rel="noopener">${icon('edit')} 编辑此页</a><a href="${e(issueLink(doc))}" target="_blank" rel="noopener">${icon('flag')} 提交修改建议</a></div><nav class="pagination" aria-label="相邻文档">${neighbor(siblings[index-1],'上一篇')}${neighbor(siblings[index+1],'下一篇')}</nav></main><aside class="on-this-page" aria-label="本页导航"><div class="edit-tools"><a href="${e(editLink(doc.file))}" target="_blank" rel="noopener">${icon('edit')} 编辑此页</a><a href="${e(issueLink(doc))}" target="_blank" rel="noopener">${icon('flag')} 提交修改建议</a></div>${doc.toc.length?`<nav class="toc" aria-label="本页目录"><h2>本页目录</h2>${doc.toc.map(t=>`<a class="${t.level}" href="#${e(t.id)}" title="${e(t.title)}">${e(t.title)}</a>`).join('')}</nav>`:''}</aside>`;
+    const content = `<main id="main"><nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span>/</span><a href="/${doc.section}/">${e(config.sections[doc.section])}</a>${doc.url!==`/${doc.section}/`?`<span>/</span><span>${e(doc.title)}</span>`:''}</nav><h1 class="doc-title">${e(doc.title)}</h1>${renderBadges(doc)}<div class="page-tools"><button data-ai>${icon('ai')} ${aiLabel}</button><button data-copy-markdown>${icon('copy')} <span>复制 Markdown</span></button><a href="/markdown/${e(doc.file)}" target="_blank">${icon('external')} 查看 Markdown</a></div>${doc.description?`<p class="doc-description">${e(doc.description)}</p>`:''}<article>${doc.html}</article><div class="mobile-edit"><a href="${e(editLink(doc.file))}" target="_blank" rel="noopener">${icon('edit')} 编辑此页</a><a href="${e(issueLink(doc))}" target="_blank" rel="noopener">${icon('flag')} 提交修改建议</a></div><nav class="pagination" aria-label="相邻文档">${neighbor(siblings[index-1],'上一篇')}${neighbor(siblings[index+1],'下一篇')}</nav></main><aside class="on-this-page" aria-label="本页导航"><div class="edit-tools"><a href="${e(editLink(doc.file))}" target="_blank" rel="noopener">${icon('edit')} 编辑此页</a><a href="${e(issueLink(doc))}" target="_blank" rel="noopener">${icon('flag')} 提交修改建议</a></div>${doc.toc.length?`<nav class="toc" aria-label="本页目录"><h2>本页目录</h2>${doc.toc.map(t=>`<a class="${t.level}" href="#${e(t.id)}" title="${e(t.title)}">${e(t.title)}</a>`).join('')}</nav>`:''}</aside>`;
     return shell(doc.title,content,doc);
   }
   return { home, article, notFound:()=>shell('页面未找到',`<main id="main" class="not-found"><h1>页面未找到</h1><p>这篇文档可能已移动。请搜索关键词，或从首页继续阅读。</p><a class="primary" href="/">返回首页</a><button data-search>${icon('search')} 搜索文档</button></main>`) };
